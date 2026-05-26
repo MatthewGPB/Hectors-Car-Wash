@@ -5,44 +5,51 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  <div class="h-container">
-    <div class="footer-grid">
+  <div class="container-wide">
+    <div class="footer-top">
       <div class="footer-brand">
-        <a href="/" class="logo">Hector's<span>·</span>Car Wash</a>
-        <p>
-          Family-owned hand car wash, machine wash, detailing & ceramic coating. Serving Palm Beach County for almost 30 years.
+        <a href="/" class="logo">
+          <span class="logo-name">Hector's</span>
+          <span class="logo-ornament">◆</span>
+          <span class="logo-tag">Car Wash</span>
+        </a>
+        <p class="tagline">
+          {siteData.brand.tagline}
         </p>
       </div>
-      <div>
-        <h4>Locations</h4>
+      <div class="footer-col">
+        <h4>Shops</h4>
         <ul>
           {locationsData.locations.map((loc) => (
-            <li><a href={`/locations/${loc.slug}`}>{loc.name}</a></li>
+            <li>
+              <a href={`/locations/${loc.slug}`}>{loc.name}</a>
+              <span>{loc.phone}</span>
+            </li>
           ))}
         </ul>
       </div>
-      <div>
+      <div class="footer-col">
         <h4>Services</h4>
-        <ul>
-          <li><a href="/#services">Hand car wash</a></li>
-          <li><a href="/#services">Express wash</a></li>
-          <li><a href={siteData.primary.calendly}>Car detailing</a></li>
-          <li><a href={siteData.primary.calendly}>Ceramic coating</a></li>
+        <ul class="simple">
+          <li><a href="/locations/north-palm-beach">Hand car wash</a></li>
+          <li><a href="/locations/jupiter">Express wash</a></li>
+          <li><a href="/services/car-detailing">Car detailing</a></li>
+          <li><a href="/services/ceramic-coating">Ceramic coating</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Company</h4>
-        <ul>
+      <div class="footer-col">
+        <h4>Hector's</h4>
+        <ul class="simple">
           <li><a href="/about">About Hector</a></li>
-          <li><a href="/#reviews">Reviews</a></li>
-          <li><a href="/#locations">Contact</a></li>
-          <li><a href={siteData.primary.calendly}>Book online</a></li>
+          <li><a href="/reviews">Reviews</a></li>
+          <li><a href={siteData.primary.calendly}>Book appointment</a></li>
         </ul>
       </div>
     </div>
+    <hr class="rule-gold" />
     <div class="footer-bottom">
       <div>© {year} {siteData.brand.name}. All rights reserved.</div>
-      <div class="footer-social">
+      <div class="social">
         <a href={siteData.social.facebook} target="_blank" rel="noopener">Facebook</a>
         <a href={siteData.social.instagram} target="_blank" rel="noopener">Instagram</a>
         <a href={siteData.social.tiktok} target="_blank" rel="noopener">TikTok</a>
@@ -54,80 +61,108 @@ const year = new Date().getFullYear();
 <style>
   .footer {
     background: var(--color-navy-deep);
-    color: rgba(250, 247, 242, 0.7);
-    padding: 72px 0 32px;
+    color: rgba(247, 242, 232, 0.65);
+    padding: 80px 0 32px;
   }
-  .footer-grid {
+  .footer-top {
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr;
-    gap: 48px;
-    margin-bottom: 48px;
+    grid-template-columns: 1.5fr 1.2fr 1fr 1fr;
+    gap: 56px;
+    margin-bottom: 56px;
   }
   .footer-brand .logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    color: var(--color-cream);
+    text-decoration: none;
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+  .logo-name {
     font-family: var(--font-display);
     font-size: 26px;
     font-weight: 600;
-    color: var(--color-cream);
-    text-decoration: none;
-    margin-bottom: 16px;
-    display: block;
   }
-  .footer-brand .logo span {
+  .logo-ornament {
     color: var(--color-gold);
-    font-style: italic;
-    font-weight: 500;
+    font-size: 9px;
+    transform: translateY(-3px);
   }
-  .footer-brand p {
-    font-size: 14px;
-    line-height: 1.6;
+  .logo-tag {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--color-gold);
+    font-weight: 400;
+  }
+  .tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.45;
     max-width: 280px;
+    color: var(--color-cream);
+    opacity: 0.85;
     margin: 0;
   }
-  .footer h4 {
-    color: var(--color-cream);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin: 0 0 20px;
+  .footer-col h4 {
     font-family: var(--font-body);
+    color: var(--color-gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 0 0 18px;
   }
-  .footer ul {
+  .footer-col ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    font-size: 14px;
+    line-height: 1.8;
   }
-  .footer ul li { margin-bottom: 10px; font-size: 14px; }
-  .footer ul a {
-    color: rgba(250, 247, 242, 0.7);
+  .footer-col ul li {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-col ul.simple li { display: block; }
+  .footer-col ul li span {
+    color: rgba(247, 242, 232, 0.35);
+    font-size: 12px;
+  }
+  .footer-col ul a {
+    color: var(--color-cream);
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .footer ul a:hover { color: var(--color-gold); }
+  .footer-col ul a:hover { color: var(--color-gold); }
+
+  .rule-gold {
+    margin: 0 0 32px;
+  }
   .footer-bottom {
-    border-top: 1px solid rgba(250, 247, 242, 0.1);
-    padding-top: 32px;
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    color: rgba(250, 247, 242, 0.5);
+    color: rgba(247, 242, 232, 0.45);
   }
-  .footer-social {
+  .social {
     display: flex;
-    gap: 20px;
+    gap: 24px;
   }
-  .footer-social a {
+  .social a {
     color: inherit;
     text-decoration: none;
     transition: color 0.2s ease;
   }
-  .footer-social a:hover { color: var(--color-gold); }
+  .social a:hover { color: var(--color-gold); }
 
   @media (max-width: 1024px) {
-    .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: repeat(2, 1fr); gap: 40px; }
   }
   @media (max-width: 640px) {
-    .footer-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 40px; }
     .footer-bottom { flex-direction: column; gap: 16px; }
   }
 </style>

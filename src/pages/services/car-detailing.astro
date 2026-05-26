@@ -1,0 +1,468 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FAQ from '../../components/FAQ.astro';
+import ReviewCard from '../../components/ReviewCard.astro';
+import reviewsData from '../../data/reviews.json';
+import siteData from '../../data/site.json';
+import { generateServiceSchema } from '../../lib/schema';
+
+const detailReview = reviewsData.reviews.find((r) => r.service === 'detailing');
+
+const faqs = [
+  {
+    question: "How long does full car detailing take?",
+    answer: "A complete interior-and-exterior detail at Hector's takes between 4 and 6 hours depending on vehicle size and condition. SUVs and trucks usually take longer than sedans. We book one car per slot, so your appointment time is your time — no double-booking. You can drop off in the morning and pick up the same afternoon.",
+  },
+  {
+    question: "What's the difference between a detail and a hand wash?",
+    answer: "A hand wash cleans your car. A detail restores it. Washes focus on surface dirt — soap, rinse, dry, vacuum. Detailing goes deeper: clay-bar treatment that pulls embedded contaminants out of the clear coat, hot-water shampoo and extraction on carpets and upholstery, leather conditioning, plastic restoration, paint polishing to remove light swirl marks. A detail at Hector's is what your car gets two or three times a year. A wash is what it gets every week or two.",
+  },
+  {
+    question: "How much does car detailing cost in Palm Beach County?",
+    answer: "Our full detailing service starts at $300 for a standard sedan and ranges to $500+ for larger SUVs, trucks, and vehicles in heavier condition. The price depends on size and the work needed. Every detail includes interior shampoo, exterior polish, clay-bar treatment, wheel and tire dressing, and a thorough vacuum and wipe-down. We give you an exact quote before any work starts.",
+  },
+  {
+    question: "Do I need an appointment for detailing?",
+    answer: "Yes. Detailing is by appointment only — book through Calendly. We don't do detail work as a walk-in because each one takes hours and we want to give your car our full attention. Washes are walk-in. Details are scheduled.",
+  },
+  {
+    question: "Will detailing get rid of pet hair, sand, and salt damage?",
+    answer: "Pet hair: yes. We use specialized rubber tools and pneumatic vacuums that pull embedded pet hair out of fabric and carpets. Sand: yes, with high-suction extraction and brushes that get into seat seams and floor edges. Salt damage to paint and chrome: yes, with clay-bar and polish on paint, and chrome polish on trim — though salt corrosion that's already pitted metal can't be fully reversed. The earlier you bring the car in after salt exposure, the better.",
+  },
+  {
+    question: "How often should I get my car detailed?",
+    answer: "For most Palm Beach drivers, two to three times a year. Once before snowbird season (October), once mid-winter when salt air has had a few months to work on the paint, and once after hurricane season to remove debris and any storm-related grime. Daily drivers may need more. Garage-kept weekend cars can usually go six months or longer between details.",
+  },
+  {
+    question: "Do you detail luxury and exotic vehicles?",
+    answer: "Yes. Bentleys, Aston Martins, Mercedes, Porsche, Rolls-Royce, and Tesla all regularly come through Hector's. Our staff is trained on luxury finishes — including ceramic-coated paint, soft-touch interiors, and Tesla glass. If your car has a coating you want preserved, tell us at booking and we'll use coating-safe chemistry only.",
+  },
+  {
+    question: "What if my car has stains, odors, or smoke damage?",
+    answer: "Heavy interior conditions — pet odors, smoke, food stains, mold — need an enzyme treatment and ozone session that take additional time. We handle these on case-by-case basis; please mention any specific issues when you book. We'll quote separately for severe restoration work.",
+  },
+];
+
+const title = `Car Detailing in Palm Beach County | ${siteData.brand.name}`;
+const description = `Full interior and exterior car detailing at Hector's. Hand-wash trained staff, clay-bar treatment, leather conditioning, paint polishing. From $300. By appointment in North Palm Beach, Jupiter, and Riviera Beach.`;
+const schema = generateServiceSchema({
+  name: "Car Detailing",
+  description: "Full interior and exterior car detailing service in Palm Beach County, FL.",
+  url: "https://hectorcarwash.com/services/car-detailing",
+  priceFrom: "300.00",
+  faqs,
+});
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+
+  <PageHero
+    eyebrow="By appointment · all three locations"
+    headlineHtml="Full detailing.<br /><em>The deep clean.</em>"
+    lead="Interior shampoo, clay-bar treatment, paint polishing, leather conditioning. Done by hand-wash trained staff who know what your finish is worth."
+    metaLeft="From $300"
+    metaRight="4–6 hours by appointment"
+  />
+
+  {/* ============ WHAT'S INCLUDED ============ */}
+  <section class="included section-pad">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">What's included</div>
+        <h2 class="display-2">
+          The full job.<br />
+          <em>Not the basics.</em>
+        </h2>
+        <p class="lead-text">
+          A detail at Hector's is a 4-to-6 hour job, not a 30-minute wash with a fancy name. Here's what we actually do to your car.
+        </p>
+      </div>
+
+      <div class="included-grid">
+        <article class="included-block">
+          <div class="eyebrow">Interior</div>
+          <h3 class="display-3">Inside the cabin.</h3>
+          <ul class="checklist">
+            <li>Full vacuum — seats, floor, trunk, mats, every seam</li>
+            <li>Hot-water shampoo and extraction on carpets and cloth seats</li>
+            <li>Leather cleaned and conditioned (if equipped)</li>
+            <li>Dashboard, console, door panels, vents — wiped and dressed</li>
+            <li>Windows in and out, including streak-free interior glass</li>
+            <li>Headliner spot-cleaned</li>
+            <li>Air freshener of your choice</li>
+          </ul>
+        </article>
+
+        <article class="included-block">
+          <div class="eyebrow">Exterior</div>
+          <h3 class="display-3">The paint and beyond.</h3>
+          <ul class="checklist">
+            <li>Two-bucket hand wash with PH-balanced soap</li>
+            <li>Clay-bar treatment to remove embedded contaminants from clear coat</li>
+            <li>Hand polish for swirl-mark removal and gloss restoration</li>
+            <li>Wheel wells, tire dressing, chrome polish on trim</li>
+            <li>Headlight clarity check and restoration if needed</li>
+            <li>Door jambs, fuel door, hood gap detail</li>
+            <li>Hand dry with microfiber — no air blower marks on paint</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ EDITORIAL TEXT: WHY DETAIL ============ */}
+  <section class="why-section section-pad">
+    <div class="container-reading">
+      <div class="eyebrow">Why detail your car</div>
+      <h2 class="display-3">Wash protects the surface.<br /><em>Detailing protects the asset.</em></h2>
+      <div class="long-form">
+        <p class="dropcap">
+          In Palm Beach County, your car is fighting a daily war with the climate. Salt spray off the Atlantic. UV that fades and embrittles plastics and leather. Humidity that turns minor moisture into mildew in the carpets. Sand that scratches paint micro-fine over weeks of beach trips. Pollen that sets up like glue every spring.
+        </p>
+        <p>
+          A weekly hand wash handles the surface dirt. It does not handle what's been working its way into the clear coat for months. That's what a detail does. The clay-bar pulls contaminants you can't see but can feel — run your hand across a freshly washed roof and you'll feel grit. That grit is bonded to your paint. Clay-bar removes it. Polish restores the gloss it's been hiding.
+        </p>
+        <p>
+          Two or three details a year keeps a car ten years old looking five. It preserves the resale value, the leather, the paint depth, the headlight clarity. For Bentley and Mercedes owners, this is the difference between a car that holds its value and a car that loses it. For families with kids and dogs, it's the difference between a backseat you actually want to sit in and one you avoid.
+        </p>
+        <p>
+          The other thing detailing does — and this is harder to put in a list — is that a careful operator notices things you'd miss. A starting rust spot under the trim. A door seal beginning to dry-rot. A wheel bearing humming on inspection drive. Hector and his team have caught problems for customers that saved them serious money down the road. That's not a marketing claim; it's what happens when someone who's been doing this almost 30 years actually looks at your car.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PROCESS ============ */}
+  <section class="process section-pad">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">The process</div>
+        <h2 class="display-2">
+          What happens<br />
+          <em>when you book.</em>
+        </h2>
+      </div>
+
+      <ol class="process-list">
+        <li>
+          <div class="process-num">01</div>
+          <div>
+            <h3>Book through Calendly.</h3>
+            <p>Pick a date and time. Tell us the make, model, and any specific concerns — pet hair, stains, ceramic coating you want preserved. We'll confirm the appointment and the estimated price range.</p>
+          </div>
+        </li>
+        <li>
+          <div class="process-num">02</div>
+          <div>
+            <h3>Drop the car off.</h3>
+            <p>Bring the car to the location you booked. We do a walk-around with you, confirm scope, and quote the final price. No surprises mid-job — if we find something that changes the scope, we call you before doing it.</p>
+          </div>
+        </li>
+        <li>
+          <div class="process-num">03</div>
+          <div>
+            <h3>We work the car for 4–6 hours.</h3>
+            <p>Interior first, then exterior. Multiple people on the car at once for larger jobs. We don't double-book your appointment — your slot is your slot.</p>
+          </div>
+        </li>
+        <li>
+          <div class="process-num">04</div>
+          <div>
+            <h3>Inspection and pickup.</h3>
+            <p>Before you leave, we walk through the car with you. Anything you're not happy with, we fix on the spot. You drive away with a car that looks better than it did the day you bought it.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ BIG CTA TO BOOK ============ */}
+  <section class="book-section">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        Ready to book?<br />
+        <em>It takes 30 seconds.</em>
+      </h2>
+      <p class="book-lead">
+        Pick a date, tell us about your car, we'll confirm. Detailing available at all three Hector's locations.
+      </p>
+      <a href={siteData.primary.calendly} class="btn btn-primary on-dark large">Open Calendly →</a>
+      <p class="book-fineprint">
+        Or call any location — North Palm Beach (561) 594-8140 · Jupiter (561) 261-2595 · Riviera Beach (561) 329-4185
+      </p>
+    </div>
+  </section>
+
+  {/* ============ FAQ ============ */}
+  <section class="faq-section section-pad">
+    <div class="container-narrow">
+      <div class="section-intro">
+        <div class="eyebrow centered">Questions, answered</div>
+        <h2 class="display-2">
+          The most-asked<br />
+          <em>detailing questions.</em>
+        </h2>
+      </div>
+      <FAQ faqs={faqs} />
+    </div>
+  </section>
+
+  {/* ============ REVIEW ============ */}
+  {detailReview && (
+    <section class="review-section section-pad-sm">
+      <div class="container-narrow">
+        <div class="rule-ornament">
+          <div class="rule-ornament-diamond"></div>
+        </div>
+        <ReviewCard quote={detailReview.quote} author={detailReview.author} source={detailReview.source} variant="large" />
+      </div>
+    </section>
+  )}
+
+  {/* ============ FINAL CTA ============ */}
+  <section class="final-cta">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        Get your car<br /><em>detailed.</em>
+      </h2>
+      <p class="final-lead">
+        By appointment at North Palm Beach, Jupiter, or Riviera Beach. From $300. 4 to 6 hours start to finish.
+      </p>
+      <div class="final-actions">
+        <a href={siteData.primary.calendly} class="btn btn-primary on-dark">Book detailing</a>
+        <a href="/services/ceramic-coating" class="btn-ghost on-dark">Or learn about ceramic coating →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .lead-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: var(--color-charcoal-soft);
+    max-width: 640px;
+    margin: 28px auto 0;
+  }
+
+  /* ============ INCLUDED ============ */
+  .included {
+    background: var(--color-cream);
+  }
+  .included-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .included-block {
+    padding: 48px 40px;
+    background: var(--color-cream-warm);
+    border-top: 3px solid var(--color-gold);
+  }
+  .included-block .eyebrow {
+    margin-bottom: 16px;
+  }
+  .included-block h3 {
+    margin: 0 0 28px;
+  }
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .checklist li {
+    padding: 12px 0 12px 28px;
+    position: relative;
+    border-bottom: 1px solid var(--color-gray-line);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-charcoal);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    color: var(--color-gold);
+    font-size: 9px;
+  }
+
+  /* ============ WHY ============ */
+  .why-section {
+    background: var(--color-cream-warm);
+  }
+  .why-section .eyebrow {
+    margin-bottom: 28px;
+  }
+  .why-section h2 {
+    margin: 0 0 48px;
+  }
+  .long-form p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--color-charcoal);
+    margin: 0 0 24px;
+  }
+
+  /* ============ PROCESS ============ */
+  .process {
+    background: var(--color-cream);
+  }
+  .process-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 880px;
+    margin: 0 auto;
+    counter-reset: process;
+  }
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .process-list li:first-child {
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .process-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 32px;
+    color: var(--color-gold);
+    line-height: 1;
+    min-width: 60px;
+    font-weight: 500;
+  }
+  .process-list h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin: 0 0 12px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .process-list p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-charcoal-soft);
+    margin: 0;
+  }
+
+  /* ============ BOOK SECTION ============ */
+  .book-section {
+    padding: 120px 0;
+    background: var(--color-navy);
+    color: var(--color-cream);
+    text-align: center;
+  }
+  .book-section .inverse {
+    color: var(--color-cream);
+    margin: 0;
+  }
+  .book-section .inverse em {
+    color: var(--color-gold);
+  }
+  .book-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.85);
+    max-width: 540px;
+    margin: 28px auto 40px;
+  }
+  .btn.on-dark {
+    background: var(--color-gold);
+    color: var(--color-navy);
+    padding: 20px 40px;
+    font-size: 13px;
+  }
+  .btn.on-dark.large {
+    padding: 22px 48px;
+    font-size: 14px;
+  }
+  .btn.on-dark:hover {
+    background: var(--color-gold-light);
+  }
+  .book-fineprint {
+    margin-top: 40px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: rgba(247, 242, 232, 0.55);
+    line-height: 1.7;
+  }
+
+  /* ============ FAQ ============ */
+  .faq-section {
+    background: var(--color-cream-warm);
+  }
+  .review-section {
+    background: var(--color-cream);
+  }
+
+  /* ============ FINAL CTA (same as homepage pattern) ============ */
+  .final-cta {
+    padding: 128px 0;
+    background: var(--color-navy-deep);
+    color: var(--color-cream);
+    text-align: center;
+    position: relative;
+  }
+  .final-cta::before,
+  .final-cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.3;
+  }
+  .final-cta::before { top: 32px; }
+  .final-cta::after { bottom: 32px; }
+  .display-2.inverse { color: var(--color-cream); }
+  .display-2.inverse em { color: var(--color-gold); }
+  .final-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.8);
+    max-width: 540px;
+    margin: 32px auto 48px;
+  }
+  .final-actions {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-ghost.on-dark {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+  .btn-ghost.on-dark:hover {
+    color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-light);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    .included-grid { grid-template-columns: 1fr; gap: 32px; }
+    .included-block { padding: 32px 24px; }
+    .process-list li { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+    .book-section { padding: 80px 0; }
+    .final-cta { padding: 80px 0; }
+  }
+</style>

@@ -1,7 +1,7 @@
 {
   "handwash": {
-    "title": "North Palm Beach & Riviera Beach",
-    "subtitle": "100% hand wash. Single visit pricing — no membership, no commitment.",
+    "title": "Hand wash pricing",
+    "subtitle": "North Palm Beach and Riviera Beach. Single visits. No membership, no commitment.",
     "tiers": [
       {
         "name": "Exterior",
@@ -46,11 +46,11 @@
         ]
       }
     ],
-    "note": "Vehicle size may affect final price — SUV and truck upcharges posted at each location."
+    "note": "Vehicle size may affect final price. SUV and truck upcharges posted at each location."
   },
   "machine": {
-    "title": "Jupiter — Machine Wash & Unlimited Memberships",
-    "subtitle": "Fast conveyor wash. Pay per visit or join unlimited monthly — wash as often as you want, cancel anytime.",
+    "title": "Jupiter pricing",
+    "subtitle": "Single visits or unlimited monthly memberships. Cancel anytime.",
     "tiers": [
       {
         "name": "Premium Exterior",
@@ -96,6 +96,6 @@
         ]
       }
     ],
-    "note": "Memberships: unlimited washes, cancel anytime, sign up on-site. Express ceramic spray is different from professional ceramic coating — book detailing for the full $800+ service."
+    "note": "Express ceramic spray is a wash-cycle add-on that lasts a few weeks. Different from professional ceramic coating — see the ceramic page for the full $800+ paint protection service."
   }
 }

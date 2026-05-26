@@ -1,70 +1,250 @@
-# Hector's Car Wash — hectorcarwash.com
+# Hector's Car Wash — hectorcarwash.com (v2)
 
-Astro 5 + Tailwind 4 + Vercel. Built to win Palm Beach County local SEO for North Palm Beach, Jupiter, and Riviera Beach.
+A complete editorial rebuild of hectorcarwash.com. Astro 5 + Tailwind 4 + Vercel.
+
+**7 pages**, ~3,500 lines of code, built to win Palm Beach County local SEO and look nothing like a generic service-business landing page.
+
+---
+
+## What's in this build
+
+### Pages
+- `/` — Homepage with the "two pillars" positioning
+- `/locations/north-palm-beach` — Hand wash menu, NPB story, real reviews
+- `/locations/jupiter` — Express wash, four differentiators, memberships
+- `/locations/riviera-beach` — Hand wash, "Now open" energy
+- `/services/car-detailing` — 2,000+ words, 8 FAQs with schema, Calendly CTA
+- `/services/ceramic-coating` — 2,000+ words, 10 FAQs with schema, 3 tiers
+- `/about` — 5-chapter editorial story + 30-year timeline
+- `/reviews` — All 5 Google reviews in editorial grid
+- `/404` — Branded not-found page
+
+### Strategic decisions (locked into the copy)
+
+1. **Brand positioning: "Real car care, not luxury exclusively"** — Bentleys come because the work is good, not because the brand is exclusive. No more "white-glove" language. No more "for your finest vehicle."
+
+2. **Hand wash vs. machine wash tension resolved** — Two equal pillars, not better/worse. The "automatic washes scratch paint" line is dead. New framing: "Two ways to keep your car right. Pick the one that fits your week."
+
+3. **Jupiter's four real differentiators** — Owner-operated, hand prep before conveyor, local family business, human inspection at dry-off. All four appear on the Jupiter location page. Tagline: *"The express wash with hands on it. Every car checked before you drive away."*
+
+4. **Visual direction: Old Florida coastal editorial** — Asymmetric layouts (no centered hero), Fraunces italic display type, drop caps, gold horizontal rule ornaments, numbered table-of-contents service lists (not card grids), subtle paper texture. Differentiated specifically from growpalmbeach.com aesthetic.
+
+5. **SEO architecture** — Service pages exist as separate URLs (`/services/car-detailing`, `/services/ceramic-coating`) because they target different keyword clusters with different intent. Each has FAQ schema. Each has 2,000+ words of original copy.
 
 ---
 
 ## Quick start
 
 ### Requirements
-- Node 22 or higher (`node --version` to check)
+- Node 22+
 - npm, pnpm, or yarn
 
-### First-time setup
+### Install + run
 
 ```bash
-# Clone or extract this project, then:
-cd hectors-carwash
+unzip hectors-astro-v2.zip
+cd hectors-astro-v2
 npm install
 npm run dev
 ```
 
-Open http://localhost:4321 — you'll see the homepage live.
+Open http://localhost:4321. Every page should render. Test navigation, the pricing tabs on location pages, the FAQ accordions, all internal links.
 
 ### Available commands
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Start dev server with hot reload |
-| `npm run build` | Build for production into `dist/` |
+| `npm run dev` | Dev server with hot reload at localhost:4321 |
+| `npm run build` | Production build to `dist/` |
 | `npm run preview` | Preview the production build locally |
 
 ---
 
-## Project structure
+## Editing content — no code skills needed
+
+### Where everything lives
+
+All editable content is in `src/data/` as plain JSON files. Edit them directly through GitHub's web UI without ever opening a code editor:
+
+| File | What's in it |
+|---|---|
+| `site.json` | Brand name, primary phone, Calendly URL, social links, announcement bar |
+| `locations.json` | All 3 locations — addresses, phones, hours, geo coordinates, area-served lists, location-specific intro copy |
+| `pricing.json` | Hand wash tiers (NPB + Riviera) and Jupiter machine wash tiers + memberships |
+| `reviews.json` | All Google reviews — change which appear on homepage, which appear on each location, full quote vs. short quote |
+
+Edit these and everything else updates automatically — homepage cards, location pages, schema, footer, all of it.
+
+### Examples
+
+**Change a phone number across the entire site:**
+- Edit `locations.json`, find the location, change `phone` and `phoneE164`
+- That propagates to: location page, homepage shops section, footer, schema, click-to-call links
+
+**Update pricing:**
+- Edit `pricing.json`, change any `price`, `includes`, or `memberPrice`
+- Reflects on homepage pricing teaser, both location pages with that menu, and on /pricing schema
+
+**Hide/show the announcement bar:**
+- In `site.json`, set `"announcement.show": false`
+
+**Add a new featured Google review:**
+```json
+{
+  "id": "unique-slug",
+  "author": "First Last",
+  "source": "Google Reviews · X reviews",
+  "rating": 5,
+  "featured": true,
+  "homepage": true,
+  "quote": "The full quote from Google.",
+  "shortQuote": "A trimmed version for cards.",
+  "location": "north-palm-beach"
+}
+```
+
+Set `homepage: true` to feature on homepage. Set `location` to control which location page it appears under. Add a `service` field (e.g. `"service": "detailing"`) to make it appear on the detailing page.
+
+---
+
+## Editing through GitHub (the "Hector or his manager can do this" workflow)
+
+After deployment, content updates take 60 seconds end-to-end:
+
+1. Go to `github.com/YOUR-USERNAME/hectors-carwash/blob/main/src/data/locations.json`
+2. Click the pencil icon (top right)
+3. Make the edit in the browser
+4. Scroll down, click "Commit changes"
+5. Vercel auto-deploys within ~60 seconds
+6. Live site updates
+
+No local development environment, no terminal, no git knowledge required.
+
+---
+
+## Deploying to Vercel
+
+### Initial deploy
+
+```bash
+# 1. Push to GitHub
+git init
+git add .
+git commit -m "Initial Astro v2 build"
+git branch -M main
+# Create repo at github.com/new
+git remote add origin https://github.com/YOUR-USERNAME/hectors-carwash.git
+git push -u origin main
+
+# 2. Go to vercel.com/new
+# 3. Import the GitHub repo
+# 4. Vercel auto-detects Astro — click Deploy
+# 5. First deploy ~60 seconds → preview URL ready
+```
+
+### Cutting over the production domain
+
+Once the Vercel preview looks right:
+
+1. Vercel → Project → Settings → Domains → Add `hectorcarwash.com` and `www.hectorcarwash.com`
+2. Vercel shows DNS records to set at the domain registrar (currently Shopify DNS)
+3. Update DNS records
+4. SSL provisions automatically within ~10 minutes
+5. The Shopify site goes dark the moment DNS propagates — Astro takes over
+
+The `vercel.json` in this project has 301 redirects pre-configured for:
+- All old Shopify `/pages/*` URLs → new `/locations/*` and `/services/*` URLs
+- All `/cart`, `/account`, `/products`, `/collections`, `/blogs/news` paths → home
+
+Existing Google rankings transfer cleanly.
+
+---
+
+## SEO checklist for post-launch
+
+In priority order:
+
+- [ ] Submit `https://hectorcarwash.com/sitemap-index.xml` to Google Search Console
+- [ ] Request indexing for each new URL via Search Console URL Inspection
+- [ ] Validate JSON-LD schema at https://search.google.com/test/rich-results
+  - Homepage schema = Organization + 3 CarWash entities
+  - Each location page = Organization + 1 CarWash entity
+  - Each service page = Organization + Service + FAQPage
+  - About page = Organization + AboutPage
+- [ ] Run PageSpeed audit at https://pagespeed.web.dev — Astro static sites typically score 95+
+- [ ] Update Google Business Profile for each location to point to the new URLs
+- [ ] Apply for Riviera Beach Google Business Profile if not already submitted
+- [ ] Update Instagram bio with canonical phone numbers
+- [ ] Update Yelp, Facebook, Apple Maps, Bing Places, Nextdoor with consistent NAP info
+
+---
+
+## What's NOT in this build that you should plan for
+
+### Photography
+The site currently uses brand-color gradient placeholders for all hero images and shop photos. **The single highest-impact thing you can do post-launch is shoot real photography:**
+
+- A portrait of Hector for the homepage hero and about page (think New Yorker contributor: warm, real, looking into the camera, washes happening behind him)
+- The three shops photographed three-quarters from the corner, golden hour preferred
+- Hands at work — soaping a fender, drying chrome, polishing a wheel
+- Before/after detailing shots for the detailing page
+- A beaded-water shot on freshly coated paint for the ceramic page
+
+Drop the JPGs into `/public/images/` and replace the placeholder divs in each `.astro` file with `<img>` tags. The CSS hooks already exist; the gradient placeholders are sized to the final aspect ratios.
+
+### Open Graph image
+`/public/og-image.jpg` is referenced but not provided. Create a 1200×630 image with the logo on the navy background — used for Facebook, iMessage, LinkedIn link previews.
+
+### Live Google Reviews pull (deferred)
+You chose static-only for now. Future enhancement: install a Google Places API integration on the `/reviews` page that pulls fresh reviews daily. Not blocking for launch.
+
+---
+
+## Architecture and file organization
 
 ```
 hectors-carwash/
-├── public/                          ← static assets (favicon, robots.txt)
+├── public/
+│   ├── favicon.svg
+│   ├── robots.txt
+│   └── (og-image.jpg — to add)
+│
 ├── src/
-│   ├── components/                  ← reusable .astro components
-│   │   ├── Announcement.astro
-│   │   ├── Nav.astro
-│   │   ├── Hero.astro
-│   │   ├── TrustStrip.astro
-│   │   ├── Story.astro
-│   │   ├── Locations.astro
-│   │   ├── Services.astro
-│   │   ├── Pricing.astro
-│   │   ├── Reviews.astro
-│   │   ├── FinalCTA.astro
-│   │   ├── Footer.astro
-│   │   └── SectionHead.astro
-│   ├── data/                        ← ALL editable content lives here
-│   │   ├── site.json                ← brand, phones, social
-│   │   ├── locations.json           ← addresses, hours, geo
-│   │   ├── pricing.json             ← wash tiers and memberships
-│   │   └── reviews.json             ← Google reviews
+│   ├── components/                  ← reusable pieces
+│   │   ├── Announcement.astro       ← top announcement bar
+│   │   ├── Nav.astro                ← sticky header
+│   │   ├── Footer.astro             ← site footer
+│   │   ├── PageHero.astro           ← editorial hero for inner pages
+│   │   ├── PricingMenu.astro        ← shared pricing card grid
+│   │   ├── ReviewCard.astro         ← review with stars
+│   │   └── FAQ.astro                ← accordion with schema
+│   │
+│   ├── data/                        ← all content lives here
+│   │   ├── site.json
+│   │   ├── locations.json
+│   │   ├── pricing.json
+│   │   └── reviews.json
+│   │
 │   ├── layouts/
-│   │   └── BaseLayout.astro         ← head, meta, schema, footer
+│   │   └── BaseLayout.astro         ← head, meta, schema, nav, footer
+│   │
 │   ├── lib/
-│   │   └── schema.ts                ← JSON-LD generator
-│   ├── pages/                       ← each file = a route
+│   │   └── schema.ts                ← JSON-LD generators
+│   │
+│   ├── pages/                       ← each = a URL
 │   │   ├── index.astro              ← /
+│   │   ├── about.astro              ← /about
+│   │   ├── reviews.astro            ← /reviews
 │   │   ├── 404.astro
-│   │   └── locations/[slug].astro   ← /locations/north-palm-beach, etc
+│   │   ├── locations/
+│   │   │   └── [slug].astro         ← /locations/* (dynamic)
+│   │   └── services/
+│   │       ├── car-detailing.astro
+│   │       └── ceramic-coating.astro
+│   │
 │   └── styles/
-│       └── global.css               ← Tailwind + brand tokens
+│       └── global.css               ← Tailwind 4 + design tokens + components
+│
 ├── astro.config.mjs
 ├── package.json
 ├── tsconfig.json
@@ -73,150 +253,33 @@ hectors-carwash/
 
 ---
 
-## Editing content — for non-developers
+## What makes this v2 better than v1
 
-**99% of your content lives in `src/data/` as JSON files.** No code knowledge needed.
+The first build (`hectors-astro.zip`) was structurally fine but stylistically too close to the generic "service business landing page" template family. Key changes in v2:
 
-### Change a phone number, address, or hours
-
-1. Open `src/data/locations.json`
-2. Find the location (look for `"slug": "north-palm-beach"`)
-3. Edit the field you want — `phone`, `hours.monSat`, `address.street`, etc.
-4. Save. The dev server hot-reloads instantly. The change appears everywhere on the site automatically — homepage cards, location pages, schema, footer, all of it.
-
-### Update pricing
-
-Edit `src/data/pricing.json`. Two menus: `handwash` (NPB + Riviera) and `machine` (Jupiter). Change `price`, add or remove tiers, edit includes — all reflects on the homepage and the relevant location pages.
-
-### Add a real Google review
-
-Edit `src/data/reviews.json`. Copy the existing pattern:
-
-```json
-{
-  "id": "unique-slug",
-  "author": "First Last",
-  "source": "Google Reviews · 4 reviews",
-  "rating": 5,
-  "featured": true,
-  "quote": "The actual review text from Google.",
-  "location": "north-palm-beach"
-}
-```
-
-Set `featured: true` if you want it on the homepage. Set `location` to control which location page it shows under. The 3 most recent featured reviews appear on the homepage.
-
-### Change a phone number on the entire site at once
-
-In `src/data/site.json`, update `primary.phone` and `primary.phoneE164`. This propagates to: footer, schema, nav CTAs, click-to-call links.
-
-### Toggle the announcement bar
-
-In `src/data/site.json`:
-```json
-"announcement": {
-  "show": true,         ← set false to hide the bar
-  "badge": "Now open",
-  "message": "Riviera Beach location now welcoming walk-ins at 2520 Broadway",
-  "link": "/locations/riviera-beach"
-}
-```
-
-### Edit hero, story, services copy
-
-These live inside the components (`src/components/Hero.astro`, etc) — they're written in plain HTML between `---` markers. To edit:
-1. Open the component file
-2. Find the text (it's plain HTML, no special syntax needed for text changes)
-3. Change it, save
-
-You can do this directly through GitHub's web editor without ever opening VS Code — just navigate to the file on github.com, click the pencil icon, edit, click commit.
+| v1 | v2 |
+|---|---|
+| Centered hero, gradient overlay | Asymmetric editorial hero, no overlay |
+| 4-card services grid | Numbered table-of-contents list |
+| "Trusted with your finest vehicle" (luxury class signal) | "Almost 30 years. The same hands." (honest, specific) |
+| "Automatic washes scratch paint. We don't." (hurts Jupiter) | "Two ways to keep your car right." (honest two-pillars) |
+| 4 pages (homepage + 3 locations) | 7 pages (added /about, /reviews, /services/car-detailing, /services/ceramic-coating) |
+| Generic four-stat trust strip | Large editorial pull quote |
+| No FAQ pages | Two service pages with 18 total FAQs + schema |
+| One narrow keyword target | Multiple keyword clusters (each service page targets its own SEO universe) |
+| Plain section dividers | Gold rule ornaments with diamond markers |
+| Inter for body, Fraunces sparingly | Fraunces in italic everywhere, drop caps, larger optical sizes |
 
 ---
 
-## Editing content through GitHub (no local setup needed)
+## Troubleshooting
 
-After deploying to Vercel and pushing to GitHub, anyone with repo access can edit content without a local development environment:
+**Build errors:** Run `npm run build` locally before pushing.
 
-1. Go to `github.com/your-username/hectors-carwash`
-2. Navigate to `src/data/locations.json` (or whichever file)
-3. Click the pencil icon
-4. Edit in the browser
-5. Scroll down, click "Commit changes"
-6. Vercel auto-deploys within 60 seconds
+**Type errors:** Run `npm run astro -- sync` to regenerate types after content changes.
 
-This is the "Hector or his manager can edit the site" workflow.
+**Tailwind classes not working:** Confirm `global.css` is imported in `BaseLayout.astro` (it is). The Tailwind 4 `@theme` block is at the top of that file.
 
----
+**Astro/Tailwind compatibility:** This build pins Astro 5.17.x (not Astro 6) because of a known compatibility bug with Tailwind 4's Vite plugin in Astro 6's rolldown-vite. If you need to upgrade to Astro 6 later, switch to `@tailwindcss/postcss` instead of `@tailwindcss/vite`.
 
-## Deploying to Vercel
-
-### Initial deployment
-
-1. Push this project to a GitHub repo (`git init`, commit, push)
-2. Go to https://vercel.com/new
-3. Import your GitHub repo
-4. Vercel auto-detects Astro — just click "Deploy"
-5. First deploy takes about 60 seconds
-
-You'll get a URL like `hectors-carwash.vercel.app` immediately.
-
-### Connecting the production domain
-
-Once you're happy with the preview:
-
-1. In Vercel project settings → Domains → Add `hectorcarwash.com`
-2. Vercel gives you DNS records to set (an A record and a CNAME)
-3. Update those in your domain registrar's DNS settings
-4. SSL provisions automatically within ~10 minutes
-5. The Shopify site goes dark the moment DNS propagates — your Astro site replaces it
-
-**Important:** the `vercel.json` file in this project already has 301 redirects from the old Shopify URLs (`/pages/north-palm-beach` → `/locations/north-palm-beach`, etc) so existing Google rankings transfer cleanly.
-
----
-
-## SEO checklist for post-deploy
-
-In order of priority:
-
-- [ ] Submit `https://hectorcarwash.com/sitemap-index.xml` to Google Search Console
-- [ ] Submit each new location URL via Search Console URL Inspection → Request Indexing
-- [ ] Validate JSON-LD schema at https://search.google.com/test/rich-results
-- [ ] Run a PageSpeed audit at https://pagespeed.web.dev — Astro static sites typically score 95+
-- [ ] Update Google Business Profile for each location to point to the new URLs
-- [ ] Apply for Riviera Beach Google Business Profile if not already submitted
-- [ ] Update Instagram bio with canonical phone numbers
-- [ ] Update Yelp, Facebook, Apple Maps, Bing Places, Nextdoor with consistent NAP
-
----
-
-## What's NOT included that you should add
-
-- **Real photography** — currently using brand-color gradients as placeholders. Story image is a styled gradient with overlay.
-- **Open Graph image** (`/public/og-image.jpg`) — currently referenced but not created. Generate a 1200×630 image with the logo on the navy background, save to `public/og-image.jpg`.
-- **About page** (`/about` is referenced in nav but not created yet — coming next)
-- **Service pillar pages** (`/services/ceramic-coating`, etc — not yet built; homepage `#services` jump-links work for now)
-- **Blog** — the content engine is part of the overhaul plan but not in this initial build
-- **Google Business Profile review pull** — currently using static review data. Can be replaced with a live pull via the Google Places API later.
-
----
-
-## Why Astro for this site
-
-- **Static HTML output:** every page is pre-rendered at build time. Page loads are nearly instant.
-- **Near-zero JavaScript:** only the pricing tabs and announcement use any client JS. Better Core Web Vitals = better local SEO.
-- **No editor strips your code** (looking at you, Shopify).
-- **Built-in image optimization** via Vercel's image service.
-- **Free hosting** on Vercel for a site this size.
-- **Git-native workflow:** every change is version-controlled, every deploy is a rollback-able event.
-
----
-
-## Support / troubleshooting
-
-**Build errors:** Run `npm run build` locally before pushing — it'll catch issues early.
-
-**Type errors in IDE:** Run `npm run astro -- sync` to regenerate Astro's TypeScript types after content changes.
-
-**Styles not applying:** Make sure `global.css` is imported in `BaseLayout.astro` (it already is).
-
-**Calendly not loading:** Verify the URL in `src/data/site.json` `primary.calendly`.
+**Calendly link broken:** Update `primary.calendly` in `src/data/site.json`.

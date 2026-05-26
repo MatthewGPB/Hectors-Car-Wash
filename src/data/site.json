@@ -1,13 +1,13 @@
 {
   "brand": {
     "name": "Hector's Car Wash",
-    "tagline": "Family-owned hand car wash, machine wash, detailing & ceramic coating",
+    "shortName": "Hector's",
+    "tagline": "Almost 30 years of real car care, by the same hands.",
     "founder": "Hector David Ramirez",
     "founded": "2019",
     "yearsExperience": "Almost 30",
     "rating": "4.9",
-    "reviewCount": "200",
-    "logoText": "Hector's"
+    "reviewCount": "200"
   },
   "primary": {
     "phone": "(561) 594-8140",

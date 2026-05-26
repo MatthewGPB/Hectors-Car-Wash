@@ -1,0 +1,331 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import siteData from '../data/site.json';
+import { generateAboutPageSchema } from '../lib/schema';
+
+const title = `About Hector David Ramirez | ${siteData.brand.name}`;
+const description = `The story of Hector's Car Wash — almost 30 years of car care in Palm Beach County. From employee to manager to owner of three Palm Beach shops.`;
+const schema = generateAboutPageSchema();
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+
+  <PageHero
+    eyebrow="About · est. 2019 in Palm Beach"
+    headlineHtml="One man.<br /><em>Three shops.</em><br />Almost thirty years."
+    lead="The story of Hector David Ramirez and how Hector's Car Wash became what Palm Beach County trusts with its cars."
+    metaLeft="Family-owned"
+    metaRight="Palm Beach County"
+  />
+
+  {/* ============ STORY — LONG-FORM EDITORIAL ============ */}
+  <article class="story-article section-pad">
+    <div class="container-reading">
+
+      <div class="article-chapter">
+        <div class="chapter-num">Chapter I</div>
+        <h2 class="display-3">A first job<br /><em>at a car wash.</em></h2>
+      </div>
+
+      <div class="long-form">
+        <p class="dropcap">
+          Almost thirty years ago, Hector took a job at a local car wash. He was new to the country, looking for steady work, and the car wash was hiring. The pay was minimum wage. The hours were long. The work was hard.
+        </p>
+        <p>
+          He didn't see it as a starting point at the time. It was just the job. But Hector turned out to be someone who paid attention. He learned the chemistry of the soaps. He learned why certain mitts scratched certain clear coats and others didn't. He learned which drying technique left water spots on glass and which one didn't. He learned the difference between a wash that looked good and a wash that actually was good.
+        </p>
+      </div>
+
+      <hr class="article-rule" />
+
+      <div class="article-chapter">
+        <div class="chapter-num">Chapter II</div>
+        <h2 class="display-3">From employee<br />to <em>manager.</em></h2>
+      </div>
+
+      <div class="long-form">
+        <p>
+          Over time, Hector got promoted. Then promoted again. Eventually he was running the shop — managing staff, ordering supplies, dealing with customers, fixing the equipment when it broke at 7 AM. The other workers came to him with questions. The owner came to him with problems.
+        </p>
+        <p>
+          By the time Hector had been there fifteen years, he understood every part of the business — the operations, the staffing, the chemistry, the customer service, the slim margins, the rhythm of the day. He also understood what he would do differently if it were his shop.
+        </p>
+        <p>
+          For one, he wouldn't compromise on the wash itself. Cheaper soap saves a few cents per car, but customers notice the difference within months. Rushing the dry leaves spots. Skipping the wheel detail loses repeat business. The big chains had figured out how to maximize throughput; what they hadn't figured out was how to maximize the actual quality of the work. Hector knew the gap. He also knew that in a wealthy market like Palm Beach County, people would pay for real work, done right, by people who cared.
+        </p>
+      </div>
+
+      <hr class="article-rule" />
+
+      <div class="article-chapter">
+        <div class="chapter-num">Chapter III</div>
+        <h2 class="display-3">Opening the<br />first shop in <em>NPB.</em></h2>
+      </div>
+
+      <div class="long-form">
+        <p>
+          In 2019, Hector left to build his own. The first Hector's Car Wash opened on US Highway 1 in North Palm Beach. Hand wash only. Five tiers. Walk-in service. The standard was simple: every car gets the care he'd give his own.
+        </p>
+        <p>
+          The first months were quiet. The next few months less so. Word moved through the neighborhood — through Old Port Cove, Lost Tree Village, Palm Beach Gardens, Lake Park. A few luxury car owners tried the shop and came back regularly. A few snowbirds discovered it and brought their friends. By the end of the first year, the lot was full most weekends.
+        </p>
+        <p>
+          What's harder to explain is what makes the NPB shop work — what kept it busy when chains opened nearby with bigger marketing budgets and lower prices. The answer is partly the standard of work. The answer is also that customers could tell, almost immediately, that the owner was on-site. The man giving them their keys back was the same man who hired and trained the team that washed the car. That's not a thing you get at a corporate franchise.
+        </p>
+      </div>
+
+      <hr class="article-rule" />
+
+      <div class="article-chapter">
+        <div class="chapter-num">Chapter IV</div>
+        <h2 class="display-3">Jupiter and<br /><em>Riviera Beach.</em></h2>
+      </div>
+
+      <div class="long-form">
+        <p>
+          The second shop opened in Jupiter — but as something different. Not a hand wash. An express wash. A conveyor model, fast, members-friendly, designed for daily drivers who wanted a clean car twice a week without thinking about it.
+        </p>
+        <p>
+          The strategic risk was obvious. Express wash is a different business than hand wash. Different equipment, different customer, different unit economics. Some Hector's regulars wondered, reasonably, whether the Jupiter shop would dilute the brand. Hector's answer was that it wouldn't, because Jupiter would run on the same standards — wheels hand-prepped before the conveyor, every car checked at the dry-off, the owner on-site, the staff actually trained. The chains can't afford to do this. Hector can, because it's his.
+        </p>
+        <p>
+          Riviera Beach opened on Broadway in 2026, the third Hector's. Hand wash, just like NPB. Same five tiers. Same staff training. Same standard.
+        </p>
+      </div>
+
+      <hr class="article-rule" />
+
+      <div class="article-chapter">
+        <div class="chapter-num">Chapter V</div>
+        <h2 class="display-3">What hasn't<br />changed.</h2>
+      </div>
+
+      <div class="long-form">
+        <p>
+          What's changed in almost thirty years is everything around the work — the equipment, the chemistry, the marketing, the technology, the customer expectations, the size of the operation. What hasn't changed is the rule the first Hector's opened with: every car gets the care he'd give his own.
+        </p>
+        <p>
+          That rule applies whether it's a Bentley pulled in by a Lost Tree Village regular or a contractor's pickup with sand from a beach trip and a coffee spilled in the cup holder. It applies whether it's a $19.99 wash or a $1,200 ceramic coating. The cars are different. The standard isn't.
+        </p>
+        <p>
+          That's the whole story. The rest of the site is the details — the pricing, the locations, the services, the people. But the standard is the thing. It's what makes Hector's the place Palm Beach County keeps coming back to.
+        </p>
+      </div>
+
+    </div>
+  </article>
+
+  {/* ============ TIMELINE ============ */}
+  <section class="timeline-section section-pad">
+    <div class="container-narrow">
+      <div class="section-intro">
+        <div class="eyebrow centered">The timeline</div>
+        <h2 class="display-2">
+          Three decades<br />
+          <em>of car care.</em>
+        </h2>
+      </div>
+
+      <ol class="timeline">
+        <li>
+          <div class="time-year">~1996</div>
+          <div>
+            <h3>First job at a local car wash.</h3>
+            <p>Minimum wage. Learning every detail of the craft.</p>
+          </div>
+        </li>
+        <li>
+          <div class="time-year">~2010</div>
+          <div>
+            <h3>Promoted to manager.</h3>
+            <p>Running operations, staffing, customer service. Building the playbook for what would become Hector's.</p>
+          </div>
+        </li>
+        <li>
+          <div class="time-year">2019</div>
+          <div>
+            <h3>Opened first Hector's in North Palm Beach.</h3>
+            <p>Hand wash, five tiers, walk-in service. 900 US Highway 1.</p>
+          </div>
+        </li>
+        <li>
+          <div class="time-year">2024</div>
+          <div>
+            <h3>Opened Jupiter location.</h3>
+            <p>Express wash with hands on it. Memberships from $45/mo. 6751 W Indiantown Rd.</p>
+          </div>
+        </li>
+        <li>
+          <div class="time-year">2026</div>
+          <div>
+            <h3>Riviera Beach opens on Broadway.</h3>
+            <p>Third Hector's. Hand wash. Same standard. 2520 Broadway.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ FINAL CTA ============ */}
+  <section class="final-cta">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        Come see for yourself.<br />
+        <em>It's just a car wash.</em>
+      </h2>
+      <p class="final-lead">
+        North Palm Beach, Jupiter, or Riviera Beach. Walk in any day, no appointment. The standard is the same at all three.
+      </p>
+      <div class="final-actions">
+        <a href="/#locations" class="btn btn-primary on-dark">Find a location</a>
+        <a href="/reviews" class="btn-ghost on-dark">Read what customers say →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .story-article {
+    background: var(--color-cream);
+  }
+  .article-chapter {
+    margin-bottom: 32px;
+  }
+  .chapter-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--color-gold);
+    letter-spacing: 0.16em;
+    margin-bottom: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  .article-chapter h2 {
+    margin: 0 0 48px;
+  }
+  .long-form p {
+    font-size: 19px;
+    line-height: 1.75;
+    color: var(--color-charcoal);
+    margin: 0 0 24px;
+  }
+  .article-rule {
+    height: 1px;
+    border: none;
+    background: var(--color-gold);
+    opacity: 0.3;
+    margin: 80px 0;
+  }
+
+  /* ============ TIMELINE ============ */
+  .timeline-section {
+    background: var(--color-cream-warm);
+  }
+  .section-intro {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .section-intro .eyebrow { margin-bottom: 24px; }
+  .section-intro h2 { margin: 0; }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 40px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .timeline li:first-child {
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .time-year {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 26px;
+    color: var(--color-gold);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .timeline h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin: 0 0 8px;
+    line-height: 1.2;
+  }
+  .timeline p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-charcoal-soft);
+    margin: 0;
+  }
+
+  /* ============ FINAL CTA ============ */
+  .final-cta {
+    padding: 128px 0;
+    background: var(--color-navy-deep);
+    color: var(--color-cream);
+    text-align: center;
+    position: relative;
+  }
+  .final-cta::before,
+  .final-cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.3;
+  }
+  .final-cta::before { top: 32px; }
+  .final-cta::after { bottom: 32px; }
+  .display-2.inverse { color: var(--color-cream); }
+  .display-2.inverse em { color: var(--color-gold); }
+  .final-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.8);
+    max-width: 540px;
+    margin: 32px auto 48px;
+  }
+  .final-actions {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-ghost.on-dark {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+  .btn-ghost.on-dark:hover {
+    color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-light);
+  }
+  .btn.on-dark {
+    background: var(--color-gold);
+    color: var(--color-navy);
+  }
+  .btn.on-dark:hover {
+    background: var(--color-gold-light);
+  }
+
+  @media (max-width: 640px) {
+    .timeline li { grid-template-columns: 1fr; gap: 12px; }
+    .article-rule { margin: 56px 0; }
+    .final-cta { padding: 80px 0; }
+  }
+</style>

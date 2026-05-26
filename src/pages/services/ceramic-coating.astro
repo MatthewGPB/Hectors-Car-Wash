@@ -1,0 +1,597 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FAQ from '../../components/FAQ.astro';
+import siteData from '../../data/site.json';
+import { generateServiceSchema } from '../../lib/schema';
+
+const faqs = [
+  {
+    question: "What is ceramic coating?",
+    answer: "Ceramic coating is a liquid polymer that bonds chemically with your car's clear coat to create a hard, transparent, hydrophobic layer of protection. Once cured, it forms a semi-permanent shield that lasts 2 to 5 years depending on the product and care. It's the strongest paint protection available short of paint protection film (PPF).",
+  },
+  {
+    question: "How much does ceramic coating cost in Palm Beach County?",
+    answer: "Professional ceramic coating at Hector's starts at $800 for a standard sedan with a single-layer coating and ranges up to $1,800+ for SUVs, trucks, and multi-layer applications with 5-year warranties. Price depends on vehicle size, surface preparation needed (paint correction adds cost), and the coating tier you choose. Every ceramic job includes a paint inspection, decontamination, and exact quote before we start.",
+  },
+  {
+    question: "How long does ceramic coating take to apply?",
+    answer: "A full ceramic coating job takes 1 to 3 days at Hector's. Day one is wash, clay-bar, paint correction (if needed), and final prep. Day two is coating application. Day three is curing — the coating needs time to fully bond with the clear coat. The car stays inside our shop during curing. You'll get an exact timeline at booking.",
+  },
+  {
+    question: "Is ceramic coating worth it in Florida?",
+    answer: "For most Palm Beach County drivers, yes — possibly more than anywhere else in the country. Florida's combination of intense UV, salt air, humidity, and frequent rain is brutal on paint. Ceramic coating's UV protection alone can extend the life of your clear coat by years. The hydrophobic effect makes the car much easier to wash. Bird droppings and tree sap, which can etch unprotected paint in hours, slide off coated paint with a rinse. For luxury vehicles, leases, and any car you plan to keep more than two years, ceramic coating is among the best dollar-per-year protection investments available.",
+  },
+  {
+    question: "What's the difference between professional ceramic coating and the ceramic spray at the express wash?",
+    answer: "Very different products. The ceramic spray at Jupiter's express wash is a wash-cycle additive — it adds a thin hydrophobic layer that lasts a few weeks before washing off. Professional ceramic coating is a chemically bonded polymer that lasts 2 to 5 years. The express spray is great for a temporary water-beading effect. The professional coating is a real paint protection system applied in a controlled environment over multiple days. Same word, very different products.",
+  },
+  {
+    question: "Will ceramic coating prevent scratches?",
+    answer: "It will prevent some scratches but not all. Ceramic coating is harder than your clear coat (around 9H on the pencil hardness scale), which means it resists swirl marks from improper washing and fine scratches from light contact. It will not prevent deep scratches from keys, shopping carts, or rocks. For full scratch prevention, paint protection film (PPF) is the better choice — and PPF and ceramic can be used together for maximum protection.",
+  },
+  {
+    question: "How do I wash a ceramic-coated car?",
+    answer: "Wash regularly — every 1 to 2 weeks for daily drivers. Use a pH-neutral car wash soap. Avoid automatic brush washes (the express wash at Jupiter is conveyor with foam, not brushes, so it's coating-safe). Hand wash at Hector's NPB or Riviera is ideal. Avoid harsh cleaners and abrasive sponges. We give every ceramic customer a care guide at delivery and recommended products to maintain the coating.",
+  },
+  {
+    question: "How long does ceramic coating last?",
+    answer: "Quality professional ceramic coatings last 2 to 5 years depending on the product, the environment, and how the car is maintained. Hector's uses coatings from established manufacturers with warranty backing. We offer multiple tiers based on how long you want the protection to last — single-layer 2-year coatings for leased vehicles you'll return, multi-layer 5-year coatings for cars you plan to keep.",
+  },
+  {
+    question: "Do I need paint correction before ceramic coating?",
+    answer: "Often, yes. Ceramic coating is transparent — it locks in whatever's underneath. If your paint has swirl marks, light scratches, water spots, or oxidation, the coating will preserve them for years. Paint correction is a polishing process that removes these defects before the coating goes on. We inspect every car and recommend correction only if it's needed. Cars with already-perfect paint (new vehicles, well-maintained older ones) often don't need it.",
+  },
+  {
+    question: "Can ceramic coating be applied to wheels, glass, and trim?",
+    answer: "Yes. We offer ceramic coatings for wheels (which makes brake dust much easier to clean), windshield and side windows (which improves water beading at speed and reduces wiper wear), and exterior trim (which prevents plastic from fading and graying). These are add-ons to the main paint coating and can be quoted separately.",
+  },
+];
+
+const title = `Ceramic Coating in Palm Beach County | ${siteData.brand.name}`;
+const description = `Professional ceramic coating from $800. 2 to 5 year hydrophobic paint protection. UV, salt, and scratch resistance. By appointment in North Palm Beach, Jupiter, and Riviera Beach.`;
+const schema = generateServiceSchema({
+  name: "Ceramic Coating",
+  description: "Professional ceramic coating service. 2 to 5 year paint protection.",
+  url: "https://hectorcarwash.com/services/ceramic-coating",
+  priceFrom: "800.00",
+  faqs,
+});
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+
+  <PageHero
+    eyebrow="By appointment · all three locations"
+    headlineHtml="Ceramic coating.<br /><em>The long protection.</em>"
+    lead="A liquid polymer that bonds with your clear coat and lasts 2 to 5 years. UV, salt, scratch, and chemical resistance — the strongest paint protection short of film."
+    metaLeft="From $800"
+    metaRight="1–3 days by appointment"
+  />
+
+  {/* ============ THE PRODUCT ============ */}
+  <section class="product section-pad">
+    <div class="container-wide">
+      <div class="product-grid">
+        <div>
+          <div class="eyebrow">What it is</div>
+          <h2 class="display-2">
+            A second skin<br />for your <em>clear coat.</em>
+          </h2>
+          <div class="long-form">
+            <p class="dropcap">
+              Ceramic coating is not a wax. Wax sits on top of paint, lasts weeks, and gets washed away by detergent. Ceramic coating chemically bonds with the clear coat and becomes part of the surface. Once cured, it's harder than the paint underneath, transparent enough that you can't see it, and water-repellent enough that rain beads off like mercury.
+            </p>
+            <p>
+              On the pencil-hardness scale, factory clear coat measures around 2H to 4H. Professional ceramic coating is around 9H. That difference is what stops the fine swirl marks from improper washing, the etching from bird droppings, and the dulling from UV exposure that wears Florida cars down over time.
+            </p>
+            <p>
+              The hydrophobic effect — water beading at 90+ degree contact angles — is the most-noticed feature, but it's not the most important one. The most important one is what you don't see: UV protection that keeps your paint from oxidizing, chemical resistance against bird droppings and tree sap that would otherwise etch unprotected paint within hours, and the sealing of micro-pores in the clear coat that absorb contaminants.
+            </p>
+          </div>
+        </div>
+        <div class="product-image">
+          <div class="image-placeholder"></div>
+          <p class="image-caption"><em>Hydrophobic effect on a freshly coated finish.</em></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ TIERS / WHAT YOU GET ============ */}
+  <section class="tiers section-pad">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">What you get</div>
+        <h2 class="display-2">
+          Three tiers.<br />
+          <em>One result.</em>
+        </h2>
+        <p class="lead-text">
+          Every ceramic job at Hector's includes paint inspection, decontamination, correction if needed, full coating application, and a care guide for keeping it. The tiers differ in how long the protection lasts.
+        </p>
+      </div>
+
+      <div class="tiers-grid">
+        <article class="tier-card">
+          <div class="tier-eyebrow">Tier 01</div>
+          <h3 class="display-3">2-year coating</h3>
+          <p class="tier-price">From <strong>$800</strong></p>
+          <ul class="tier-list">
+            <li>Single-layer ceramic application</li>
+            <li>9H hardness, hydrophobic surface</li>
+            <li>UV and chemical resistance</li>
+            <li>2-year warranty on the coating</li>
+            <li>Best for leased vehicles you'll return</li>
+          </ul>
+        </article>
+
+        <article class="tier-card featured">
+          <span class="best-tag">Most popular</span>
+          <div class="tier-eyebrow">Tier 02</div>
+          <h3 class="display-3">3-year coating</h3>
+          <p class="tier-price">From <strong>$1,200</strong></p>
+          <ul class="tier-list">
+            <li>Two-layer ceramic application</li>
+            <li>Higher hardness rating</li>
+            <li>Improved UV and salt resistance</li>
+            <li>3-year warranty on the coating</li>
+            <li>Best for daily drivers and family SUVs</li>
+          </ul>
+        </article>
+
+        <article class="tier-card">
+          <div class="tier-eyebrow">Tier 03</div>
+          <h3 class="display-3">5-year coating</h3>
+          <p class="tier-price">From <strong>$1,800</strong></p>
+          <ul class="tier-list">
+            <li>Multi-layer professional application</li>
+            <li>Maximum hardness and gloss</li>
+            <li>Highest UV, salt, and chemical resistance</li>
+            <li>5-year warranty on the coating</li>
+            <li>Best for cars you plan to keep long-term</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="tiers-note">
+        Paint correction (for cars with swirl marks, water spots, or oxidation) is quoted separately. Add-on coatings for wheels, glass, and trim available.
+      </p>
+    </div>
+  </section>
+
+  {/* ============ FLORIDA-SPECIFIC ARGUMENT ============ */}
+  <section class="why-florida section-pad">
+    <div class="container-reading">
+      <div class="eyebrow">Why Florida</div>
+      <h2 class="display-3">Florida is the hardest climate<br /><em>for paint in the country.</em></h2>
+      <div class="long-form">
+        <p class="dropcap">
+          UV index in Palm Beach County averages 9+ for eight months of the year. Salt air rolls inland from the Atlantic and the Intracoastal. Humidity sits above 70% most days. Tropical storms bring sap, debris, and aggressive rain. Pollen season turns hoods yellow overnight. There is no harder paint environment in the continental United States.
+        </p>
+        <p>
+          A coated car in Florida holds its color and finish longer, washes faster, and resists the etching that turns five-year-old cars into ten-year-old-looking cars. For luxury vehicles, where paint condition is a meaningful component of resale value, the coating often pays for itself when the car is sold or traded.
+        </p>
+        <p>
+          For ceramic-coated Tesla owners, this is especially relevant — Tesla's factory paint is famously soft, and ceramic coating compensates for what the factory didn't do. We've coated dozens of Teslas. We know what works on the finish and what doesn't.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ THE PROCESS ============ */}
+  <section class="process section-pad">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">The process</div>
+        <h2 class="display-2">
+          Three days,<br />
+          <em>start to finish.</em>
+        </h2>
+      </div>
+
+      <ol class="process-list">
+        <li>
+          <div class="process-num">01</div>
+          <div>
+            <h3>Day one — prep.</h3>
+            <p>Hand wash, full decontamination with iron remover and clay-bar to lift embedded contaminants out of the clear coat. Paint inspection under specialty lighting to identify swirl marks, scratches, and oxidation. Paint correction if needed — this is the step that determines how good the coating will look.</p>
+          </div>
+        </li>
+        <li>
+          <div class="process-num">02</div>
+          <div>
+            <h3>Day two — application.</h3>
+            <p>Coating applied panel by panel in a controlled environment, away from dust and direct sun. Each panel is coated, leveled, and buffed to a uniform finish. Layer count depends on the tier you've chosen.</p>
+          </div>
+        </li>
+        <li>
+          <div class="process-num">03</div>
+          <div>
+            <h3>Day three — curing.</h3>
+            <p>The coating needs time to chemically bond with the clear coat. The car stays in our shop, indoors, away from moisture and dust. After full cure, we do final inspection and prepare the car for pickup.</p>
+          </div>
+        </li>
+        <li>
+          <div class="process-num">04</div>
+          <div>
+            <h3>Pickup and care guide.</h3>
+            <p>You take delivery, sign for the warranty, and leave with a printed care guide and our recommended maintenance schedule. Coated cars do best with regular pH-neutral hand washes — we offer this at NPB and Riviera Beach.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ BOOK ============ */}
+  <section class="book-section">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        Get a ceramic quote.<br />
+        <em>Start with photos.</em>
+      </h2>
+      <p class="book-lead">
+        Send us photos of your car through Calendly and we'll come back with a tier recommendation and exact quote. No pressure, no sales call.
+      </p>
+      <a href={siteData.primary.calendly} class="btn btn-primary on-dark large">Open Calendly →</a>
+      <p class="book-fineprint">
+        Or call NPB (561) 594-8140 · Jupiter (561) 261-2595 · Riviera (561) 329-4185
+      </p>
+    </div>
+  </section>
+
+  {/* ============ FAQ ============ */}
+  <section class="faq-section section-pad">
+    <div class="container-narrow">
+      <div class="section-intro">
+        <div class="eyebrow centered">Questions, answered</div>
+        <h2 class="display-2">
+          Ceramic coating,<br />
+          <em>fully explained.</em>
+        </h2>
+      </div>
+      <FAQ faqs={faqs} />
+    </div>
+  </section>
+
+  {/* ============ FINAL CTA ============ */}
+  <section class="final-cta">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        Protect your paint<br /><em>for years.</em>
+      </h2>
+      <p class="final-lead">
+        Professional ceramic coating from $800. By appointment at any Hector's location.
+      </p>
+      <div class="final-actions">
+        <a href={siteData.primary.calendly} class="btn btn-primary on-dark">Get a ceramic quote</a>
+        <a href="/services/car-detailing" class="btn-ghost on-dark">Or get a full detail →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .lead-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: var(--color-charcoal-soft);
+    max-width: 640px;
+    margin: 28px auto 0;
+  }
+  .section-intro {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .section-intro .eyebrow {
+    margin-bottom: 24px;
+  }
+  .section-intro h2 {
+    margin: 0;
+  }
+
+  /* ============ PRODUCT ============ */
+  .product {
+    background: var(--color-cream);
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 96px;
+    align-items: center;
+  }
+  .product-grid .eyebrow {
+    margin-bottom: 28px;
+  }
+  .product-grid h2 {
+    margin: 0 0 40px;
+  }
+  .long-form p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--color-charcoal);
+    margin: 0 0 24px;
+  }
+  .image-placeholder {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 100%);
+    position: relative;
+  }
+  .image-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(200, 151, 63, 0.3);
+    pointer-events: none;
+  }
+  .image-caption {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--color-gray-warm);
+  }
+
+  /* ============ TIERS ============ */
+  .tiers {
+    background: var(--color-cream-warm);
+  }
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .tier-card {
+    padding: 48px 36px;
+    background: var(--color-cream);
+    border-top: 3px solid var(--color-gold);
+    position: relative;
+  }
+  .tier-card.featured {
+    background: var(--color-navy);
+    color: var(--color-cream);
+    border-top: none;
+    border: 2px solid var(--color-gold);
+  }
+  .best-tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: var(--color-navy);
+    padding: 5px 16px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .tier-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 16px;
+  }
+  .tier-card h3 {
+    margin: 0 0 20px;
+  }
+  .tier-card.featured h3 {
+    color: var(--color-cream);
+  }
+  .tier-price {
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--color-charcoal-soft);
+    margin: 0 0 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .tier-card.featured .tier-price {
+    color: var(--color-gold-light);
+    border-bottom-color: rgba(247, 242, 232, 0.15);
+  }
+  .tier-price strong {
+    color: var(--color-navy);
+    font-weight: 600;
+    font-size: 28px;
+  }
+  .tier-card.featured .tier-price strong {
+    color: var(--color-cream);
+  }
+  .tier-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--color-charcoal);
+  }
+  .tier-card.featured .tier-list {
+    color: rgba(247, 242, 232, 0.85);
+  }
+  .tier-list li {
+    padding: 10px 0 10px 22px;
+    position: relative;
+  }
+  .tier-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    color: var(--color-gold);
+    font-size: 9px;
+  }
+  .tiers-note {
+    text-align: center;
+    margin-top: 56px;
+    font-size: 14px;
+    color: var(--color-gray-warm);
+    font-style: italic;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ============ WHY FLORIDA ============ */
+  .why-florida {
+    background: var(--color-cream);
+  }
+  .why-florida .eyebrow {
+    margin-bottom: 28px;
+  }
+  .why-florida h2 {
+    margin: 0 0 48px;
+  }
+
+  /* ============ PROCESS (shared style with detail page) ============ */
+  .process {
+    background: var(--color-cream-warm);
+  }
+  .process-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 880px;
+  }
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .process-list li:first-child {
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .process-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 32px;
+    color: var(--color-gold);
+    line-height: 1;
+    min-width: 60px;
+    font-weight: 500;
+  }
+  .process-list h3 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin: 0 0 12px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .process-list p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-charcoal-soft);
+    margin: 0;
+  }
+
+  /* ============ BOOK ============ */
+  .book-section {
+    padding: 120px 0;
+    background: var(--color-navy);
+    color: var(--color-cream);
+    text-align: center;
+  }
+  .book-section .inverse {
+    color: var(--color-cream);
+    margin: 0;
+  }
+  .book-section .inverse em { color: var(--color-gold); }
+  .book-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.85);
+    max-width: 540px;
+    margin: 28px auto 40px;
+  }
+  .btn.on-dark {
+    background: var(--color-gold);
+    color: var(--color-navy);
+    padding: 20px 40px;
+  }
+  .btn.on-dark.large {
+    padding: 22px 48px;
+    font-size: 14px;
+  }
+  .btn.on-dark:hover { background: var(--color-gold-light); }
+  .book-fineprint {
+    margin-top: 40px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: rgba(247, 242, 232, 0.55);
+    line-height: 1.7;
+  }
+
+  /* ============ FAQ ============ */
+  .faq-section {
+    background: var(--color-cream-warm);
+  }
+
+  /* ============ FINAL CTA ============ */
+  .final-cta {
+    padding: 128px 0;
+    background: var(--color-navy-deep);
+    color: var(--color-cream);
+    text-align: center;
+    position: relative;
+  }
+  .final-cta::before,
+  .final-cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.3;
+  }
+  .final-cta::before { top: 32px; }
+  .final-cta::after { bottom: 32px; }
+  .display-2.inverse { color: var(--color-cream); }
+  .display-2.inverse em { color: var(--color-gold); }
+  .final-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.8);
+    max-width: 540px;
+    margin: 32px auto 48px;
+  }
+  .final-actions {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-ghost.on-dark {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+  .btn-ghost.on-dark:hover {
+    color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-light);
+  }
+
+  @media (max-width: 1024px) {
+    .product-grid { grid-template-columns: 1fr; gap: 48px; }
+    .tiers-grid { grid-template-columns: 1fr; max-width: 480px; }
+  }
+  @media (max-width: 768px) {
+    .process-list li { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+    .book-section { padding: 80px 0; }
+    .final-cta { padding: 80px 0; }
+  }
+</style>

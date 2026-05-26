@@ -6,7 +6,6 @@ type Location = (typeof locationsData.locations)[number];
 const SITE_URL = 'https://hectorcarwash.com';
 
 function locationSchema(loc: Location) {
-  const fullStreet = `${loc.address.street}`;
   return {
     '@type': 'CarWash',
     '@id': `${SITE_URL}/locations/${loc.slug}#location`,
@@ -16,7 +15,7 @@ function locationSchema(loc: Location) {
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: fullStreet,
+      streetAddress: loc.address.street,
       addressLocality: loc.address.city,
       addressRegion: loc.address.state,
       postalCode: loc.address.zip,
@@ -46,54 +45,131 @@ function locationSchema(loc: Location) {
   };
 }
 
+function organizationSchema() {
+  return {
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: siteData.brand.name,
+    url: `${SITE_URL}/`,
+    description: siteData.brand.tagline,
+    founder: { '@type': 'Person', name: siteData.brand.founder },
+    foundingDate: siteData.brand.founded,
+    sameAs: [
+      siteData.social.facebook,
+      siteData.social.instagram,
+      siteData.social.tiktok,
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: siteData.primary.phoneE164,
+      contactType: 'customer service',
+      areaServed: 'US',
+      availableLanguage: ['English', 'Spanish'],
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: siteData.brand.rating,
+      reviewCount: siteData.brand.reviewCount,
+    },
+  };
+}
+
 export function generateHomepageSchema() {
   return {
     '@context': 'https://schema.org',
     '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': `${SITE_URL}/#organization`,
-        name: siteData.brand.name,
-        url: `${SITE_URL}/`,
-        description: siteData.brand.tagline,
-        founder: { '@type': 'Person', name: siteData.brand.founder },
-        foundingDate: siteData.brand.founded,
-        sameAs: [
-          siteData.social.facebook,
-          siteData.social.instagram,
-          siteData.social.tiktok,
-        ],
-        contactPoint: {
-          '@type': 'ContactPoint',
-          telephone: siteData.primary.phoneE164,
-          contactType: 'customer service',
-          areaServed: 'US',
-          availableLanguage: ['English', 'Spanish'],
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: siteData.brand.rating,
-          reviewCount: siteData.brand.reviewCount,
-        },
-      },
+      organizationSchema(),
       ...locationsData.locations.map(locationSchema),
     ],
   };
 }
 
-export function generateLocationSchema(slug: string) {
+export function generateLocationPageSchema(slug: string) {
   const loc = locationsData.locations.find((l) => l.slug === slug);
   if (!loc) return null;
   return {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': `${SITE_URL}/#organization`,
-        name: siteData.brand.name,
-        url: `${SITE_URL}/`,
+    '@graph': [organizationSchema(), locationSchema(loc)],
+  };
+}
+
+interface ServiceSchemaArgs {
+  name: string;
+  description: string;
+  url: string;
+  priceFrom: string;
+  faqs?: Array<{ question: string; answer: string }>;
+}
+
+export function generateServiceSchema({
+  name,
+  description,
+  url,
+  priceFrom,
+  faqs = [],
+}: ServiceSchemaArgs) {
+  const graph: object[] = [
+    organizationSchema(),
+    {
+      '@type': 'Service',
+      '@id': `${url}#service`,
+      name,
+      description,
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: [
+        { '@type': 'City', name: 'North Palm Beach' },
+        { '@type': 'City', name: 'Jupiter' },
+        { '@type': 'City', name: 'Riviera Beach' },
+        { '@type': 'City', name: 'Palm Beach Gardens' },
+        { '@type': 'City', name: 'West Palm Beach' },
+        { '@type': 'City', name: 'Palm Beach' },
+      ],
+      offers: {
+        '@type': 'Offer',
+        price: priceFrom,
+        priceCurrency: 'USD',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          price: priceFrom,
+          priceCurrency: 'USD',
+          valueAddedTaxIncluded: false,
+        },
       },
-      locationSchema(loc),
+    },
+  ];
+
+  if (faqs.length > 0) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    });
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': graph,
+  };
+}
+
+export function generateAboutPageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organizationSchema(),
+      {
+        '@type': 'AboutPage',
+        '@id': `${SITE_URL}/about#aboutpage`,
+        name: 'About Hector David Ramirez and Hector\'s Car Wash',
+        url: `${SITE_URL}/about`,
+        mainEntity: { '@id': `${SITE_URL}/#organization` },
+      },
     ],
   };
 }

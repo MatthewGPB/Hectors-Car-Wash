@@ -3,19 +3,24 @@ import siteData from '../data/site.json';
 ---
 
 <header class="nav-wrap">
-  <div class="h-container">
+  <div class="container-wide">
     <nav class="nav">
-      <a href="/" class="logo" aria-label={`${siteData.brand.name} home`}>
-        Hector's<span>·</span>Car Wash
+      <a href="/" class="logo" aria-label="Hector's Car Wash">
+        <span class="logo-name">Hector's</span>
+        <span class="logo-ornament">◆</span>
+        <span class="logo-tag">Car Wash</span>
       </a>
       <ul class="nav-links">
-        <li><a href="/#locations">Locations</a></li>
-        <li><a href="/#services">Services</a></li>
-        <li><a href="/#pricing">Pricing</a></li>
-        <li><a href="/#reviews">Reviews</a></li>
+        <li><a href="/locations/north-palm-beach">North Palm Beach</a></li>
+        <li><a href="/locations/jupiter">Jupiter</a></li>
+        <li><a href="/locations/riviera-beach">Riviera Beach</a></li>
+        <li class="sep" aria-hidden="true">·</li>
+        <li><a href="/services/car-detailing">Detailing</a></li>
+        <li><a href="/services/ceramic-coating">Ceramic</a></li>
+        <li class="sep" aria-hidden="true">·</li>
         <li><a href="/about">About</a></li>
       </ul>
-      <a href={siteData.primary.calendly} class="nav-cta">Book detailing</a>
+      <a href={siteData.primary.calendly} class="nav-cta">Book</a>
     </nav>
   </div>
 </header>
@@ -32,29 +37,43 @@ import siteData from '../data/site.json';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 0;
+    padding: 20px 0;
+    gap: 32px;
   }
   .logo {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 600;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
     color: var(--color-navy);
-    letter-spacing: -0.01em;
-    line-height: 1;
     text-decoration: none;
+    line-height: 1;
   }
-  .logo span {
+  .logo-name {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .logo-ornament {
     color: var(--color-gold);
+    font-size: 8px;
+    transform: translateY(-3px);
+  }
+  .logo-tag {
+    font-family: var(--font-display);
     font-style: italic;
-    font-weight: 500;
+    font-size: 16px;
+    color: var(--color-gold);
+    font-weight: 400;
   }
   .nav-links {
     display: flex;
-    gap: 36px;
+    align-items: center;
+    gap: 22px;
     list-style: none;
     margin: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.02em;
   }
@@ -63,22 +82,26 @@ import siteData from '../data/site.json';
     transition: color 0.2s ease;
     text-decoration: none;
   }
-  .nav-links a:hover { color: var(--color-navy); }
+  .nav-links a:hover { color: var(--color-clay); }
+  .nav-links .sep {
+    color: var(--color-gray-line);
+    font-size: 14px;
+  }
   .nav-cta {
     background: var(--color-navy);
     color: var(--color-cream);
     padding: 11px 22px;
-    border-radius: 2px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    border-radius: 1px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     transition: background 0.2s ease;
     text-decoration: none;
   }
   .nav-cta:hover { background: var(--color-clay); }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     .nav-links { display: none; }
   }
 </style>

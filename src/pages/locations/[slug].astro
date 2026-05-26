@@ -1,13 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Announcement from '../../components/Announcement.astro';
-import Nav from '../../components/Nav.astro';
-import FinalCTA from '../../components/FinalCTA.astro';
+import PageHero from '../../components/PageHero.astro';
+import PricingMenu from '../../components/PricingMenu.astro';
+import ReviewCard from '../../components/ReviewCard.astro';
 import locationsData from '../../data/locations.json';
-import pricingData from '../../data/pricing.json';
 import reviewsData from '../../data/reviews.json';
 import siteData from '../../data/site.json';
-import { generateLocationSchema } from '../../lib/schema';
+import { generateLocationPageSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
   return locationsData.locations.map((loc) => ({
@@ -17,79 +16,70 @@ export async function getStaticPaths() {
 }
 
 const { location } = Astro.props;
-const pricing = pricingData[location.pricingMenu as 'handwash' | 'machine'];
-const locationReviews = reviewsData.reviews.filter((r) => r.location === location.slug).slice(0, 3);
+const locationReviews = reviewsData.reviews
+  .filter((r) => r.location === location.slug && r.featured)
+  .slice(0, 3);
+
+const isHandWash = location.pricingMenu === 'handwash';
+const isExpress = location.pricingMenu === 'machine';
 
 const title = `${location.type} in ${location.name}, FL | Hector's Car Wash`;
-const description = `${location.type} at Hector's ${location.name}. ${location.address.street}, ${location.address.city} FL. Open Mon–Sat 8–5:30, Sun 9–4. Call ${location.phone}. Walk in today — no appointment.`;
-
-const schema = generateLocationSchema(location.slug);
-
-function splitPrice(price: string) {
-  const parts = price.split('.');
-  return { whole: parts[0], cents: parts[1] || null };
-}
+const description = `${location.intro} ${location.address.street}, ${location.address.city}. Open Mon–Sat 8–5:30, Sunday 9–4. Call ${location.phone}.`;
+const schema = generateLocationPageSchema(location.slug);
 
 function googleMapsUrl() {
-  const q = encodeURIComponent(
-    `${location.address.street} ${location.address.city} ${location.address.state} ${location.address.zip}`
-  );
+  const q = encodeURIComponent(`${location.address.street} ${location.address.city} ${location.address.state} ${location.address.zip}`);
   return `https://maps.google.com/?q=${q}`;
 }
-
 function googleEmbedUrl() {
-  const q = encodeURIComponent(
-    `${location.address.street} ${location.address.city} ${location.address.state} ${location.address.zip}`
-  );
+  const q = encodeURIComponent(`${location.address.street} ${location.address.city} ${location.address.state} ${location.address.zip}`);
   return `https://www.google.com/maps?q=${q}&output=embed`;
 }
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
-  <Announcement />
-  <Nav />
 
-  <!-- LOCATION HERO -->
-  <section class="loc-hero">
-    <div class="h-container">
-      <div class="loc-hero-grid">
-        <div>
-          <div class="h-eyebrow">{location.type}</div>
-          <h1 class="loc-h1 h-display">
-            Hector's Car Wash<br /><em>{location.name}, FL.</em>
-          </h1>
-          <p class="loc-lead">
-            {location.address.street}, {location.address.city}, {location.address.state} {location.address.zip}
-          </p>
-          <div class="loc-quick">
-            <div>
-              <span class="loc-quick-label">Phone</span>
-              <a href={`tel:${location.phoneE164}`}>{location.phone}</a>
-            </div>
-            <div>
-              <span class="loc-quick-label">Hours</span>
-              <div>Mon – Sat: {location.hours.monSat}</div>
-              <div>Sunday: {location.hours.sunday}</div>
-            </div>
+  <PageHero
+    eyebrow={`${location.type} · ${location.address.city}, ${location.address.state}`}
+    headlineHtml={`Hector's<br /><em>${location.name}.</em>`}
+    lead={location.intro}
+    metaLeft={location.phone}
+    metaRight={`Mon–Sat 8–5:30 · Sun 9–4`}
+  />
+
+  {/* ============ QUICK FACTS / ADDRESS / MAP ============ */}
+  <section class="location-facts section-pad-sm">
+    <div class="container-wide">
+      <div class="facts-grid">
+        <div class="facts-info">
+          <div class="fact-block">
+            <span class="meta-label">Address</span>
+            <p class="fact-value">{location.address.street}<br />{location.address.city}, {location.address.state} {location.address.zip}</p>
+            <a href={googleMapsUrl()} target="_blank" rel="noopener" class="btn-ghost">Get directions →</a>
           </div>
-          <div class="loc-actions">
-            <a href={`tel:${location.phoneE164}`} class="h-btn h-btn-primary">Call now</a>
-            <a href={googleMapsUrl()} target="_blank" rel="noopener" class="h-btn h-btn-outline">
-              Get directions
-            </a>
-            {location.pricingMenu === 'machine' && (
-              <a href="#memberships" class="h-btn h-btn-outline">Join unlimited</a>
-            )}
-            {location.pricingMenu === 'handwash' && (
-              <a href={siteData.primary.calendly} class="h-btn h-btn-outline">Book detailing</a>
-            )}
+          <div class="fact-block">
+            <span class="meta-label">Phone</span>
+            <p class="fact-value"><a href={`tel:${location.phoneE164}`}>{location.phone}</a></p>
+          </div>
+          <div class="fact-block">
+            <span class="meta-label">Hours</span>
+            <p class="fact-value">
+              Monday – Saturday<br />
+              {location.hours.monSat}<br /><br />
+              Sunday<br />
+              {location.hours.sunday}
+            </p>
+          </div>
+          <div class="fact-block">
+            <span class="meta-label">Who comes here</span>
+            <p class="fact-value muted">{location.neighborhoodsCopy}</p>
           </div>
         </div>
-        <div class="loc-map">
+        <div class="facts-map">
           <iframe
             src={googleEmbedUrl()}
             width="100%"
-            height="450"
+            height="560"
             style="border:0;"
             allowfullscreen
             loading="lazy"
@@ -101,319 +91,380 @@ function googleEmbedUrl() {
     </div>
   </section>
 
-  <!-- AREA SERVED -->
-  <section class="area-served">
-    <div class="h-container">
-      <p>
-        <strong>Serving:</strong>
-        {location.areaServed.join(' · ')}
-      </p>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="loc-pricing" id="memberships">
-    <div class="h-container">
-      <div class="pricing-intro">
-        <span class="h-section-eyebrow">Our menu</span>
-        <h2 class="h-display">{pricing.title}</h2>
-        <p>{pricing.subtitle}</p>
-      </div>
-      <div class={location.pricingMenu === 'machine' ? 'price-grid machine' : 'price-grid'}>
-        {pricing.tiers.map((tier: any) => {
-          const { whole, cents } = splitPrice(tier.price);
-          return (
-            <div class={`price-card ${tier.featured ? 'featured' : ''}`}>
-              <div class="price-tier">{tier.name}</div>
-              <div class="price-amount">
-                <span class="currency">$</span>{whole}{cents && <span class="cents">.{cents}</span>}
-              </div>
-              <div class="price-period">
-                {tier.period}
-                {tier.memberPrice && <strong>or {tier.memberPrice}</strong>}
-              </div>
-              <ul class="price-includes">
-                {tier.includes.map((item: string) => <li>{item}</li>)}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-      <p class="pricing-note">{pricing.note}</p>
-    </div>
-  </section>
-
-  <!-- REVIEWS -->
-  {locationReviews.length > 0 && (
-    <section class="loc-reviews">
-      <div class="h-container">
-        <div class="pricing-intro">
-          <span class="h-section-eyebrow">Real reviews</span>
-          <h2 class="h-display">From <em>{location.name}</em> customers.</h2>
+  {/* ============ EXPRESS-SPECIFIC: THE 4 DIFFERENTIATORS ============ */}
+  {isExpress && (
+    <section class="differentiators section-pad">
+      <div class="container-wide">
+        <div class="section-intro">
+          <div class="eyebrow centered">Why Jupiter is different</div>
+          <h2 class="display-2">
+            The express wash<br />
+            <em>with hands on it.</em>
+          </h2>
+          <p class="diff-lead">
+            Every chain conveyor wash in Florida runs the same basic machine. What's different here is what happens before and after the conveyor.
+          </p>
         </div>
-        <div class="review-grid">
+        <ul class="diff-list">
+          <li>
+            <div class="diff-num">01</div>
+            <div>
+              <h3>Owner-operated.</h3>
+              <p>Hector is on-site. He owns this shop. The big chains rotate corporate managers. We have one.</p>
+            </div>
+          </li>
+          <li>
+            <div class="diff-num">02</div>
+            <div>
+              <h3>Hand prep before the conveyor.</h3>
+              <p>Wheels, rims, and brake-dust line get worked over by staff first — by hand, with the right brushes — before the machine ever touches your car. The conveyor cleans paint. Hands handle what the machine can't reach.</p>
+            </div>
+          </li>
+          <li>
+            <div class="diff-num">03</div>
+            <div>
+              <h3>Local family business.</h3>
+              <p>Money stays in Palm Beach County. Decisions made down the road, not in a corporate office in another state.</p>
+            </div>
+          </li>
+          <li>
+            <div class="diff-num">04</div>
+            <div>
+              <h3>Every car checked at the dry-off.</h3>
+              <p>Not just a leaf-blow and a wave-through. Staff actually looks at the car before you drive away. Missed spots get fixed. Streaks get hit again. You leave with a clean car.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {/* ============ HAND WASH WHAT-TO-EXPECT ============ */}
+  {isHandWash && (
+    <section class="differentiators section-pad">
+      <div class="container-wide">
+        <div class="section-intro">
+          <div class="eyebrow centered">What to expect</div>
+          <h2 class="display-2">
+            Hand wash,<br />
+            <em>done right.</em>
+          </h2>
+        </div>
+        <ul class="diff-list">
+          <li>
+            <div class="diff-num">01</div>
+            <div>
+              <h3>No conveyor. No brushes.</h3>
+              <p>Every car gets washed by hand, top to bottom, by trained staff. Soft mitts, fresh water, the right chemistry for your finish. No automatic equipment touches your paint.</p>
+            </div>
+          </li>
+          <li>
+            <div class="diff-num">02</div>
+            <div>
+              <h3>Wheels, rims, dust dash.</h3>
+              <p>Interior vacuum, windows in and out, dust dash — included on Silver and above. We don't upsell the basics. They're the basics.</p>
+            </div>
+          </li>
+          <li>
+            <div class="diff-num">03</div>
+            <div>
+              <h3>The same hands every time.</h3>
+              <p>Long-tenured staff. Many have been here since the original shop opened. They know what a ceramic coating looks like, what to use on chrome, how to read a luxury finish.</p>
+            </div>
+          </li>
+          <li>
+            <div class="diff-num">04</div>
+            <div>
+              <h3>Walk in, no appointment.</h3>
+              <p>For washes, just pull up. Detailing and ceramic coating are by appointment through Calendly — those need time.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {/* ============ PRICING ============ */}
+  <section class="pricing-section section-pad">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">{isHandWash ? 'Hand wash menu' : 'Jupiter pricing'}</div>
+        <h2 class="display-2">
+          {isHandWash ? <>The menu.<br /><em>No surprises.</em></> : <>Single visits<br />or <em>unlimited</em> monthly.</>}
+        </h2>
+      </div>
+      <PricingMenu menu={location.pricingMenu as 'handwash' | 'machine'} showTitle={false} />
+    </div>
+  </section>
+
+  {/* ============ REVIEWS ============ */}
+  {locationReviews.length > 0 && (
+    <section class="loc-reviews section-pad">
+      <div class="container-wide">
+        <div class="section-intro">
+          <div class="eyebrow centered">What customers say</div>
+          <h2 class="display-2">
+            From <em>{location.name}</em><br />regulars.
+          </h2>
+        </div>
+        <div class="reviews-grid">
           {locationReviews.map((review) => (
-            <article class="review-card">
-              <div class="review-stars">★★★★★</div>
-              <p class="review-text">"{review.quote}"</p>
-              <div class="review-author">{review.author}</div>
-              <div class="review-meta">{review.source}</div>
-            </article>
+            <ReviewCard quote={review.shortQuote} author={review.author} source={review.source} />
           ))}
         </div>
       </div>
     </section>
   )}
 
-  <FinalCTA />
+  {/* ============ NEIGHBORHOOD / AREA SERVED ============ */}
+  <section class="area-served">
+    <div class="container-narrow">
+      <div class="rule-ornament">
+        <div class="rule-ornament-diamond"></div>
+      </div>
+      <p class="area-text">
+        Serving <strong>{location.areaServed.join(' · ')}</strong>
+      </p>
+    </div>
+  </section>
+
+  {/* ============ FINAL CTA ============ */}
+  <section class="final-cta">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        {isHandWash ? <>Drop by today.<br /><em>No appointment for a wash.</em></> : <>Get the membership.<br /><em>Or just walk in.</em></>}
+      </h2>
+      <p class="final-lead">
+        {location.address.street}, {location.address.city}. Open every day.
+      </p>
+      <div class="final-actions">
+        <a href={`tel:${location.phoneE164}`} class="btn btn-primary on-dark">Call {location.phone}</a>
+        <a href={googleMapsUrl()} target="_blank" rel="noopener" class="btn-ghost on-dark">Get directions →</a>
+      </div>
+    </div>
+  </section>
+
 </BaseLayout>
 
 <style>
-  .loc-hero {
+  /* ============ FACTS ============ */
+  .location-facts {
+    background: var(--color-cream);
+  }
+  .facts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+  }
+  .facts-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+  .fact-block {
+    border-top: 1px solid var(--color-gray-line);
+    padding-top: 20px;
+  }
+  .meta-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 12px;
+  }
+  .fact-value {
+    font-size: 16px;
+    color: var(--color-charcoal);
+    line-height: 1.55;
+    margin: 0 0 16px;
+  }
+  .fact-value a {
+    color: var(--color-navy);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .fact-value.muted {
+    color: var(--color-charcoal-soft);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .facts-map iframe {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--color-gray-line);
+  }
+
+  /* ============ DIFFERENTIATORS ============ */
+  .differentiators {
+    background: var(--color-cream-warm);
+  }
+  .section-intro {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .section-intro .eyebrow {
+    margin-bottom: 24px;
+  }
+  .section-intro h2 {
+    margin: 0;
+  }
+  .diff-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: var(--color-charcoal-soft);
+    max-width: 640px;
+    margin: 28px auto 0;
+  }
+  .diff-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .diff-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .diff-list li:first-child {
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .diff-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--color-gold);
+    font-weight: 500;
+    line-height: 1;
+    min-width: 50px;
+  }
+  .diff-list h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .diff-list p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--color-charcoal-soft);
+    margin: 0;
+  }
+
+  /* ============ PRICING ============ */
+  .pricing-section {
+    background: var(--color-cream);
+  }
+
+  /* ============ REVIEWS ============ */
+  .loc-reviews {
+    background: var(--color-cream-warm);
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  @media (max-width: 1024px) {
+    .reviews-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============ AREA SERVED ============ */
+  .area-served {
     padding: 80px 0;
     background: var(--color-cream);
+    text-align: center;
   }
-  .loc-hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-  .loc-h1 {
-    font-size: clamp(36px, 5vw, 56px);
-    margin: 24px 0 20px;
-  }
-  .loc-lead {
-    font-size: 18px;
+  .area-text {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
     color: var(--color-charcoal-soft);
-    margin: 0 0 32px;
+    margin: 32px 0 0;
     line-height: 1.5;
   }
-  .loc-quick {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    padding: 24px 0;
-    border-top: 1px solid var(--color-gray-line);
-    border-bottom: 1px solid var(--color-gray-line);
-    margin-bottom: 32px;
-    font-size: 15px;
-    color: var(--color-charcoal-soft);
-  }
-  .loc-quick a {
+  .area-text strong {
     color: var(--color-navy);
     font-weight: 500;
-    text-decoration: none;
-  }
-  .loc-quick-label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-gray-warm);
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .loc-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .loc-map {
-    aspect-ratio: 4/3;
-    border: 1px solid var(--color-gray-line);
-    overflow: hidden;
-  }
-  .loc-map iframe {
-    display: block;
-    height: 100%;
-  }
-
-  .area-served {
-    padding: 24px 0;
-    background: var(--color-cream-warm);
-    border-bottom: 1px solid var(--color-gray-line);
-    text-align: center;
-    font-size: 14px;
-    color: var(--color-charcoal-soft);
-  }
-  .area-served strong {
-    color: var(--color-navy);
-    font-weight: 500;
-  }
-
-  .loc-pricing,
-  .loc-reviews {
-    padding: 100px 0;
-    background: var(--color-cream);
-  }
-  .loc-reviews {
-    background: var(--color-cream-warm);
-  }
-  .pricing-intro {
-    text-align: center;
-    margin-bottom: 56px;
-  }
-  .pricing-intro h2 {
-    font-size: clamp(32px, 4vw, 44px);
-    margin: 20px 0 12px;
-  }
-  .pricing-intro p {
-    font-size: 16px;
-    color: var(--color-gray-warm);
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
-  /* Reuse pricing card styles from Pricing.astro pattern */
-  .price-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .price-grid.machine {
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 920px;
-  }
-  .price-card {
-    background: var(--color-cream);
-    border: 1px solid var(--color-gray-line);
-    padding: 32px 24px;
-    text-align: center;
-    position: relative;
-  }
-  .price-card.featured {
-    border: 2px solid var(--color-gold);
-    transform: scale(1.02);
-  }
-  .price-card.featured::before {
-    content: 'Best shine';
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--color-gold);
-    color: var(--color-navy);
-    padding: 4px 14px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .price-tier {
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-gray-warm);
-    font-weight: 600;
-    margin-bottom: 14px;
-  }
-  .price-amount {
-    font-family: var(--font-display);
-    font-size: 38px;
-    font-weight: 500;
-    color: var(--color-navy);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .price-amount .currency { font-size: 22px; vertical-align: super; }
-  .price-amount .cents { font-size: 22px; }
-  .price-period {
-    font-size: 12px;
-    color: var(--color-gray-warm);
-    margin: 6px 0 24px;
-  }
-  .price-period strong {
-    display: block;
-    color: var(--color-clay);
-    font-weight: 500;
-    margin-top: 6px;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .price-includes {
+    font-style: normal;
+    font-family: var(--font-body);
     font-size: 13px;
-    text-align: left;
-    color: var(--color-charcoal-soft);
-    line-height: 1.55;
-    list-style: none;
-    padding: 20px 0 0;
-    margin: 0;
-    border-top: 1px solid var(--color-gray-line);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 16px;
   }
-  .price-includes li {
-    padding: 5px 0 5px 18px;
+
+  /* ============ FINAL CTA (shared) ============ */
+  .final-cta {
+    padding: 128px 0;
+    background: var(--color-navy-deep);
+    color: var(--color-cream);
+    text-align: center;
     position: relative;
   }
-  .price-includes li::before {
+  .final-cta::before,
+  .final-cta::after {
     content: '';
     position: absolute;
     left: 0;
-    top: 12px;
-    width: 8px;
+    right: 0;
     height: 1px;
     background: var(--color-gold);
+    opacity: 0.3;
   }
-  .pricing-note {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 13px;
-    color: var(--color-gray-warm);
-    font-style: italic;
+  .final-cta::before { top: 32px; }
+  .final-cta::after { bottom: 32px; }
+  .display-2.inverse {
+    color: var(--color-cream);
   }
-
-  .review-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
-  .review-card {
-    padding: 36px 32px;
-    background: var(--color-cream);
-    border-left: 2px solid var(--color-gold);
-  }
-  .review-stars {
+  .display-2.inverse em {
     color: var(--color-gold);
-    letter-spacing: 0.08em;
-    font-size: 14px;
-    margin-bottom: 18px;
   }
-  .review-text {
+  .final-lead {
     font-family: var(--font-display);
-    font-size: 17px;
-    line-height: 1.55;
-    color: var(--color-charcoal);
-    margin: 0 0 24px;
     font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.8);
+    max-width: 580px;
+    margin: 32px auto 48px;
   }
-  .review-author {
-    font-size: 13px;
-    color: var(--color-navy);
-    font-weight: 500;
+  .final-actions {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
-  .review-meta {
-    font-size: 11px;
-    color: var(--color-gray-warm);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-top: 4px;
+  .btn-ghost.on-dark {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+  .btn-ghost.on-dark:hover {
+    color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-light);
   }
 
+  /* ============ RESPONSIVE ============ */
   @media (max-width: 1024px) {
-    .loc-hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .price-grid,
-    .price-grid.machine { grid-template-columns: repeat(2, 1fr); }
-    .review-grid { grid-template-columns: 1fr; }
+    .facts-grid { grid-template-columns: 1fr; gap: 48px; }
   }
   @media (max-width: 640px) {
-    .loc-hero,
-    .loc-pricing,
-    .loc-reviews { padding: 56px 0; }
-    .loc-quick { grid-template-columns: 1fr; }
-    .price-grid,
-    .price-grid.machine { grid-template-columns: 1fr; }
+    .facts-info { grid-template-columns: 1fr; gap: 32px; }
+    .diff-list li { grid-template-columns: 1fr; gap: 16px; padding: 28px 0; }
+    .final-cta { padding: 80px 0; }
   }
 </style>
