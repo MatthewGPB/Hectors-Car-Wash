@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Announcement from '../components/Announcement.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import Story from '../components/Story.astro';
+import Locations from '../components/Locations.astro';
+import Services from '../components/Services.astro';
+import Pricing from '../components/Pricing.astro';
+import Reviews from '../components/Reviews.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import { generateHomepageSchema } from '../lib/schema';
+
+const title = "Hand Car Wash & Detailing in North Palm Beach, Jupiter & Riviera Beach FL | Hector's Car Wash";
+const description = "Family-owned hand car wash, machine wash, detailing & ceramic coating across North Palm Beach, Jupiter & Riviera Beach FL. Almost 30 years of experience. Walk in today — no appointment needed.";
+
+const schema = generateHomepageSchema();
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Announcement />
+  <Nav />
+  <Hero />
+  <TrustStrip />
+  <Story />
+  <Locations />
+  <Services />
+  <Pricing />
+  <Reviews />
+  <FinalCTA />
+</BaseLayout>

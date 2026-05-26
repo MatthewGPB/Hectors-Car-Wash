@@ -1,0 +1,37 @@
+---
+export interface Props {
+  eyebrow?: string;
+  headlineHtml: string;
+  subhead?: string;
+  inverse?: boolean;
+}
+const { eyebrow, headlineHtml, subhead, inverse = false } = Astro.props;
+---
+
+<div class={`section-head ${inverse ? 'inverse' : ''}`}>
+  {eyebrow && <span class="h-section-eyebrow">{eyebrow}</span>}
+  <h2 class="section-h2 h-display" set:html={headlineHtml} />
+  {subhead && <p>{subhead}</p>}
+</div>
+
+<style>
+  .section-head {
+    text-align: center;
+    margin-bottom: 72px;
+  }
+  .section-h2 {
+    font-size: clamp(36px, 4.5vw, 56px);
+    max-width: 720px;
+    margin: 20px auto;
+  }
+  .section-head p {
+    font-size: 17px;
+    color: var(--color-charcoal-soft);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .section-head.inverse .section-h2 { color: var(--color-cream); }
+  .section-head.inverse p { color: rgba(250, 247, 242, 0.7); }
+  .section-head.inverse :global(.h-section-eyebrow) { color: var(--color-gold); }
+</style>

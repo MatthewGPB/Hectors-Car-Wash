@@ -1,0 +1,88 @@
+{
+  "locations": [
+    {
+      "slug": "north-palm-beach",
+      "name": "North Palm Beach",
+      "type": "Hand wash",
+      "typeColor": "navy",
+      "address": {
+        "street": "900 US Highway 1",
+        "city": "North Palm Beach",
+        "state": "FL",
+        "zip": "33408",
+        "country": "US"
+      },
+      "phone": "(561) 594-8140",
+      "phoneE164": "+15615948140",
+      "geo": { "lat": 26.8267, "lng": -80.0607 },
+      "hours": {
+        "monSat": "8:00 AM – 5:30 PM",
+        "sunday": "9:00 AM – 4:00 PM"
+      },
+      "badge": null,
+      "areaServed": [
+        "North Palm Beach",
+        "Palm Beach Gardens",
+        "Lake Park",
+        "Juno Beach"
+      ],
+      "pricingMenu": "handwash"
+    },
+    {
+      "slug": "jupiter",
+      "name": "Jupiter",
+      "type": "Machine wash & memberships",
+      "typeColor": "gold",
+      "address": {
+        "street": "6751 W Indiantown Rd",
+        "city": "Jupiter",
+        "state": "FL",
+        "zip": "33458",
+        "country": "US"
+      },
+      "phone": "(561) 261-2595",
+      "phoneE164": "+15612612595",
+      "geo": { "lat": 26.9342, "lng": -80.1417 },
+      "hours": {
+        "monSat": "8:00 AM – 5:30 PM",
+        "sunday": "9:00 AM – 4:00 PM"
+      },
+      "badge": null,
+      "areaServed": [
+        "Jupiter",
+        "Tequesta",
+        "Abacoa",
+        "Palm Beach Gardens"
+      ],
+      "pricingMenu": "machine"
+    },
+    {
+      "slug": "riviera-beach",
+      "name": "Riviera Beach",
+      "type": "Hand wash",
+      "typeColor": "clay",
+      "address": {
+        "street": "2520 Broadway",
+        "city": "Riviera Beach",
+        "state": "FL",
+        "zip": "33404",
+        "country": "US"
+      },
+      "phone": "(561) 329-4185",
+      "phoneE164": "+15613294185",
+      "geo": { "lat": 26.7754, "lng": -80.0584 },
+      "hours": {
+        "monSat": "8:00 AM – 5:30 PM",
+        "sunday": "9:00 AM – 4:00 PM"
+      },
+      "badge": "Now open",
+      "areaServed": [
+        "Riviera Beach",
+        "Singer Island",
+        "West Palm Beach",
+        "Palm Beach"
+      ],
+      "pricingMenu": "handwash"
+    }
+  ]
+}

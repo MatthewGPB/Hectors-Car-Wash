@@ -1,0 +1,185 @@
+---
+import locationsData from '../data/locations.json';
+import SectionHead from './SectionHead.astro';
+
+const colorMap: Record<string, string> = {
+  navy: 'linear-gradient(135deg, #0A2540 0%, #1a3a5c 100%)',
+  gold: 'linear-gradient(135deg, #1a3a5c 0%, #C8973F 100%)',
+  clay: 'linear-gradient(135deg, #0A2540 0%, #C44536 100%)',
+};
+
+function googleMapsUrl(loc: typeof locationsData.locations[number]) {
+  const q = encodeURIComponent(
+    `${loc.address.street} ${loc.address.city} ${loc.address.state} ${loc.address.zip}`
+  );
+  return `https://maps.google.com/?q=${q}`;
+}
+---
+
+<section class="locations" id="locations">
+  <div class="h-container">
+    <SectionHead
+      eyebrow="Three locations"
+      headlineHtml="Find <em>Hector&rsquo;s</em> near you."
+      subhead="No appointment needed for car washes. Walk in any day — we'll take care of you and your car."
+    />
+
+    <div class="location-grid">
+      {locationsData.locations.map((loc) => (
+        <article class="location-card">
+          <div class="location-image" style={`background: ${colorMap[loc.typeColor]}`}>
+            {loc.badge && <span class="location-badge">{loc.badge}</span>}
+            <span class="location-type">{loc.type}</span>
+          </div>
+          <div class="location-body">
+            <h3 class="location-name">{loc.name}</h3>
+            <p class="location-address">
+              {loc.address.street}<br />
+              {loc.address.city}, {loc.address.state} {loc.address.zip}<br />
+              <strong>{loc.phone}</strong>
+            </p>
+            <div class="location-hours">
+              <strong>Mon – Sat:</strong> {loc.hours.monSat}<br />
+              <strong>Sunday:</strong> {loc.hours.sunday}
+            </div>
+            <div class="location-actions">
+              <a href={`/locations/${loc.slug}`} class="loc-btn loc-btn-primary">
+                Visit page
+              </a>
+              <a
+                href={googleMapsUrl(loc)}
+                target="_blank"
+                rel="noopener"
+                class="loc-btn loc-btn-secondary"
+              >
+                Directions
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .locations {
+    padding: 120px 0;
+    background: var(--color-cream);
+  }
+  .location-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .location-card {
+    background: var(--color-cream);
+    border: 1px solid var(--color-gray-line);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .location-card:hover {
+    border-color: var(--color-navy);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -20px rgba(10, 37, 64, 0.2);
+  }
+  .location-image {
+    aspect-ratio: 4/3;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .location-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--color-clay);
+    color: var(--color-cream);
+    padding: 7px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .location-type {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    color: var(--color-cream);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(10,37,64,0.7);
+    padding: 6px 12px;
+  }
+  .location-body { padding: 32px 28px 28px; }
+  .location-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--color-navy);
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    line-height: 1.1;
+  }
+  .location-address {
+    font-size: 14px;
+    color: var(--color-gray-warm);
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+  .location-address strong { color: var(--color-navy); }
+  .location-hours {
+    font-size: 13px;
+    color: var(--color-charcoal-soft);
+    padding: 14px 0;
+    border-top: 1px solid var(--color-gray-line);
+    border-bottom: 1px solid var(--color-gray-line);
+    margin-bottom: 20px;
+  }
+  .location-hours strong { color: var(--color-navy); font-weight: 500; }
+  .location-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .loc-btn {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+    text-decoration: none;
+  }
+  .loc-btn-primary {
+    background: var(--color-navy);
+    color: var(--color-cream);
+    border: 1px solid var(--color-navy);
+  }
+  .loc-btn-primary:hover {
+    background: var(--color-clay);
+    border-color: var(--color-clay);
+  }
+  .loc-btn-secondary {
+    border: 1px solid var(--color-navy);
+    color: var(--color-navy);
+    background: transparent;
+  }
+  .loc-btn-secondary:hover {
+    background: var(--color-navy);
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 1024px) {
+    .location-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .locations { padding: 72px 0; }
+  }
+</style>

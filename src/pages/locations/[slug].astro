@@ -1,0 +1,419 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Announcement from '../../components/Announcement.astro';
+import Nav from '../../components/Nav.astro';
+import FinalCTA from '../../components/FinalCTA.astro';
+import locationsData from '../../data/locations.json';
+import pricingData from '../../data/pricing.json';
+import reviewsData from '../../data/reviews.json';
+import siteData from '../../data/site.json';
+import { generateLocationSchema } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  return locationsData.locations.map((loc) => ({
+    params: { slug: loc.slug },
+    props: { location: loc },
+  }));
+}
+
+const { location } = Astro.props;
+const pricing = pricingData[location.pricingMenu as 'handwash' | 'machine'];
+const locationReviews = reviewsData.reviews.filter((r) => r.location === location.slug).slice(0, 3);
+
+const title = `${location.type} in ${location.name}, FL | Hector's Car Wash`;
+const description = `${location.type} at Hector's ${location.name}. ${location.address.street}, ${location.address.city} FL. Open Mon–Sat 8–5:30, Sun 9–4. Call ${location.phone}. Walk in today — no appointment.`;
+
+const schema = generateLocationSchema(location.slug);
+
+function splitPrice(price: string) {
+  const parts = price.split('.');
+  return { whole: parts[0], cents: parts[1] || null };
+}
+
+function googleMapsUrl() {
+  const q = encodeURIComponent(
+    `${location.address.street} ${location.address.city} ${location.address.state} ${location.address.zip}`
+  );
+  return `https://maps.google.com/?q=${q}`;
+}
+
+function googleEmbedUrl() {
+  const q = encodeURIComponent(
+    `${location.address.street} ${location.address.city} ${location.address.state} ${location.address.zip}`
+  );
+  return `https://www.google.com/maps?q=${q}&output=embed`;
+}
+---
+
+<BaseLayout title={title} description={description} schema={schema}>
+  <Announcement />
+  <Nav />
+
+  <!-- LOCATION HERO -->
+  <section class="loc-hero">
+    <div class="h-container">
+      <div class="loc-hero-grid">
+        <div>
+          <div class="h-eyebrow">{location.type}</div>
+          <h1 class="loc-h1 h-display">
+            Hector's Car Wash<br /><em>{location.name}, FL.</em>
+          </h1>
+          <p class="loc-lead">
+            {location.address.street}, {location.address.city}, {location.address.state} {location.address.zip}
+          </p>
+          <div class="loc-quick">
+            <div>
+              <span class="loc-quick-label">Phone</span>
+              <a href={`tel:${location.phoneE164}`}>{location.phone}</a>
+            </div>
+            <div>
+              <span class="loc-quick-label">Hours</span>
+              <div>Mon – Sat: {location.hours.monSat}</div>
+              <div>Sunday: {location.hours.sunday}</div>
+            </div>
+          </div>
+          <div class="loc-actions">
+            <a href={`tel:${location.phoneE164}`} class="h-btn h-btn-primary">Call now</a>
+            <a href={googleMapsUrl()} target="_blank" rel="noopener" class="h-btn h-btn-outline">
+              Get directions
+            </a>
+            {location.pricingMenu === 'machine' && (
+              <a href="#memberships" class="h-btn h-btn-outline">Join unlimited</a>
+            )}
+            {location.pricingMenu === 'handwash' && (
+              <a href={siteData.primary.calendly} class="h-btn h-btn-outline">Book detailing</a>
+            )}
+          </div>
+        </div>
+        <div class="loc-map">
+          <iframe
+            src={googleEmbedUrl()}
+            width="100%"
+            height="450"
+            style="border:0;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title={`Map to Hector's Car Wash ${location.name}`}
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AREA SERVED -->
+  <section class="area-served">
+    <div class="h-container">
+      <p>
+        <strong>Serving:</strong>
+        {location.areaServed.join(' · ')}
+      </p>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="loc-pricing" id="memberships">
+    <div class="h-container">
+      <div class="pricing-intro">
+        <span class="h-section-eyebrow">Our menu</span>
+        <h2 class="h-display">{pricing.title}</h2>
+        <p>{pricing.subtitle}</p>
+      </div>
+      <div class={location.pricingMenu === 'machine' ? 'price-grid machine' : 'price-grid'}>
+        {pricing.tiers.map((tier: any) => {
+          const { whole, cents } = splitPrice(tier.price);
+          return (
+            <div class={`price-card ${tier.featured ? 'featured' : ''}`}>
+              <div class="price-tier">{tier.name}</div>
+              <div class="price-amount">
+                <span class="currency">$</span>{whole}{cents && <span class="cents">.{cents}</span>}
+              </div>
+              <div class="price-period">
+                {tier.period}
+                {tier.memberPrice && <strong>or {tier.memberPrice}</strong>}
+              </div>
+              <ul class="price-includes">
+                {tier.includes.map((item: string) => <li>{item}</li>)}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      <p class="pricing-note">{pricing.note}</p>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  {locationReviews.length > 0 && (
+    <section class="loc-reviews">
+      <div class="h-container">
+        <div class="pricing-intro">
+          <span class="h-section-eyebrow">Real reviews</span>
+          <h2 class="h-display">From <em>{location.name}</em> customers.</h2>
+        </div>
+        <div class="review-grid">
+          {locationReviews.map((review) => (
+            <article class="review-card">
+              <div class="review-stars">★★★★★</div>
+              <p class="review-text">"{review.quote}"</p>
+              <div class="review-author">{review.author}</div>
+              <div class="review-meta">{review.source}</div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .loc-hero {
+    padding: 80px 0;
+    background: var(--color-cream);
+  }
+  .loc-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .loc-h1 {
+    font-size: clamp(36px, 5vw, 56px);
+    margin: 24px 0 20px;
+  }
+  .loc-lead {
+    font-size: 18px;
+    color: var(--color-charcoal-soft);
+    margin: 0 0 32px;
+    line-height: 1.5;
+  }
+  .loc-quick {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--color-gray-line);
+    border-bottom: 1px solid var(--color-gray-line);
+    margin-bottom: 32px;
+    font-size: 15px;
+    color: var(--color-charcoal-soft);
+  }
+  .loc-quick a {
+    color: var(--color-navy);
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .loc-quick-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .loc-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .loc-map {
+    aspect-ratio: 4/3;
+    border: 1px solid var(--color-gray-line);
+    overflow: hidden;
+  }
+  .loc-map iframe {
+    display: block;
+    height: 100%;
+  }
+
+  .area-served {
+    padding: 24px 0;
+    background: var(--color-cream-warm);
+    border-bottom: 1px solid var(--color-gray-line);
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-charcoal-soft);
+  }
+  .area-served strong {
+    color: var(--color-navy);
+    font-weight: 500;
+  }
+
+  .loc-pricing,
+  .loc-reviews {
+    padding: 100px 0;
+    background: var(--color-cream);
+  }
+  .loc-reviews {
+    background: var(--color-cream-warm);
+  }
+  .pricing-intro {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .pricing-intro h2 {
+    font-size: clamp(32px, 4vw, 44px);
+    margin: 20px 0 12px;
+  }
+  .pricing-intro p {
+    font-size: 16px;
+    color: var(--color-gray-warm);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* Reuse pricing card styles from Pricing.astro pattern */
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .price-grid.machine {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 920px;
+  }
+  .price-card {
+    background: var(--color-cream);
+    border: 1px solid var(--color-gray-line);
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+  }
+  .price-card.featured {
+    border: 2px solid var(--color-gold);
+    transform: scale(1.02);
+  }
+  .price-card.featured::before {
+    content: 'Best shine';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: var(--color-navy);
+    padding: 4px 14px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .price-tier {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--color-navy);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .price-amount .currency { font-size: 22px; vertical-align: super; }
+  .price-amount .cents { font-size: 22px; }
+  .price-period {
+    font-size: 12px;
+    color: var(--color-gray-warm);
+    margin: 6px 0 24px;
+  }
+  .price-period strong {
+    display: block;
+    color: var(--color-clay);
+    font-weight: 500;
+    margin-top: 6px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .price-includes {
+    font-size: 13px;
+    text-align: left;
+    color: var(--color-charcoal-soft);
+    line-height: 1.55;
+    list-style: none;
+    padding: 20px 0 0;
+    margin: 0;
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .price-includes li {
+    padding: 5px 0 5px 18px;
+    position: relative;
+  }
+  .price-includes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 8px;
+    height: 1px;
+    background: var(--color-gold);
+  }
+  .pricing-note {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 13px;
+    color: var(--color-gray-warm);
+    font-style: italic;
+  }
+
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .review-card {
+    padding: 36px 32px;
+    background: var(--color-cream);
+    border-left: 2px solid var(--color-gold);
+  }
+  .review-stars {
+    color: var(--color-gold);
+    letter-spacing: 0.08em;
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+  .review-text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--color-charcoal);
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+  .review-author {
+    font-size: 13px;
+    color: var(--color-navy);
+    font-weight: 500;
+  }
+  .review-meta {
+    font-size: 11px;
+    color: var(--color-gray-warm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 1024px) {
+    .loc-hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .price-grid,
+    .price-grid.machine { grid-template-columns: repeat(2, 1fr); }
+    .review-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .loc-hero,
+    .loc-pricing,
+    .loc-reviews { padding: 56px 0; }
+    .loc-quick { grid-template-columns: 1fr; }
+    .price-grid,
+    .price-grid.machine { grid-template-columns: 1fr; }
+  }
+</style>

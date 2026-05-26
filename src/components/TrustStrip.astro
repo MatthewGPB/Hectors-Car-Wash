@@ -1,0 +1,74 @@
+---
+import siteData from '../data/site.json';
+
+interface Stat {
+  prefix?: string;
+  value: string;
+  suffix?: string;
+  label: string;
+}
+
+const stats: Stat[] = [
+  { prefix: '~', value: '30', label: 'Years experience' },
+  { value: '3', label: 'Palm Beach locations' },
+  { value: siteData.brand.rating, suffix: '★', label: 'Google rating' },
+  { value: '100', suffix: '%', label: 'Hand wash & detail' },
+];
+---
+
+<section class="trust">
+  <div class="h-container">
+    <div class="trust-grid">
+      {stats.map((stat) => (
+        <div class="trust-item">
+          <div class="trust-num">
+            {stat.prefix && <em>{stat.prefix}</em>}{stat.value}{stat.suffix && <em>{stat.suffix}</em>}
+          </div>
+          <div class="trust-label">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--color-cream);
+    padding: 32px 0;
+    border-top: 1px solid var(--color-gray-line);
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .trust-item { text-align: center; }
+  .trust-num {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--color-navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .trust-num em {
+    color: var(--color-gold);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .trust-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    font-weight: 500;
+  }
+  @media (max-width: 1024px) {
+    .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+  @media (max-width: 640px) {
+    .trust-grid { grid-template-columns: 1fr; }
+  }
+</style>

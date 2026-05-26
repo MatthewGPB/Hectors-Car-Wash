@@ -1,0 +1,127 @@
+---
+import siteData from '../data/site.json';
+---
+
+<section class="hero">
+  <div class="h-container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="h-eyebrow">Family-owned · Palm Beach County</div>
+        <h1 class="hero-h1 h-display">
+          The car wash <em>Palm Beach</em> trusts with its finest vehicles.
+        </h1>
+        <p class="hero-lead">
+          Almost 30 years of hand-wash craftsmanship — from Bentleys to family SUVs, every car gets the same care. Three locations across North Palm Beach, Jupiter, and Riviera Beach.
+        </p>
+        <div class="hero-actions">
+          <a href="/#locations" class="h-btn h-btn-primary">
+            Find your location <span aria-hidden="true">→</span>
+          </a>
+          <a href={siteData.primary.calendly} class="h-btn h-btn-outline">
+            Book detailing
+          </a>
+        </div>
+      </div>
+      <div class="hero-image-side">
+        <div class="hero-card">
+          <div class="hero-card-label">Why hand wash</div>
+          <h3>Automatic washes can scratch paint. We don't.</h3>
+          <p>
+            Every wash done by hand, by trained team members who care about your car. Especially important for luxury finishes, ceramic coatings, and Florida's salt air.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 96px 0 80px;
+    background: var(--color-cream);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(10,37,64,0.92), rgba(10,37,64,0.78));
+    z-index: 0;
+  }
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-content { padding-right: 20px; }
+  .hero-h1 {
+    font-size: clamp(40px, 5.8vw, 68px);
+    margin: 24px 0 28px;
+  }
+  .hero-lead {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--color-charcoal-soft);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .hero-image-side {
+    position: relative;
+    z-index: 2;
+    min-height: 540px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-card {
+    background: var(--color-cream);
+    border-radius: 2px;
+    padding: 28px 32px;
+    border-top: 3px solid var(--color-gold);
+    box-shadow: 0 30px 60px -20px rgba(10, 37, 64, 0.35);
+    max-width: 380px;
+    margin-left: auto;
+  }
+  .hero-card-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .hero-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-navy);
+    line-height: 1.25;
+    margin: 0 0 14px;
+  }
+  .hero-card p {
+    font-size: 14px;
+    color: var(--color-charcoal-soft);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+    .hero::before { width: 100%; opacity: 0.35; }
+    .hero-image-side { min-height: 320px; }
+  }
+  @media (max-width: 640px) {
+    .hero { padding: 64px 0 48px; }
+  }
+</style>

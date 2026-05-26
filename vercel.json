@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    { "source": "/pages/north-palm-beach", "destination": "/locations/north-palm-beach", "permanent": true },
+    { "source": "/pages/jupiter", "destination": "/locations/jupiter", "permanent": true },
+    { "source": "/pages/riviera-beach", "destination": "/locations/riviera-beach", "permanent": true },
+    { "source": "/pages/car-detailing", "destination": "/#services", "permanent": true },
+    { "source": "/pages/ceramic-coating", "destination": "/#services", "permanent": true },
+    { "source": "/pages/contact", "destination": "/#locations", "permanent": true },
+    { "source": "/cart", "destination": "/", "permanent": true },
+    { "source": "/account/:path*", "destination": "/", "permanent": true },
+    { "source": "/products/:path*", "destination": "/", "permanent": true },
+    { "source": "/collections/:path*", "destination": "/", "permanent": true },
+    { "source": "/blogs/news/:path*", "destination": "/", "permanent": true }
+  ]
+}

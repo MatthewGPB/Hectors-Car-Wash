@@ -1,0 +1,101 @@
+{
+  "handwash": {
+    "title": "North Palm Beach & Riviera Beach",
+    "subtitle": "100% hand wash. Single visit pricing — no membership, no commitment.",
+    "tiers": [
+      {
+        "name": "Exterior",
+        "price": "19.99",
+        "period": "per wash",
+        "includes": ["Hand wash exterior", "Hand dry", "Wheels & tires"]
+      },
+      {
+        "name": "Silver",
+        "price": "29.99",
+        "period": "per wash",
+        "includes": [
+          "Everything in Exterior",
+          "Interior vacuum",
+          "Windows in & out",
+          "Dust dash",
+          "Rim & tire shine",
+          "Triple foam"
+        ]
+      },
+      {
+        "name": "Gold",
+        "price": "34.99",
+        "period": "per wash",
+        "includes": ["Everything in Silver", "Gloss spray wax"]
+      },
+      {
+        "name": "Premium",
+        "price": "39.99",
+        "period": "per wash",
+        "includes": ["Everything in Gold", "Teflon sealant"]
+      },
+      {
+        "name": "Platinum",
+        "price": "44.99",
+        "period": "per wash",
+        "featured": true,
+        "includes": [
+          "Everything in Premium",
+          "Extreme shine wax",
+          "Rain-X windshield"
+        ]
+      }
+    ],
+    "note": "Vehicle size may affect final price — SUV and truck upcharges posted at each location."
+  },
+  "machine": {
+    "title": "Jupiter — Machine Wash & Unlimited Memberships",
+    "subtitle": "Fast conveyor wash. Pay per visit or join unlimited monthly — wash as often as you want, cancel anytime.",
+    "tiers": [
+      {
+        "name": "Premium Exterior",
+        "price": "20",
+        "period": "single wash",
+        "memberPrice": "$45 / month",
+        "includes": ["Triple foam wax", "Wheel clean & tire shine", "Rinse & dry"]
+      },
+      {
+        "name": "Gold",
+        "price": "29.99",
+        "period": "single wash",
+        "memberPrice": "$70 / month",
+        "includes": [
+          "Everything in Exterior",
+          "Interior vacuum",
+          "Windows in & out",
+          "Dust dash & console"
+        ]
+      },
+      {
+        "name": "Premium",
+        "price": "34.99",
+        "period": "single wash",
+        "memberPrice": "$80 / month",
+        "includes": [
+          "Everything in Gold",
+          "3-step ceramic spray",
+          "Ceramic rain repellent"
+        ]
+      },
+      {
+        "name": "Platinum",
+        "price": "44.99",
+        "period": "single wash",
+        "memberPrice": "$90 / month",
+        "featured": true,
+        "includes": [
+          "Everything in Premium",
+          "4-step ceramic spray",
+          "Graphene Xtreme",
+          "Rain-X windshield"
+        ]
+      }
+    ],
+    "note": "Memberships: unlimited washes, cancel anytime, sign up on-site. Express ceramic spray is different from professional ceramic coating — book detailing for the full $800+ service."
+  }
+}

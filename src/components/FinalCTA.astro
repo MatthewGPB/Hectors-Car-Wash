@@ -1,0 +1,59 @@
+---
+import siteData from '../data/site.json';
+---
+
+<section class="final-cta">
+  <div class="h-container">
+    <h2 class="final-h2 h-display">
+      Walk in today. <em>No appointment.</em>
+    </h2>
+    <p>
+      Find your nearest Hector's and let our team show you the difference real hand-wash care makes.
+    </p>
+    <div class="final-actions">
+      <a href="/#locations" class="h-btn h-btn-primary">Find a location</a>
+      <a href={siteData.primary.calendly} class="h-btn h-btn-outline final-outline">
+        Book detailing or ceramic
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    padding: 120px 0;
+    background: linear-gradient(180deg, rgba(6,24,41,0.92) 0%, rgba(10,37,64,0.96) 100%), var(--color-navy);
+    color: var(--color-cream);
+    text-align: center;
+  }
+  .final-h2 {
+    font-size: clamp(38px, 5vw, 60px);
+    max-width: 720px;
+    margin: 0 auto 24px;
+    color: var(--color-cream);
+  }
+  .final-cta p {
+    font-size: 17px;
+    color: rgba(250, 247, 242, 0.8);
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+  .final-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .final-outline {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+  .final-outline:hover {
+    background: var(--color-gold);
+    color: var(--color-navy);
+  }
+  @media (max-width: 640px) {
+    .final-cta { padding: 72px 0; }
+  }
+</style>

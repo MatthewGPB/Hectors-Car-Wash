@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ============================================================
+   HECTOR'S CAR WASH — Design tokens
+   Tailwind 4 CSS-first config via @theme
+   ============================================================ */
+@theme {
+  /* Brand colors */
+  --color-navy: #0A2540;
+  --color-navy-deep: #061829;
+  --color-gold: #C8973F;
+  --color-gold-light: #E5C485;
+  --color-cream: #FAF7F2;
+  --color-cream-warm: #F2EDE2;
+  --color-charcoal: #1A1A1A;
+  --color-charcoal-soft: #3A3A3A;
+  --color-clay: #C44536;
+  --color-clay-deep: #9E3327;
+  --color-gray-warm: #6B6A66;
+  --color-gray-line: #D9D4C8;
+
+  /* Typography */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* ============================================================
+   Base layer overrides
+   ============================================================ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-body);
+    color: var(--color-charcoal);
+    background: var(--color-cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  h1, h2, h3, h4 { font-family: var(--font-display); }
+}
+
+/* ============================================================
+   Reusable component styles
+   (Astro encourages local component styles; these are the
+   handful of patterns reused across the homepage)
+   ============================================================ */
+@layer components {
+  .h-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 640px) {
+    .h-container { padding: 0 20px; }
+  }
+
+  .h-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-clay);
+  }
+  .h-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--color-clay);
+  }
+
+  .h-section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-clay);
+    font-weight: 500;
+    display: block;
+  }
+
+  /* Buttons */
+  .h-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .h-btn-primary {
+    background: var(--color-clay);
+    color: var(--color-cream);
+  }
+  .h-btn-primary:hover {
+    background: var(--color-clay-deep);
+    transform: translateY(-1px);
+  }
+  .h-btn-outline {
+    border-color: var(--color-navy);
+    color: var(--color-navy);
+    background: transparent;
+  }
+  .h-btn-outline:hover {
+    background: var(--color-navy);
+    color: var(--color-cream);
+  }
+
+  /* Display headings */
+  .h-display {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .h-display em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-gold);
+  }
+}

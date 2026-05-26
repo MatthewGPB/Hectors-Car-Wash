@@ -1,0 +1,133 @@
+---
+import siteData from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+
+const services = [
+  {
+    title: 'Hand car wash',
+    description: 'Scratch-free exterior and interior cleaning at North Palm Beach and Riviera Beach. Four tiers from $19.99.',
+    linkText: 'Explore wash tiers',
+    linkUrl: '/locations/north-palm-beach',
+  },
+  {
+    title: 'Express machine wash',
+    description: 'Fast, eco-friendly conveyor wash at Jupiter. Single washes from $20 or unlimited monthly memberships.',
+    linkText: 'See Jupiter memberships',
+    linkUrl: '/locations/jupiter',
+  },
+  {
+    title: 'Full detailing',
+    description: "Deep interior shampoo, exterior polish, clay bar. Restoration-level care starting at $300. Book by appointment.",
+    linkText: 'Book detailing',
+    linkUrl: siteData.primary.calendly,
+  },
+  {
+    title: 'Ceramic coating',
+    description: 'Professional 2–5 year hydrophobic shield. UV, salt, and scratch protection. Starts at $800.',
+    linkText: 'Get ceramic quote',
+    linkUrl: siteData.primary.calendly,
+  },
+];
+---
+
+<section class="services" id="services">
+  <div class="h-container">
+    <SectionHead
+      eyebrow="What we do"
+      headlineHtml="From a quick wash to <em>showroom shine.</em>"
+      subhead="Built for Palm Beach drivers — protecting your paint from salt, sand, sun, and the everyday."
+      inverse={true}
+    />
+
+    <div class="services-grid">
+      {services.map((service, i) => (
+        <article class="service-card">
+          <div class="service-num">0{i + 1}</div>
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+          <a href={service.linkUrl} class="service-link">
+            {service.linkText} →
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding: 120px 0;
+    background: var(--color-navy);
+    color: var(--color-cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .service-card {
+    padding: 36px 28px;
+    border: 1px solid rgba(250, 247, 242, 0.12);
+    background: rgba(250, 247, 242, 0.02);
+    transition: all 0.3s ease;
+  }
+  .service-card:hover {
+    border-color: var(--color-gold);
+    background: rgba(200, 151, 63, 0.06);
+  }
+  .service-num {
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--color-gold);
+    font-style: italic;
+    margin-bottom: 24px;
+    letter-spacing: 0.04em;
+  }
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-cream);
+    line-height: 1.2;
+    margin: 0 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .service-card p {
+    font-size: 14px;
+    color: rgba(250, 247, 242, 0.7);
+    line-height: 1.6;
+    margin: 0 0 24px;
+  }
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    transition: gap 0.2s ease;
+    text-decoration: none;
+  }
+  .service-link:hover { gap: 14px; color: var(--color-gold-light); }
+
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .services { padding: 72px 0; }
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>
