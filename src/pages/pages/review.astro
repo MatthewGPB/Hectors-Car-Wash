@@ -1,0 +1,346 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ReviewCard from '../../components/ReviewCard.astro';
+import reviewsData from '../../data/reviews.json';
+import locationsData from '../../data/locations.json';
+import siteData from '../../data/site.json';
+
+const title = `Reviews | ${siteData.brand.name}`;
+const description = `Leave a review or read what customers say about Hector's Car Wash across North Palm Beach, Jupiter, and Riviera Beach. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ Google reviews.`;
+
+const allReviews = reviewsData.reviews;
+const featuredReview = allReviews.find((r) => r.id === 'nico');
+const otherReviews = allReviews.filter((r) => r.id !== 'nico');
+const locations = locationsData.locations;
+---
+
+<BaseLayout title={title} description={description} canonical="https://hectorcarwash.com/pages/review">
+
+  <PageHero
+    eyebrow={`${siteData.brand.rating} stars · ${siteData.brand.reviewCount}+ Google reviews`}
+    headlineHtml="What Palm Beach<br /><em>says about us.</em>"
+    lead="Pick your location and leave a review on Google — it takes a minute and helps another driver find us."
+    metaLeft="Updated regularly"
+    metaRight="Verified on Google"
+  />
+
+  {/* ============ LEAVE A REVIEW — THREE LOCATIONS ACROSS ============ */}
+  <section class="review-locations section-pad-sm">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">Leave a review</div>
+        <h2 class="display-2">
+          Choose your <em>shop.</em>
+        </h2>
+      </div>
+
+      <div class="rev-loc-grid">
+        {locations.map((loc) => (
+          <article class="rev-loc-card">
+            <div class="rev-loc-type">{loc.typeShort}</div>
+            <h3 class="rev-loc-name">{loc.name}</h3>
+            <p class="rev-loc-address">
+              {loc.address.street}<br />
+              {loc.address.city}, {loc.address.state} {loc.address.zip}
+            </p>
+            <div class="rev-loc-stars">★★★★★</div>
+            {loc.reviewUrl ? (
+              <a
+                href={loc.reviewUrl}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-primary rev-loc-btn"
+              >
+                Review on Google →
+              </a>
+            ) : (
+              <span class="rev-loc-btn-disabled" aria-disabled="true">
+                Google listing verifying — check back soon
+              </span>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ FEATURED REVIEW — LARGE PULL QUOTE ============ */}
+  {featuredReview && (
+    <section class="featured-review section-pad">
+      <div class="container-narrow">
+        <div class="rule-ornament">
+          <div class="rule-ornament-diamond"></div>
+        </div>
+        <blockquote class="pull-quote">
+          "{featuredReview.quote}"
+          <span class="pull-quote-attribution">
+            — {featuredReview.author} · {featuredReview.source}
+          </span>
+        </blockquote>
+      </div>
+    </section>
+  )}
+
+  {/* ============ REMAINING REVIEWS — EDITORIAL GRID ============ */}
+  <section class="reviews-grid-section section-pad">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">More from regulars</div>
+        <h2 class="display-2">
+          What customers<br />
+          <em>keep coming back to say.</em>
+        </h2>
+      </div>
+
+      <div class="reviews-grid">
+        {otherReviews.map((review) => (
+          <ReviewCard
+            quote={review.quote}
+            author={review.author}
+            source={review.source}
+            variant="large"
+          />
+        ))}
+      </div>
+
+      <div class="reviews-stats">
+        <div class="stat">
+          <div class="stat-num">{siteData.brand.rating}</div>
+          <div class="stat-stars">★★★★★</div>
+          <div class="stat-label">Average rating</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <div class="stat-num">{siteData.brand.reviewCount}+</div>
+          <div class="stat-label">Google reviews</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <div class="stat-num">~30</div>
+          <div class="stat-label">Years in business</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ FINAL CTA ============ */}
+  <section class="final-cta">
+    <div class="container-narrow">
+      <h2 class="display-2 inverse">
+        See for yourself.<br />
+        <em>Walk in today.</em>
+      </h2>
+      <p class="final-lead">
+        Three Palm Beach County locations. Open Monday through Saturday 8:00–5:30 and Sunday 9:00–4:00.
+      </p>
+      <div class="final-actions">
+        <a href="/#locations" class="btn btn-primary on-dark">Find a location</a>
+        <a href={siteData.primary.calendly} class="btn-ghost on-dark">Book detailing →</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ============ LEAVE A REVIEW — LOCATIONS ROW ============ */
+  .review-locations {
+    background: var(--color-cream);
+  }
+  .section-intro {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .section-intro .eyebrow { margin-bottom: 24px; }
+  .section-intro h2 { margin: 0; }
+
+  .rev-loc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .rev-loc-card {
+    background: var(--color-cream-warm);
+    border-top: 3px solid var(--color-gold);
+    padding: 40px 32px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .rev-loc-type {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    margin-bottom: 14px;
+  }
+  .rev-loc-name {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--color-navy);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin: 0 0 16px;
+  }
+  .rev-loc-address {
+    font-size: 14px;
+    color: var(--color-charcoal-soft);
+    line-height: 1.55;
+    margin: 0 0 20px;
+  }
+  .rev-loc-stars {
+    color: var(--color-gold);
+    font-size: 18px;
+    letter-spacing: 0.12em;
+    margin-bottom: 28px;
+  }
+  .rev-loc-btn {
+    margin-top: auto;
+    width: 100%;
+    justify-content: center;
+  }
+  .rev-loc-btn-disabled {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-gray-warm);
+    background: transparent;
+    border: 1px dashed var(--color-gray-line);
+    border-radius: 1px;
+    line-height: 1.4;
+    cursor: default;
+  }
+
+  /* ============ FEATURED REVIEW ============ */
+  .featured-review {
+    background: var(--color-cream-warm);
+  }
+  .featured-review .rule-ornament {
+    margin-bottom: 48px;
+  }
+
+  /* ============ REVIEWS GRID ============ */
+  .reviews-grid-section {
+    background: var(--color-cream);
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .reviews-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    margin-top: 96px;
+    padding: 56px 0;
+    border-top: 1px solid var(--color-gray-line);
+    border-bottom: 1px solid var(--color-gray-line);
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 500;
+    color: var(--color-navy);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat-stars {
+    color: var(--color-gold);
+    font-size: 16px;
+    letter-spacing: 0.12em;
+    margin: 8px 0;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    margin-top: 8px;
+  }
+  .stat-divider {
+    width: 1px;
+    height: 80px;
+    background: var(--color-gold);
+    opacity: 0.3;
+  }
+
+  /* ============ FINAL CTA ============ */
+  .final-cta {
+    padding: 128px 0;
+    background: var(--color-navy-deep);
+    color: var(--color-cream);
+    text-align: center;
+    position: relative;
+  }
+  .final-cta::before,
+  .final-cta::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.3;
+  }
+  .final-cta::before { top: 32px; }
+  .final-cta::after { bottom: 32px; }
+  .display-2.inverse { color: var(--color-cream); }
+  .display-2.inverse em { color: var(--color-gold); }
+  .final-lead {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: rgba(247, 242, 232, 0.8);
+    max-width: 540px;
+    margin: 32px auto 48px;
+  }
+  .final-actions {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-ghost.on-dark {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+  .btn-ghost.on-dark:hover {
+    color: var(--color-gold-light);
+    border-bottom-color: var(--color-gold-light);
+  }
+  .btn.on-dark { background: var(--color-gold); color: var(--color-navy); }
+  .btn.on-dark:hover { background: var(--color-gold-light); }
+
+  @media (max-width: 900px) {
+    .rev-loc-grid { grid-template-columns: 1fr; max-width: 440px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    .reviews-stats { flex-direction: column; gap: 40px; }
+    .stat-divider { width: 80px; height: 1px; }
+  }
+  @media (max-width: 640px) {
+    .final-cta { padding: 80px 0; }
+  }
+</style>
