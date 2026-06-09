@@ -40,13 +40,17 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
         </div>
         <div class="hero-right">
           <div class="hero-image-block">
-<img
-  src="/images/hector-portrait.jpg"
-  alt="Hector David Ramirez at his North Palm Beach shop"
-  class="hero-image-placeholder"
-  width="600"
-  height="800"
-/>            <div class="hero-folio">
+            <div class="hero-image-frame">
+              <img
+                src="/images/hero-hector-portrait.jpg"
+                alt="Hector David Ramirez at his North Palm Beach car wash"
+                class="hero-image-placeholder"
+                width="1200"
+                height="1600"
+                onerror="this.style.visibility='hidden'"
+              />
+            </div>
+            <div class="hero-folio">
               <span class="folio-num">Vol. 30</span>
               <span class="folio-sep">·</span>
               <span class="folio-text">A Palm Beach County institution</span>
@@ -143,9 +147,17 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
           </div>
         </div>
         <div class="story-image">
-          <div class="story-image-placeholder">
-            <span class="img-caption">Hector David Ramirez · founder</span>
+          <div class="story-image-frame">
+            <img
+              src="/images/story-hector-working.jpg"
+              alt="Hector hand-drying a car at the shop"
+              class="story-image-placeholder"
+              width="1200"
+              height="1500"
+              onerror="this.style.visibility='hidden'"
+            />
           </div>
+          <span class="img-caption">Hector David Ramirez · founder</span>
         </div>
       </div>
     </div>
@@ -340,18 +352,26 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
   .hero-image-block {
     position: relative;
   }
-  .hero-image-placeholder {
-    aspect-ratio: 3/4;
-    background:
-      linear-gradient(135deg, #0A2540 0%, #1a3a5c 50%, #2a4a72 100%);
+  .hero-image-frame {
     position: relative;
+    aspect-ratio: 3/4;
+    /* Gradient shows behind the image until it loads, or if it's missing */
+    background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 50%, #2a4a72 100%);
   }
-  .hero-image-placeholder::after {
+  .hero-image-frame::after {
     content: '';
     position: absolute;
     inset: 16px;
     border: 1px solid rgba(200, 151, 63, 0.3);
     pointer-events: none;
+    z-index: 2;
+  }
+  .hero-image-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
   }
   .hero-folio {
     margin-top: 16px;
@@ -515,18 +535,28 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
     color: var(--color-charcoal);
     margin: 0 0 20px;
   }
-  .story-image-placeholder {
-    aspect-ratio: 4/5;
-    background:
-      linear-gradient(160deg, #1a3a5c 0%, #0A2540 100%);
+  .story-image {
     position: relative;
   }
-  .story-image-placeholder::after {
+  .story-image-frame {
+    aspect-ratio: 4/5;
+    background: linear-gradient(160deg, #1a3a5c 0%, #0A2540 100%);
+    position: relative;
+  }
+  .story-image-frame::after {
     content: '';
     position: absolute;
     inset: 16px;
     border: 1px solid rgba(200, 151, 63, 0.3);
     pointer-events: none;
+    z-index: 2;
+  }
+  .story-image-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
   }
   .img-caption {
     position: absolute;
@@ -539,7 +569,7 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
   }
   @media (max-width: 1024px) {
     .story-grid { grid-template-columns: 1fr; gap: 48px; }
-    .story-image-placeholder { max-width: 440px; }
+    .story-image-frame { max-width: 440px; }
   }
 
   /* ============ SHOPS LIST ============ */

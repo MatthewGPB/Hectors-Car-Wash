@@ -179,23 +179,34 @@ In priority order:
 
 ---
 
-## What's NOT in this build that you should plan for
+## Photography — image slots are now pre-wired
 
-### Photography
-The site currently uses brand-color gradient placeholders for all hero images and shop photos. **The single highest-impact thing you can do post-launch is shoot real photography:**
+Every image slot is already built into the pages. Each one shows a styled navy gradient until you drop in a real photo — there are **no broken-image icons** if a file is missing, so you can add photos one at a time as you get them.
 
-- A portrait of Hector for the homepage hero and about page (think New Yorker contributor: warm, real, looking into the camera, washes happening behind him)
-- The three shops photographed three-quarters from the corner, golden hour preferred
-- Hands at work — soaping a fender, drying chrome, polishing a wheel
-- Before/after detailing shots for the detailing page
-- A beaded-water shot on freshly coated paint for the ceramic page
+**To add a photo: drop a correctly-named JPG into `/public/images/`. That's it.** No code editing. The page automatically picks it up.
 
-Drop the JPGs into `/public/images/` and replace the placeholder divs in each `.astro` file with `<img>` tags. The CSS hooks already exist; the gradient placeholders are sized to the final aspect ratios.
+The exact filenames and dimensions are listed in `/public/images/README.txt` and in the separate shoot-list file. The full set:
 
-### Open Graph image
-`/public/og-image.jpg` is referenced but not provided. Create a 1200×630 image with the logo on the navy background — used for Facebook, iMessage, LinkedIn link previews.
+| Filename | Size | Where it appears |
+|---|---|---|
+| `hero-hector-portrait.jpg` | 1200×1600 | Homepage hero |
+| `story-hector-working.jpg` | 1200×1500 | Homepage story section |
+| `location-north-palm-beach.jpg` | 2400×1200 | NPB location page banner |
+| `location-jupiter.jpg` | 2400×1200 | Jupiter location page banner |
+| `location-riviera-beach.jpg` | 2400×1200 | Riviera location page banner |
+| `detail-hero.jpg` | 2400×1200 | Detailing page banner |
+| `detail-interior-before-after.jpg` | 1600×1200 | Detailing page gallery |
+| `detail-paint-correction.jpg` | 1200×1200 | Detailing page gallery |
+| `ceramic-water-beading.jpg` | 1200×1200 | Ceramic page |
+| `about-hector-portrait.jpg` | 1600×2000 | About page portrait |
+| `about-shop-archival.jpg` | 1600×1200 | About page (after Chapter IV) |
+| `og-image.jpg` (1200×630) | 1200×630 | Goes in `/public/` (not `/images/`) — social share card |
 
-### Live Google Reviews pull (deferred)
+The location banners use the pattern `location-{slug}.jpg`, so all three activate from their filenames automatically.
+
+**How the slots work technically:** most use a small reusable `Figure.astro` component (`src/components/Figure.astro`) that frames the image with the gold inset border and falls back to the gradient if the file is missing. The homepage hero/story and the ceramic image use inline `<img>` tags with the same fallback behavior. To move a photo to a different spot or change a filename, edit the `src="..."` on the relevant page.
+
+**Prep tips:** lowercase filenames, dashes not spaces, compress to under 500KB each (tinypng.com), and the dimensions above are targets — close is fine, the CSS crops to fit with `object-fit: cover`.
 You chose static-only for now. Future enhancement: install a Google Places API integration on the `/reviews` page that pulls fresh reviews daily. Not blocking for launch.
 
 ---

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Figure from '../../components/Figure.astro';
 import PricingMenu from '../../components/PricingMenu.astro';
 import ReviewCard from '../../components/ReviewCard.astro';
 import locationsData from '../../data/locations.json';
@@ -46,6 +47,19 @@ function googleEmbedUrl() {
     metaLeft={location.phone}
     metaRight={`Mon–Sat 8–5:30 · Sun 9–4`}
   />
+
+  {/* ============ LOCATION BANNER PHOTO ============ */}
+  <section class="location-banner">
+    <div class="container-wide">
+      <Figure
+        src={`/images/location-${location.slug}.jpg`}
+        alt={`Hector's Car Wash in ${location.name}, Florida`}
+        width={2400}
+        height={1200}
+        ratio="2/1"
+      />
+    </div>
+  </section>
 
   {/* ============ QUICK FACTS / ADDRESS / MAP ============ */}
   <section class="location-facts section-pad-sm">
@@ -247,6 +261,12 @@ function googleEmbedUrl() {
 </BaseLayout>
 
 <style>
+  /* ============ BANNER ============ */
+  .location-banner {
+    background: var(--color-cream);
+    padding: 32px 0 16px;
+  }
+
   /* ============ FACTS ============ */
   .location-facts {
     background: var(--color-cream);

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import Figure from '../../components/Figure.astro';
 import FAQ from '../../components/FAQ.astro';
 import ReviewCard from '../../components/ReviewCard.astro';
 import reviewsData from '../../data/reviews.json';
@@ -64,6 +65,19 @@ const schema = generateServiceSchema({
     metaLeft="From $300"
     metaRight="4–6 hours by appointment"
   />
+
+  {/* ============ HERO BANNER PHOTO ============ */}
+  <section class="detail-banner">
+    <div class="container-wide">
+      <Figure
+        src="/images/detail-hero.jpg"
+        alt="Hector's staff detailing a car — interior and exterior work in progress"
+        width={2400}
+        height={1200}
+        ratio="2/1"
+      />
+    </div>
+  </section>
 
   {/* ============ WHAT'S INCLUDED ============ */}
   <section class="included section-pad">
@@ -129,6 +143,30 @@ const schema = generateServiceSchema({
         <p>
           The other thing detailing does — and this is harder to put in a list — is that a careful operator notices things you'd miss. A starting rust spot under the trim. A door seal beginning to dry-rot. A wheel bearing humming on inspection drive. Hector and his team have caught problems for customers that saved them serious money down the road. That's not a marketing claim; it's what happens when someone who's been doing this almost 30 years actually looks at your car.
         </p>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ GALLERY ============ */}
+  <section class="detail-gallery section-pad-sm">
+    <div class="container-wide">
+      <div class="gallery-grid">
+        <Figure
+          src="/images/detail-interior-before-after.jpg"
+          alt="Car interior before and after a Hector's detail"
+          width={1600}
+          height={1200}
+          ratio="4/3"
+          caption="Interior, before and after."
+        />
+        <Figure
+          src="/images/detail-paint-correction.jpg"
+          alt="Paint correction removing swirl marks on a car panel"
+          width={1200}
+          height={1200}
+          ratio="1"
+          caption="Paint correction, mid-pass."
+        />
       </div>
     </div>
   </section>
@@ -247,6 +285,26 @@ const schema = generateServiceSchema({
     color: var(--color-charcoal-soft);
     max-width: 640px;
     margin: 28px auto 0;
+  }
+
+  /* ============ BANNER + GALLERY ============ */
+  .detail-banner {
+    background: var(--color-cream);
+    padding: 32px 0 0;
+  }
+  .detail-gallery {
+    background: var(--color-cream-warm);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: 1fr; gap: 40px; }
   }
 
   /* ============ INCLUDED ============ */

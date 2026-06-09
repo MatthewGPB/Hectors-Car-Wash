@@ -1,0 +1,69 @@
+---
+export interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  ratio?: string;       // CSS aspect-ratio, e.g. "2/1", "4/5", "1"
+  caption?: string;
+  border?: boolean;     // show the inset gold border
+  class?: string;
+}
+const {
+  src,
+  alt,
+  width,
+  height,
+  ratio = '2/1',
+  caption,
+  border = true,
+  class: className = '',
+} = Astro.props;
+---
+
+<figure class={`fig ${className}`}>
+  <div class={`fig-frame ${border ? 'has-border' : ''}`} style={`aspect-ratio: ${ratio};`}>
+    <img
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      loading="lazy"
+      onerror="this.style.visibility='hidden'"
+    />
+  </div>
+  {caption && <figcaption><em>{caption}</em></figcaption>}
+</figure>
+
+<style>
+  .fig {
+    margin: 0;
+  }
+  .fig-frame {
+    position: relative;
+    background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 50%, #2a4a72 100%);
+    overflow: hidden;
+  }
+  .fig-frame.has-border::after {
+    content: '';
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(200, 151, 63, 0.3);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .fig-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+  }
+  figcaption {
+    margin-top: 16px;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--color-gray-warm);
+  }
+</style>

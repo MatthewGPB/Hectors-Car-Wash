@@ -8,15 +8,15 @@ import { generateServiceSchema } from '../../lib/schema';
 const faqs = [
   {
     question: "What is ceramic coating?",
-    answer: "Ceramic coating is a liquid polymer that bonds chemically with your car's clear coat to create a hard, transparent, hydrophobic layer of protection. Once cured, it forms a semi-permanent shield that lasts 2 to 5 years depending on the product and care. It's the strongest paint protection available short of paint protection film (PPF).",
+    answer: "Ceramic coating is a liquid polymer that bonds chemically with your car's clear coat to create a hard, transparent, hydrophobic layer of protection. Once cured, it forms a semi-permanent shield that lasts for years depending on the product and care. It's the strongest paint protection available short of paint protection film (PPF).",
   },
   {
     question: "How much does ceramic coating cost in Palm Beach County?",
-    answer: "Professional ceramic coating at Hector's starts at $800 for a standard sedan with a single-layer coating and ranges up to $1,800+ for SUVs, trucks, and multi-layer applications with 5-year warranties. Price depends on vehicle size, surface preparation needed (paint correction adds cost), and the coating tier you choose. Every ceramic job includes a paint inspection, decontamination, and exact quote before we start.",
+    answer: "Hector's offers one professional ceramic coating package for every car — the same coating, the same process, whether it's a compact or a full-size SUV. Pricing starts at $800 for smaller vehicles and goes up with the size and value of the car, because a larger vehicle takes more product and more time. We give every quote on-site, after we've seen the car. Bring it by or send photos through Calendly and we'll give you an exact number.",
   },
   {
-    question: "How long does ceramic coating take to apply?",
-    answer: "A full ceramic coating job takes 1 to 3 days at Hector's. Day one is wash, clay-bar, paint correction (if needed), and final prep. Day two is coating application. Day three is curing — the coating needs time to fully bond with the clear coat. The car stays inside our shop during curing. You'll get an exact timeline at booking.",
+    question: "How long does ceramic coating take?",
+    answer: "One day. Drop the car off at 8 AM and it's ready the same day. We wash, decontaminate, prep, correct the paint if it's needed, apply the coating, and let it set — all in a single day when you bring it in first thing. You'll get the exact pickup time when you book.",
   },
   {
     question: "Is ceramic coating worth it in Florida?",
@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     question: "What's the difference between professional ceramic coating and the ceramic spray at the express wash?",
-    answer: "Very different products. The ceramic spray at Jupiter's express wash is a wash-cycle additive — it adds a thin hydrophobic layer that lasts a few weeks before washing off. Professional ceramic coating is a chemically bonded polymer that lasts 2 to 5 years. The express spray is great for a temporary water-beading effect. The professional coating is a real paint protection system applied in a controlled environment over multiple days. Same word, very different products.",
+    answer: "Very different products. The ceramic spray at Jupiter's express wash is a wash-cycle additive — it adds a thin hydrophobic layer that lasts a few weeks before washing off. Professional ceramic coating is a chemically bonded polymer that lasts for years. The express spray is great for a temporary water-beading effect. The professional coating is a real paint protection system applied in a controlled environment. Same word, very different products.",
   },
   {
     question: "Will ceramic coating prevent scratches?",
@@ -36,7 +36,7 @@ const faqs = [
   },
   {
     question: "How long does ceramic coating last?",
-    answer: "Quality professional ceramic coatings last 2 to 5 years depending on the product, the environment, and how the car is maintained. Hector's uses coatings from established manufacturers with warranty backing. We offer multiple tiers based on how long you want the protection to last — single-layer 2-year coatings for leased vehicles you'll return, multi-layer 5-year coatings for cars you plan to keep.",
+    answer: "A professional ceramic coating lasts for years — far longer than wax or the express ceramic spray — depending on the environment and how the car is maintained. Hector's uses coatings from established manufacturers. Warranty details are confirmed on-site when we give you the quote, so you know exactly what's covered before any work starts.",
   },
   {
     question: "Do I need paint correction before ceramic coating?",
@@ -49,10 +49,10 @@ const faqs = [
 ];
 
 const title = `Ceramic Coating in Palm Beach County | ${siteData.brand.name}`;
-const description = `Professional ceramic coating from $800. 2 to 5 year hydrophobic paint protection. UV, salt, and scratch resistance. By appointment in North Palm Beach, Jupiter, and Riviera Beach.`;
+const description = `Professional ceramic coating from $800, priced by vehicle size. Same-day service if dropped off at 8 AM. Hydrophobic UV, salt, and scratch protection. By appointment in North Palm Beach, Jupiter, and Riviera Beach.`;
 const schema = generateServiceSchema({
   name: "Ceramic Coating",
-  description: "Professional ceramic coating service. 2 to 5 year paint protection.",
+  description: "Professional ceramic coating service in Palm Beach County. One package for every vehicle, priced by size. Same-day service.",
   url: "https://hectorcarwash.com/services/ceramic-coating",
   priceFrom: "800.00",
   faqs,
@@ -64,9 +64,9 @@ const schema = generateServiceSchema({
   <PageHero
     eyebrow="By appointment · all three locations"
     headlineHtml="Ceramic coating.<br /><em>The long protection.</em>"
-    lead="A liquid polymer that bonds with your clear coat and lasts 2 to 5 years. UV, salt, scratch, and chemical resistance — the strongest paint protection short of film."
+    lead="A liquid polymer that bonds with your clear coat and protects it for years. UV, salt, scratch, and chemical resistance — the strongest paint protection short of film. One package for every car, priced by size."
     metaLeft="From $800"
-    metaRight="1–3 days by appointment"
+    metaRight="Same day · drop off at 8 AM"
   />
 
   {/* ============ THE PRODUCT ============ */}
@@ -91,72 +91,68 @@ const schema = generateServiceSchema({
           </div>
         </div>
         <div class="product-image">
-          <div class="image-placeholder"></div>
+          <div class="image-frame">
+            <img
+              src="/images/ceramic-water-beading.jpg"
+              alt="Water beading on a freshly ceramic-coated car finish"
+              class="image-placeholder"
+              width="1200"
+              height="1200"
+              onerror="this.style.visibility='hidden'"
+            />
+          </div>
           <p class="image-caption"><em>Hydrophobic effect on a freshly coated finish.</em></p>
         </div>
       </div>
     </div>
   </section>
 
-  {/* ============ TIERS / WHAT YOU GET ============ */}
-  <section class="tiers section-pad">
+  {/* ============ ONE PACKAGE / WHAT YOU GET ============ */}
+  <section class="package section-pad">
     <div class="container-wide">
       <div class="section-intro">
         <div class="eyebrow centered">What you get</div>
         <h2 class="display-2">
-          Three tiers.<br />
-          <em>One result.</em>
+          One package.<br />
+          <em>Every car.</em>
         </h2>
         <p class="lead-text">
-          Every ceramic job at Hector's includes paint inspection, decontamination, correction if needed, full coating application, and a care guide for keeping it. The tiers differ in how long the protection lasts.
+          We don't sell tiers or talk you into a bigger one. Every car gets the same professional ceramic coating, the same process, the same result. The only thing that changes is the price — and that's based purely on the size and value of your car.
         </p>
       </div>
 
-      <div class="tiers-grid">
-        <article class="tier-card">
-          <div class="tier-eyebrow">Tier 01</div>
-          <h3 class="display-3">2-year coating</h3>
-          <p class="tier-price">From <strong>$800</strong></p>
-          <ul class="tier-list">
-            <li>Single-layer ceramic application</li>
-            <li>9H hardness, hydrophobic surface</li>
-            <li>UV and chemical resistance</li>
-            <li>2-year warranty on the coating</li>
-            <li>Best for leased vehicles you'll return</li>
-          </ul>
-        </article>
-
-        <article class="tier-card featured">
-          <span class="best-tag">Most popular</span>
-          <div class="tier-eyebrow">Tier 02</div>
-          <h3 class="display-3">3-year coating</h3>
-          <p class="tier-price">From <strong>$1,200</strong></p>
-          <ul class="tier-list">
-            <li>Two-layer ceramic application</li>
-            <li>Higher hardness rating</li>
-            <li>Improved UV and salt resistance</li>
-            <li>3-year warranty on the coating</li>
-            <li>Best for daily drivers and family SUVs</li>
-          </ul>
-        </article>
-
-        <article class="tier-card">
-          <div class="tier-eyebrow">Tier 03</div>
-          <h3 class="display-3">5-year coating</h3>
-          <p class="tier-price">From <strong>$1,800</strong></p>
-          <ul class="tier-list">
-            <li>Multi-layer professional application</li>
-            <li>Maximum hardness and gloss</li>
-            <li>Highest UV, salt, and chemical resistance</li>
-            <li>5-year warranty on the coating</li>
-            <li>Best for cars you plan to keep long-term</li>
-          </ul>
-        </article>
+      <div class="package-card">
+        <div class="package-head">
+          <div class="package-eyebrow">The Hector's ceramic coating</div>
+          <h3 class="display-3">Same coating for everyone.</h3>
+          <p class="package-price">
+            From <strong>$800</strong>
+            <span class="package-price-note">priced by vehicle size — exact quote on-site</span>
+          </p>
+        </div>
+        <ul class="package-list">
+          <li>Full hand wash and decontamination</li>
+          <li>Clay-bar treatment to lift bonded contaminants</li>
+          <li>Paint correction where it's needed</li>
+          <li>Professional ceramic coating, hand-applied panel by panel</li>
+          <li>9H hardness, hydrophobic, UV and salt resistant</li>
+          <li>Final inspection and a care guide for keeping it</li>
+          <li>Same-day turnaround — drop off at 8 AM</li>
+        </ul>
       </div>
 
-      <p class="tiers-note">
-        Paint correction (for cars with swirl marks, water spots, or oxidation) is quoted separately. Add-on coatings for wheels, glass, and trim available.
-      </p>
+      <div class="package-pricing-note">
+        <div class="rule-ornament">
+          <div class="rule-ornament-diamond"></div>
+        </div>
+        <h3 class="display-3">Why the price changes by car.</h3>
+        <p>
+          A coupe and a three-row SUV are not the same job. A bigger vehicle has more square footage of paint, which means more product and more hours at the bench. A higher-value car often warrants more time on prep and correction so the finish is flawless under the coating. So the $800 starting point is for smaller cars, and it scales up from there with size and value. We don't guess at it over the phone — we look at the car and give you the exact number before any work starts.
+        </p>
+        <p class="package-addon">
+          Add-on coatings for wheels, glass, and trim are available and quoted at the same time. Warranty details are confirmed on-site with your quote.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -185,7 +181,7 @@ const schema = generateServiceSchema({
       <div class="section-intro">
         <div class="eyebrow centered">The process</div>
         <h2 class="display-2">
-          Three days,<br />
+          One day,<br />
           <em>start to finish.</em>
         </h2>
       </div>
@@ -194,29 +190,29 @@ const schema = generateServiceSchema({
         <li>
           <div class="process-num">01</div>
           <div>
-            <h3>Day one — prep.</h3>
-            <p>Hand wash, full decontamination with iron remover and clay-bar to lift embedded contaminants out of the clear coat. Paint inspection under specialty lighting to identify swirl marks, scratches, and oxidation. Paint correction if needed — this is the step that determines how good the coating will look.</p>
+            <h3>8 AM — drop off.</h3>
+            <p>Bring the car in first thing. We do a walk-around together, confirm the work, and give you the exact price based on the size and condition of your car. Nothing starts until you've okayed the number.</p>
           </div>
         </li>
         <li>
           <div class="process-num">02</div>
           <div>
-            <h3>Day two — application.</h3>
-            <p>Coating applied panel by panel in a controlled environment, away from dust and direct sun. Each panel is coated, leveled, and buffed to a uniform finish. Layer count depends on the tier you've chosen.</p>
+            <h3>Morning — prep and correction.</h3>
+            <p>Hand wash, full decontamination with iron remover and clay-bar to lift embedded contaminants out of the clear coat. Paint inspection under specialty lighting. Paint correction where it's needed — this is the step that determines how good the coating will look.</p>
           </div>
         </li>
         <li>
           <div class="process-num">03</div>
           <div>
-            <h3>Day three — curing.</h3>
-            <p>The coating needs time to chemically bond with the clear coat. The car stays in our shop, indoors, away from moisture and dust. After full cure, we do final inspection and prepare the car for pickup.</p>
+            <h3>Afternoon — application.</h3>
+            <p>Coating applied panel by panel in a controlled environment, away from dust and direct sun. Each panel is coated, leveled, and buffed to a uniform finish, then given time to set.</p>
           </div>
         </li>
         <li>
           <div class="process-num">04</div>
           <div>
-            <h3>Pickup and care guide.</h3>
-            <p>You take delivery, sign for the warranty, and leave with a printed care guide and our recommended maintenance schedule. Coated cars do best with regular pH-neutral hand washes — we offer this at NPB and Riviera Beach.</p>
+            <h3>Same day — pickup and care guide.</h3>
+            <p>You take delivery the same day, and leave with a printed care guide and our recommended maintenance schedule. Coated cars do best with regular pH-neutral hand washes — we offer this at NPB and Riviera Beach.</p>
           </div>
         </li>
       </ol>
@@ -231,7 +227,7 @@ const schema = generateServiceSchema({
         <em>Start with photos.</em>
       </h2>
       <p class="book-lead">
-        Send us photos of your car through Calendly and we'll come back with a tier recommendation and exact quote. No pressure, no sales call.
+        Send us photos of your car through Calendly and we'll come back with an exact quote based on its size and condition. No pressure, no sales call.
       </p>
       <a href={siteData.primary.calendly} class="btn btn-primary on-dark large">Open Calendly →</a>
       <p class="book-fineprint">
@@ -315,17 +311,25 @@ const schema = generateServiceSchema({
     color: var(--color-charcoal);
     margin: 0 0 24px;
   }
-  .image-placeholder {
+  .image-frame {
     aspect-ratio: 1;
     background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 100%);
     position: relative;
   }
-  .image-placeholder::after {
+  .image-frame::after {
     content: '';
     position: absolute;
     inset: 16px;
     border: 1px solid rgba(200, 151, 63, 0.3);
     pointer-events: none;
+    z-index: 2;
+  }
+  .image-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
   }
   .image-caption {
     margin-top: 16px;
@@ -335,42 +339,24 @@ const schema = generateServiceSchema({
   }
 
   /* ============ TIERS ============ */
-  .tiers {
+  .package {
     background: var(--color-cream-warm);
   }
-  .tiers-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    max-width: 1100px;
+  .package-card {
+    max-width: 720px;
     margin: 0 auto;
-  }
-  .tier-card {
-    padding: 48px 36px;
-    background: var(--color-cream);
-    border-top: 3px solid var(--color-gold);
-    position: relative;
-  }
-  .tier-card.featured {
     background: var(--color-navy);
     color: var(--color-cream);
-    border-top: none;
     border: 2px solid var(--color-gold);
+    padding: 56px 56px 48px;
   }
-  .best-tag {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--color-gold);
-    color: var(--color-navy);
-    padding: 5px 16px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+  .package-head {
+    text-align: center;
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid rgba(247, 242, 232, 0.15);
   }
-  .tier-eyebrow {
+  .package-eyebrow {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.22em;
@@ -378,48 +364,49 @@ const schema = generateServiceSchema({
     color: var(--color-gold);
     margin-bottom: 16px;
   }
-  .tier-card h3 {
-    margin: 0 0 20px;
-  }
-  .tier-card.featured h3 {
+  .package-head h3 {
     color: var(--color-cream);
+    margin: 0 0 24px;
   }
-  .tier-price {
+  .package-price {
     font-family: var(--font-display);
-    font-size: 22px;
-    color: var(--color-charcoal-soft);
-    margin: 0 0 28px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--color-gray-line);
-  }
-  .tier-card.featured .tier-price {
+    font-style: italic;
+    font-size: 24px;
     color: var(--color-gold-light);
-    border-bottom-color: rgba(247, 242, 232, 0.15);
+    margin: 0;
   }
-  .tier-price strong {
-    color: var(--color-navy);
-    font-weight: 600;
-    font-size: 28px;
-  }
-  .tier-card.featured .tier-price strong {
+  .package-price strong {
+    font-style: normal;
     color: var(--color-cream);
+    font-weight: 600;
+    font-size: 44px;
   }
-  .tier-list {
+  .package-price-note {
+    display: block;
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(247, 242, 232, 0.6);
+    margin-top: 12px;
+  }
+  .package-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 32px;
     font-size: 15px;
-    line-height: 1.55;
-    color: var(--color-charcoal);
-  }
-  .tier-card.featured .tier-list {
+    line-height: 1.5;
     color: rgba(247, 242, 232, 0.85);
   }
-  .tier-list li {
+  .package-list li {
     padding: 10px 0 10px 22px;
     position: relative;
   }
-  .tier-list li::before {
+  .package-list li::before {
     content: '◆';
     position: absolute;
     left: 0;
@@ -427,15 +414,27 @@ const schema = generateServiceSchema({
     color: var(--color-gold);
     font-size: 9px;
   }
-  .tiers-note {
+  .package-pricing-note {
+    max-width: 680px;
+    margin: 72px auto 0;
     text-align: center;
-    margin-top: 56px;
-    font-size: 14px;
-    color: var(--color-gray-warm);
+  }
+  .package-pricing-note .rule-ornament {
+    margin-bottom: 40px;
+  }
+  .package-pricing-note h3 {
+    margin: 0 0 24px;
+  }
+  .package-pricing-note p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--color-charcoal-soft);
+    margin: 0 0 20px;
+  }
+  .package-addon {
     font-style: italic;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 15px;
+    color: var(--color-gray-warm);
   }
 
   /* ============ WHY FLORIDA ============ */
@@ -587,9 +586,10 @@ const schema = generateServiceSchema({
 
   @media (max-width: 1024px) {
     .product-grid { grid-template-columns: 1fr; gap: 48px; }
-    .tiers-grid { grid-template-columns: 1fr; max-width: 480px; }
   }
   @media (max-width: 768px) {
+    .package-card { padding: 40px 28px 32px; }
+    .package-list { grid-template-columns: 1fr; }
     .process-list li { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
     .book-section { padding: 80px 0; }
     .final-cta { padding: 80px 0; }

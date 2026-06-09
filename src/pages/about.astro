@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import Figure from '../components/Figure.astro';
 import siteData from '../data/site.json';
 import { generateAboutPageSchema } from '../lib/schema';
 
@@ -18,6 +19,21 @@ const schema = generateAboutPageSchema();
     metaLeft="Family-owned"
     metaRight="Palm Beach County"
   />
+
+  {/* ============ PORTRAIT BANNER ============ */}
+  <section class="about-portrait">
+    <div class="container-narrow">
+      <Figure
+        src="/images/about-hector-portrait.jpg"
+        alt="Portrait of Hector David Ramirez, founder of Hector's Car Wash"
+        width={1600}
+        height={2000}
+        ratio="4/5"
+        caption="Hector David Ramirez · founder"
+        class="portrait-fig"
+      />
+    </div>
+  </section>
 
   {/* ============ STORY — LONG-FORM EDITORIAL ============ */}
   <article class="story-article section-pad">
@@ -92,6 +108,17 @@ const schema = generateAboutPageSchema();
         <p>
           Riviera Beach opened on Broadway in 2026, the third Hector's. Hand wash, just like NPB. Same five tiers. Same staff training. Same standard.
         </p>
+      </div>
+
+      <div class="article-figure">
+        <Figure
+          src="/images/about-shop-archival.jpg"
+          alt="The Hector's Car Wash team"
+          width={1600}
+          height={1200}
+          ratio="4/3"
+          caption="The team that makes the standard real."
+        />
       </div>
 
       <hr class="article-rule" />
@@ -187,6 +214,19 @@ const schema = generateAboutPageSchema();
 </BaseLayout>
 
 <style>
+  /* ============ PORTRAIT + IN-ARTICLE FIGURE ============ */
+  .about-portrait {
+    background: var(--color-cream);
+    padding: 16px 0 64px;
+  }
+  .about-portrait :global(.portrait-fig) {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .article-figure {
+    margin: 56px 0;
+  }
+
   .story-article {
     background: var(--color-cream);
   }
