@@ -60,6 +60,15 @@ const fullOgImage = new URL(ogImage, Astro.site).toString();
     <meta name="theme-color" content="#0A2540" />
 
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-PJ3E76LTZT"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PJ3E76LTZT');
+    </script>
   </head>
   <body>
     {showAnnouncement && <Announcement />}
