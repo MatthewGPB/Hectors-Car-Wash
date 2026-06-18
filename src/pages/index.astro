@@ -11,11 +11,6 @@ const description = `Almost 30 years of real car care. Hand wash in North Palm B
 const schema = generateHomepageSchema();
 
 const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3);
-
-function googleMapsUrl(loc: typeof locationsData.locations[number]) {
-  const q = encodeURIComponent(`${loc.address.street} ${loc.address.city} ${loc.address.state} ${loc.address.zip}`);
-  return `https://maps.google.com/?q=${q}`;
-}
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
@@ -203,7 +198,7 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
               </div>
               <div class="shop-actions">
                 <a
-                  href={googleMapsUrl(loc)}
+                  href={loc.mapsUrl}
                   target="_blank"
                   rel="noopener"
                   class="btn btn-primary"
