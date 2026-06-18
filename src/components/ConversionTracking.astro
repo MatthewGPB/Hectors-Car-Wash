@@ -27,6 +27,23 @@
     }
   });
 
+  // --- Get Directions clicks --------------------------------------------
+  // Fires when a "Get Directions" link is clicked. Each location carries its
+  // own conversion label in a data-directions-label attribute, so NPB,
+  // Jupiter, and Riviera each report separately in Google Ads.
+  // Directions links open in a new tab (target="_blank"), so the current page
+  // does not unload — the conversion fires reliably with no navigation delay.
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[data-directions-label]');
+    if (link) {
+      gtag('event', 'conversion', {
+        'send_to': link.getAttribute('data-directions-label'),
+        'value': 1.0,
+        'currency': 'USD'
+      });
+    }
+  });
+
   // --- Calendly bookings -------------------------------------------------
   // Fires ONLY when a booking is actually completed inside an embedded Calendly
   // widget (the widget posts a 'calendly.event_scheduled' message on success).

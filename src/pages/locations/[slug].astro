@@ -69,7 +69,7 @@ function googleEmbedUrl() {
           <div class="fact-block">
             <span class="meta-label">Address</span>
             <p class="fact-value">{location.address.street}<br />{location.address.city}, {location.address.state} {location.address.zip}</p>
-            <a href={googleMapsUrl()} target="_blank" rel="noopener" class="btn-ghost">Get directions →</a>
+            <a href={googleMapsUrl()} target="_blank" rel="noopener" class="btn-ghost" data-directions-label={location.directionsLabel}>Get directions →</a>
           </div>
           <div class="fact-block">
             <span class="meta-label">Phone</span>
@@ -253,7 +253,7 @@ function googleEmbedUrl() {
       </p>
       <div class="final-actions">
         <a href={`tel:${location.phoneE164}`} class="btn btn-primary on-dark">Call {location.phone}</a>
-        <a href={googleMapsUrl()} target="_blank" rel="noopener" class="btn-ghost on-dark">Get directions →</a>
+        <a href={googleMapsUrl()} target="_blank" rel="noopener" class="btn-ghost on-dark" data-directions-label={location.directionsLabel}>Get directions →</a>
       </div>
     </div>
   </section>

@@ -34,7 +34,7 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
             Hand wash in North Palm Beach and Riviera Beach. Express wash, owner-operated, in Jupiter. Three shops, one standard — real car care done by people who care.
           </p>
           <div class="hero-actions">
-            <a href="#which" class="btn btn-primary">Find your Hector's →</a>
+            <a href="#locations" class="btn btn-primary">Find your nearest shop →</a>
             <a href={siteData.primary.calendly} class="btn btn-ghost">Book detailing</a>
           </div>
         </div>
@@ -202,8 +202,16 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
                 </div>
               </div>
               <div class="shop-actions">
-                <a href={`/locations/${loc.slug}`} class="btn btn-outline">Visit page</a>
-                <a href={googleMapsUrl(loc)} target="_blank" rel="noopener" class="btn-ghost">Get directions →</a>
+                <a
+                  href={googleMapsUrl(loc)}
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-primary"
+                  data-directions-label={loc.directionsLabel}
+                >
+                  Get Directions →
+                </a>
+                <a href={`/locations/${loc.slug}`} class="btn-ghost">View {loc.name}</a>
               </div>
             </div>
           </article>
