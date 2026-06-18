@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import Figure from '../../components/Figure.astro';
+import CalendlyInline from '../../components/CalendlyInline.astro';
 import FAQ from '../../components/FAQ.astro';
 import ReviewCard from '../../components/ReviewCard.astro';
 import reviewsData from '../../data/reviews.json';
@@ -223,11 +224,15 @@ const schema = generateServiceSchema({
         <em>It takes 30 seconds.</em>
       </h2>
       <p class="book-lead">
-        Pick a date, tell us about your car, we'll confirm. Detailing available at all three Hector's locations.
+        Pick a date and time below, tell us about your car, and we'll confirm. Detailing available at all three Hector's locations.
       </p>
-      <a href={siteData.primary.calendly} class="btn btn-primary on-dark large">Open Calendly →</a>
+    </div>
+    <div class="book-widget container-narrow">
+      <CalendlyInline />
+    </div>
+    <div class="container-narrow">
       <p class="book-fineprint">
-        Or call any location — North Palm Beach (561) 594-8140 · Jupiter (561) 261-2595 · Riviera Beach (561) 329-4185
+        Prefer to call? North Palm Beach (561) 594-8140 · Jupiter (561) 261-2595 · Riviera Beach (561) 329-4185
       </p>
     </div>
   </section>
@@ -438,6 +443,9 @@ const schema = generateServiceSchema({
     color: rgba(247, 242, 232, 0.85);
     max-width: 540px;
     margin: 28px auto 40px;
+  }
+  .book-widget {
+    margin: 0 auto 32px;
   }
   .btn.on-dark {
     background: var(--color-gold);

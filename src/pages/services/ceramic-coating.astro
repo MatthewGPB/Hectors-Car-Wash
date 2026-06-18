@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import CalendlyInline from '../../components/CalendlyInline.astro';
 import FAQ from '../../components/FAQ.astro';
 import siteData from '../../data/site.json';
 import { generateServiceSchema } from '../../lib/schema';
@@ -227,11 +228,15 @@ const schema = generateServiceSchema({
         <em>Start with photos.</em>
       </h2>
       <p class="book-lead">
-        Send us photos of your car through Calendly and we'll come back with an exact quote based on its size and condition. No pressure, no sales call.
+        Book a time below and send us photos of your car. We'll come back with an exact quote based on its size and condition. No pressure, no sales call.
       </p>
-      <a href={siteData.primary.calendly} class="btn btn-primary on-dark large">Open Calendly →</a>
+    </div>
+    <div class="book-widget container-narrow">
+      <CalendlyInline />
+    </div>
+    <div class="container-narrow">
       <p class="book-fineprint">
-        Or call NPB (561) 594-8140 · Jupiter (561) 261-2595 · Riviera (561) 329-4185
+        Prefer to call? NPB (561) 594-8140 · Jupiter (561) 261-2595 · Riviera (561) 329-4185
       </p>
     </div>
   </section>
@@ -513,6 +518,9 @@ const schema = generateServiceSchema({
     color: rgba(247, 242, 232, 0.85);
     max-width: 540px;
     margin: 28px auto 40px;
+  }
+  .book-widget {
+    margin: 0 auto 32px;
   }
   .btn.on-dark {
     background: var(--color-gold);
