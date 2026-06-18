@@ -1,0 +1,62 @@
+---
+// src/components/ConversionTracking.astro
+// Google Ads conversion tracking for Hector's Car Wash (AW-18242062636).
+// Place once inside <head> in BaseLayout.astro, AFTER the existing Google tag (gtag.js) block.
+// Self-contained: registers the Ads account and fires conversions on real actions only.
+---
+<script is:inline>
+  // gtag is defined by the Google tag block already in BaseLayout; this is the standard
+  // shim so this component is safe even if load order ever changes.
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  // Register the Google Ads account (needed for the conversion linker).
+  gtag('config', 'AW-18242062636');
+
+  // --- Phone calls -------------------------------------------------------
+  // Fires when ANY tel: link is clicked, on any page. Event delegation means
+  // new/September-added phone links are covered automatically, no per-link edits.
+  // tel: does not unload the page, so no navigation-delay callback is needed.
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('a[href^="tel:"]')) {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18242062636/CXNmCIKNucEcEKySv_pD',
+        'value': 1.0,
+        'currency': 'USD'
+      });
+    }
+  });
+
+  // --- Get Directions clicks --------------------------------------------
+  // Fires when a "Get Directions" link is clicked. Each location carries its
+  // own conversion label in a data-directions-label attribute, so NPB,
+  // Jupiter, and Riviera each report separately in Google Ads.
+  // Directions links open in a new tab (target="_blank"), so the current page
+  // does not unload — the conversion fires reliably with no navigation delay.
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[data-directions-label]');
+    if (link) {
+      gtag('event', 'conversion', {
+        'send_to': link.getAttribute('data-directions-label'),
+        'value': 1.0,
+        'currency': 'USD'
+      });
+    }
+  });
+
+  // --- Calendly bookings -------------------------------------------------
+  // Fires ONLY when a booking is actually completed inside an embedded Calendly
+  // widget (the widget posts a 'calendly.event_scheduled' message on success).
+  // NOTE: this requires Calendly to be EMBEDDED on the page (inline or popup widget).
+  // If the site only links out to calendly.com, this will not fire — see chat for the
+  // popup-embed or thank-you-page redirect alternative.
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.event === 'calendly.event_scheduled') {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18242062636/xgSBCOLussEcEKySv_pD',
+        'value': 1.0,
+        'currency': 'USD'
+      });
+    }
+  });
+</script>

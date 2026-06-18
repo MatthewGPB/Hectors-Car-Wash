@@ -1,0 +1,179 @@
+---
+import pricingData from '../data/pricing.json';
+
+export interface Props {
+  menu: 'handwash' | 'machine';
+  showTitle?: boolean;
+}
+
+const { menu, showTitle = true } = Astro.props;
+const data = pricingData[menu];
+
+function splitPrice(price: string) {
+  const parts = price.split('.');
+  return { whole: parts[0], cents: parts[1] || null };
+}
+---
+
+<div class="pricing-block">
+  {showTitle && (
+    <div class="pricing-intro">
+      <h2 class="display-3">{data.title}</h2>
+      <p>{data.subtitle}</p>
+    </div>
+  )}
+
+  <div class={`price-grid ${menu === 'machine' ? 'jupiter' : ''}`}>
+    {data.tiers.map((tier: any) => {
+      const { whole, cents } = splitPrice(tier.price);
+      return (
+        <div class={`price-card ${tier.featured ? 'featured' : ''}`}>
+          {tier.featured && <span class="best-tag">Best shine</span>}
+          <div class="price-tier">{tier.name}</div>
+          <div class="price-amount">
+            <span class="currency">$</span>{whole}{cents && <span class="cents">.{cents}</span>}
+          </div>
+          <div class="price-period">
+            {tier.period}
+            {tier.memberPrice && <strong>or {tier.memberPrice}</strong>}
+          </div>
+          <ul class="price-includes">
+            {tier.includes.map((item: string) => <li>{item}</li>)}
+          </ul>
+        </div>
+      );
+    })}
+  </div>
+  <p class="pricing-note">{data.note}</p>
+</div>
+
+<style>
+  .pricing-intro {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .pricing-intro h2 { margin: 0 0 14px; }
+  .pricing-intro p {
+    font-size: 16px;
+    color: var(--color-gray-warm);
+    max-width: 540px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  .price-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .price-grid.jupiter {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 980px;
+  }
+
+  .price-card {
+    background: var(--color-cream);
+    border: 1px solid var(--color-gray-line);
+    padding: 32px 22px;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .price-card.featured {
+    border: 1px solid var(--color-gold);
+    background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-cream-warm) 100%);
+  }
+  .best-tag {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: var(--color-navy);
+    padding: 3px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .price-tier {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--color-navy);
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+  .price-amount .currency {
+    font-size: 22px;
+    vertical-align: super;
+    color: var(--color-gold);
+  }
+  .price-amount .cents { font-size: 22px; }
+  .price-period {
+    font-size: 12px;
+    color: var(--color-gray-warm);
+    margin: 8px 0 24px;
+  }
+  .price-period strong {
+    display: block;
+    color: var(--color-clay);
+    font-weight: 600;
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .price-includes {
+    font-size: 13px;
+    text-align: left;
+    color: var(--color-charcoal-soft);
+    line-height: 1.6;
+    list-style: none;
+    padding: 22px 0 0;
+    margin: 0;
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .price-includes li {
+    padding: 6px 0 6px 20px;
+    position: relative;
+  }
+  .price-includes li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 10px;
+    height: 1px;
+    background: var(--color-gold);
+  }
+  .pricing-note {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 13px;
+    color: var(--color-gray-warm);
+    font-style: italic;
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: 1024px) {
+    .price-grid,
+    .price-grid.jupiter { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .price-grid,
+    .price-grid.jupiter { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,41 @@
+---
+import siteData from '../data/site.json';
+const { announcement } = siteData;
+---
+
+{announcement.show && (
+  <div class="announcement">
+    <div class="container-wide">
+      <a href={announcement.link}>
+        <strong>{announcement.badge}</strong>
+        <span class="sep">·</span>
+        {announcement.message}
+      </a>
+    </div>
+  </div>
+)}
+
+<style>
+  .announcement {
+    background: var(--color-navy-deep);
+    color: var(--color-cream);
+    padding: 11px 0;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .announcement a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .announcement strong {
+    color: var(--color-gold-light);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .sep {
+    margin: 0 8px;
+    opacity: 0.5;
+  }
+</style>

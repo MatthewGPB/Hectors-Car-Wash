@@ -1,0 +1,132 @@
+---
+// src/components/CalendlyInline.astro
+// Inline Calendly booking widget. Loads Calendly's script lazily (only when
+// the widget scrolls into view) so it doesn't slow the rest of the page.
+// The booking-completion message it posts is what fires the Google Ads
+// conversion in ConversionTracking.astro.
+import siteData from '../data/site.json';
+
+export interface Props {
+  url?: string;
+  fallbackText?: string;
+}
+const {
+  url = siteData.primary.calendly,
+  fallbackText = 'Booking calendar not loading? Open it in a new tab →',
+} = Astro.props;
+
+// Calendly's inline widget reads the booking URL from a data attribute.
+const calendlyUrl = url;
+---
+
+<div class="calendly-wrap">
+  <div
+    class="calendly-inline-widget"
+    data-url={calendlyUrl}
+    data-auto-load="false"
+    style="min-width:320px;height:700px;"
+  ></div>
+  <noscript>
+    <a href={calendlyUrl} target="_blank" rel="noopener" class="calendly-fallback-link">
+      Open the booking calendar →
+    </a>
+  </noscript>
+  <a href={calendlyUrl} target="_blank" rel="noopener" class="calendly-fallback-link">
+    {fallbackText}
+  </a>
+</div>
+
+<link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+
+<script is:inline>
+  (function () {
+    // Find every Calendly container on the page that hasn't been initialized.
+    function initWidgets() {
+      if (!window.Calendly) return;
+      document.querySelectorAll('.calendly-inline-widget[data-auto-load="false"]').forEach(function (el) {
+        if (el.getAttribute('data-loaded') === 'true') return;
+        window.Calendly.initInlineWidget({
+          url: el.getAttribute('data-url'),
+          parentElement: el,
+        });
+        el.setAttribute('data-loaded', 'true');
+      });
+    }
+
+    // Load Calendly's script once, then init.
+    function loadCalendlyScript(cb) {
+      if (window.Calendly) { cb(); return; }
+      if (document.getElementById('calendly-widget-script')) {
+        // script already loading — wait for it
+        var existing = document.getElementById('calendly-widget-script');
+        existing.addEventListener('load', cb);
+        return;
+      }
+      var s = document.createElement('script');
+      s.id = 'calendly-widget-script';
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      s.onload = cb;
+      document.head.appendChild(s);
+    }
+
+    // Lazy-load: only pull in Calendly when the widget nears the viewport.
+    function observe() {
+      var targets = document.querySelectorAll('.calendly-inline-widget[data-auto-load="false"]');
+      if (!targets.length) return;
+
+      if (!('IntersectionObserver' in window)) {
+        // Old browser — just load it.
+        loadCalendlyScript(initWidgets);
+        return;
+      }
+
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            loadCalendlyScript(initWidgets);
+            io.disconnect();
+          }
+        });
+      }, { rootMargin: '300px' });
+
+      targets.forEach(function (t) { io.observe(t); });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', observe);
+    } else {
+      observe();
+    }
+  })();
+</script>
+
+<style>
+  .calendly-wrap {
+    background: var(--color-cream);
+    border: 1px solid var(--color-gray-line);
+    padding: 12px;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .calendly-inline-widget {
+    width: 100%;
+  }
+  .calendly-fallback-link {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    padding: 12px;
+    font-size: 13px;
+    color: var(--color-gray-warm);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .calendly-fallback-link:hover {
+    color: var(--color-clay);
+  }
+  @media (max-width: 640px) {
+    .calendly-wrap { padding: 6px; }
+    .calendly-inline-widget { min-height: 640px; }
+  }
+</style>

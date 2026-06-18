@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/* ============================================================
+   HECTOR'S CAR WASH v2 — Editorial Old Florida coastal
+   ============================================================ */
+@theme {
+  --color-navy: #0A2540;
+  --color-navy-deep: #061829;
+  --color-gold: #B8893A;
+  --color-gold-bright: #C8973F;
+  --color-gold-light: #E5C485;
+  --color-cream: #F7F2E8;
+  --color-cream-warm: #EEE6D3;
+  --color-cream-deep: #E5D9BE;
+  --color-charcoal: #1A1A1A;
+  --color-charcoal-soft: #3A3A3A;
+  --color-clay: #B23A2B;
+  --color-clay-deep: #8E2D22;
+  --color-gray-warm: #6B6A66;
+  --color-gray-line: #D4CDB9;
+  --color-paper-shadow: rgba(26, 26, 26, 0.04);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--color-charcoal);
+    background: var(--color-cream);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    /* Subtle paper texture — 1.5% noise */
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(26, 26, 26, 0.025) 1px, transparent 0);
+    background-size: 24px 24px;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  ::selection { background: var(--color-gold); color: var(--color-cream); }
+}
+
+/* ============================================================
+   Containers
+   ============================================================ */
+@layer components {
+  .container-narrow {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .container-wide {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .container-reading {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 640px) {
+    .container-narrow, .container-wide, .container-reading {
+      padding: 0 20px;
+    }
+  }
+
+  /* ============================================================
+     Typography — display heads
+     ============================================================ */
+  .display-1 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--color-navy);
+    letter-spacing: -0.025em;
+    line-height: 0.95;
+    font-size: clamp(48px, 7.5vw, 96px);
+  }
+  .display-1 em {
+    font-style: italic;
+    color: var(--color-gold);
+    font-weight: 400;
+  }
+  .display-2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    color: var(--color-navy);
+    letter-spacing: -0.02em;
+    line-height: 1.0;
+    font-size: clamp(40px, 5.5vw, 72px);
+  }
+  .display-2 em {
+    font-style: italic;
+    color: var(--color-gold);
+    font-weight: 400;
+  }
+  .display-3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--color-navy);
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    font-size: clamp(32px, 4vw, 48px);
+  }
+  .display-3 em {
+    font-style: italic;
+    color: var(--color-gold);
+    font-weight: 400;
+  }
+
+  /* ============================================================
+     Editorial eyebrow — small caps with rule
+     ============================================================ */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-clay);
+    font-family: var(--font-body);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--color-clay);
+  }
+  .eyebrow.centered {
+    justify-content: center;
+  }
+  .eyebrow.centered::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--color-clay);
+  }
+
+  /* ============================================================
+     Buttons — editorial / link-style preferred
+     ============================================================ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    border-radius: 1px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+  }
+  .btn-primary {
+    background: var(--color-navy);
+    color: var(--color-cream);
+  }
+  .btn-primary:hover {
+    background: var(--color-clay);
+    transform: translateY(-1px);
+  }
+  .btn-outline {
+    border: 1px solid var(--color-navy);
+    color: var(--color-navy);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: var(--color-navy);
+    color: var(--color-cream);
+  }
+  .btn-ghost {
+    color: var(--color-navy);
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-navy);
+    text-decoration: none;
+  }
+  .btn-ghost:hover {
+    color: var(--color-clay);
+    border-bottom-color: var(--color-clay);
+  }
+
+  /* ============================================================
+     Editorial section divider — gold rule with diamond ornament
+     ============================================================ */
+  .rule-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 auto;
+    max-width: 480px;
+    color: var(--color-gold);
+  }
+  .rule-ornament::before,
+  .rule-ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.5;
+  }
+  .rule-ornament-diamond {
+    width: 8px;
+    height: 8px;
+    background: var(--color-gold);
+    transform: rotate(45deg);
+  }
+
+  /* Simpler gold rule */
+  .rule-gold {
+    height: 1px;
+    background: var(--color-gold);
+    opacity: 0.3;
+    border: none;
+    margin: 0;
+  }
+
+  /* ============================================================
+     Drop cap for long-form
+     ============================================================ */
+  .has-dropcap::first-letter,
+  .dropcap::first-letter {
+    font-family: var(--font-display);
+    font-size: 5.5em;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 0.85;
+    float: left;
+    color: var(--color-gold);
+    margin: 0.05em 0.12em -0.1em 0;
+  }
+
+  /* ============================================================
+     Editorial pull quote — large
+     ============================================================ */
+  .pull-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(24px, 3.2vw, 38px);
+    line-height: 1.3;
+    color: var(--color-navy);
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    letter-spacing: -0.01em;
+  }
+  .pull-quote-attribution {
+    display: block;
+    margin-top: 24px;
+    font-family: var(--font-body);
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gray-warm);
+    text-align: center;
+  }
+
+  /* ============================================================
+     Section spacing
+     ============================================================ */
+  .section-pad {
+    padding: 120px 0;
+  }
+  .section-pad-sm {
+    padding: 80px 0;
+  }
+  @media (max-width: 768px) {
+    .section-pad { padding: 80px 0; }
+    .section-pad-sm { padding: 56px 0; }
+  }
+
+  /* ============================================================
+     Numbered list of contents (replaces card grids)
+     ============================================================ */
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-gray-line);
+  }
+  .toc-list li {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: baseline;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--color-gray-line);
+    transition: background 0.2s ease;
+  }
+  .toc-list a {
+    display: contents;
+    color: inherit;
+    text-decoration: none;
+  }
+  .toc-list li:hover {
+    background: var(--color-cream-warm);
+  }
+  .toc-num {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-gold);
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .toc-content h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--color-navy);
+    margin: 0 0 6px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .toc-content p {
+    font-size: 15px;
+    color: var(--color-charcoal-soft);
+    line-height: 1.55;
+    margin: 0;
+  }
+  .toc-arrow {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--color-gold);
+    transition: transform 0.2s ease;
+  }
+  .toc-list li:hover .toc-arrow {
+    transform: translateX(6px);
+  }
+  @media (max-width: 640px) {
+    .toc-list li {
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      padding: 24px 0;
+    }
+    .toc-arrow { display: none; }
+    .toc-content h3 { font-size: 22px; }
+  }
+}
