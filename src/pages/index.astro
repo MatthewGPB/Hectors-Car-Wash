@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ReviewCard from '../components/ReviewCard.astro';
 import siteData from '../data/site.json';
 import locationsData from '../data/locations.json';
+import pricingData from '../data/pricing.json';
 import reviewsData from '../data/reviews.json';
 import { generateHomepageSchema } from '../lib/schema';
 
@@ -59,6 +60,118 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
     </div>
   </section>
 
+  {/* ============ THE THREE SHOPS — LOCATIONS FIRST (mobile priority) ============ */}
+  <section class="shops-section section-pad" id="locations">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">The three shops</div>
+        <h2 class="display-2">
+          Find <em>Hector's</em><br />near you.
+        </h2>
+        <p class="locations-note">Hand wash at North Palm Beach &amp; Riviera Beach · Express wash &amp; memberships at Jupiter</p>
+      </div>
+
+      <div class="shops-list">
+        {locationsData.locations.map((loc, i) => (
+          <article class="shop-entry">
+            <div class="shop-num">0{i + 1}</div>
+            <div class="shop-content">
+              <div class="shop-header">
+                <h3 class="display-3">{loc.name}</h3>
+                <div class="shop-type">{loc.typeShort}</div>
+                {loc.badge && <span class="shop-badge">{loc.badge}</span>}
+              </div>
+              <p class="shop-tagline"><em>{loc.tagline}</em></p>
+              <p class="shop-intro">{loc.intro}</p>
+              <div class="shop-meta">
+                <div>
+                  <span class="meta-label">Address</span>
+                  <div>{loc.address.street}</div>
+                  <div>{loc.address.city}, {loc.address.state} {loc.address.zip}</div>
+                </div>
+                <div>
+                  <span class="meta-label">Phone</span>
+                  <div><a href={`tel:${loc.phoneE164}`}>{loc.phone}</a></div>
+                </div>
+                <div>
+                  <span class="meta-label">Hours</span>
+                  <div>Mon – Sat: {loc.hours.monSat}</div>
+                  <div>Sunday: {loc.hours.sunday}</div>
+                </div>
+              </div>
+              <div class="shop-actions">
+                <a
+                  href={loc.mapsUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-primary shop-directions"
+                  data-directions-label={loc.directionsLabel}
+                >
+                  Get Directions →
+                </a>
+                <a href={`tel:${loc.phoneE164}`} class="btn btn-outline shop-call">Call {loc.phone}</a>
+                <a href={`/locations/${loc.slug}`} class="btn-ghost">View {loc.name}</a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ TRUST — QUICK HIT (stars + killer quote) ============ */}
+  <section class="quote-section">
+    <div class="container-narrow">
+      <div class="quote-ornament rule-ornament">
+        <div class="rule-ornament-diamond"></div>
+      </div>
+      <blockquote class="pull-quote">
+        "No where else in Palm Beach County can you get a hand wash as fast and as well as Hector's. The real treat is all the cars that roll by — Bentleys, Aston Martins, Mercedes galore."
+        <span class="pull-quote-attribution">— Nico · Google Local Guide · 65 reviews</span>
+      </blockquote>
+      <div class="quote-stats">
+        <span><strong>4.9</strong> ★ ★ ★ ★ ★</span>
+        <span class="stat-sep">·</span>
+        <span><strong>200+</strong> Google reviews</span>
+        <span class="stat-sep">·</span>
+        <span>Serving Palm Beach <strong>since 1996</strong></span>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PRICING — SHARED ACROSS ALL LOCATIONS ============ */}
+  <section class="home-pricing section-pad" id="pricing">
+    <div class="container-wide">
+      <div class="section-intro">
+        <div class="eyebrow centered">What it costs</div>
+        <h2 class="display-2">
+          One price list.<br />
+          <em>Every shop.</em>
+        </h2>
+        <p class="pricing-note-top">Same wash prices at all three locations. Walk in any day — no appointment.</p>
+      </div>
+
+      <div class="price-grid">
+        {pricingData.handwash.tiers.map((tier) => (
+          <div class={`price-card ${tier.featured ? 'featured' : ''}`}>
+            {tier.featured && <span class="price-flag">Best shine</span>}
+            <div class="price-name">{tier.name}</div>
+            <div class="price-amount">${tier.price}</div>
+            <ul class="price-includes">
+              {tier.includes.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="membership-note">
+        <strong>Jupiter also offers memberships.</strong>
+        <span>Unlimited monthly washes from $45/mo — wash as often as you want, cancel anytime. Available at the Jupiter express location only.</span>
+        <a href="/locations/jupiter" class="btn-ghost">See Jupiter memberships →</a>
+      </div>
+    </div>
+  </section>
+
   {/* ============ THE TWO PILLARS — "WHICH HECTOR'S IS RIGHT FOR YOU?" ============ */}
   <section class="pillars section-pad" id="which">
     <div class="container-wide">
@@ -82,7 +195,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
             <li>North Palm Beach</li>
             <li>Riviera Beach</li>
           </ul>
-          <a href="/locations/north-palm-beach" class="btn-ghost">See hand wash menu →</a>
+          <a href="#pricing" class="btn-ghost">See the price list →</a>
         </article>
 
         <article class="pillar">
@@ -97,26 +210,6 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
           </ul>
           <a href="/locations/jupiter" class="btn-ghost">See Jupiter memberships →</a>
         </article>
-      </div>
-    </div>
-  </section>
-
-  {/* ============ EDITORIAL PULL QUOTE ============ */}
-  <section class="quote-section">
-    <div class="container-narrow">
-      <div class="quote-ornament rule-ornament">
-        <div class="rule-ornament-diamond"></div>
-      </div>
-      <blockquote class="pull-quote">
-        "No where else in Palm Beach County can you get a hand wash as fast and as well as Hector's. The real treat is all the cars that roll by — Bentleys, Aston Martins, Mercedes galore."
-        <span class="pull-quote-attribution">— Nico · Google Local Guide · 65 reviews</span>
-      </blockquote>
-      <div class="quote-stats">
-        <span><strong>4.9</strong> ★ ★ ★ ★ ★</span>
-        <span class="stat-sep">·</span>
-        <span><strong>200+</strong> Google reviews</span>
-        <span class="stat-sep">·</span>
-        <span>Serving Palm Beach <strong>since 1996</strong></span>
       </div>
     </div>
   </section>
@@ -158,63 +251,6 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
     </div>
   </section>
 
-  {/* ============ THE THREE SHOPS — LIST, NOT GRID ============ */}
-  <section class="shops-section section-pad" id="locations">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">The three shops</div>
-        <h2 class="display-2">
-          Find <em>Hector's</em><br />near you.
-        </h2>
-      </div>
-
-      <div class="shops-list">
-        {locationsData.locations.map((loc, i) => (
-          <article class="shop-entry">
-            <div class="shop-num">0{i + 1}</div>
-            <div class="shop-content">
-              <div class="shop-header">
-                <h3 class="display-3">{loc.name}</h3>
-                <div class="shop-type">{loc.typeShort}</div>
-                {loc.badge && <span class="shop-badge">{loc.badge}</span>}
-              </div>
-              <p class="shop-tagline"><em>{loc.tagline}</em></p>
-              <p class="shop-intro">{loc.intro}</p>
-              <div class="shop-meta">
-                <div>
-                  <span class="meta-label">Address</span>
-                  <div>{loc.address.street}</div>
-                  <div>{loc.address.city}, {loc.address.state} {loc.address.zip}</div>
-                </div>
-                <div>
-                  <span class="meta-label">Phone</span>
-                  <div><a href={`tel:${loc.phoneE164}`}>{loc.phone}</a></div>
-                </div>
-                <div>
-                  <span class="meta-label">Hours</span>
-                  <div>Mon – Sat: {loc.hours.monSat}</div>
-                  <div>Sunday: {loc.hours.sunday}</div>
-                </div>
-              </div>
-              <div class="shop-actions">
-                <a
-                  href={loc.mapsUrl}
-                  target="_blank"
-                  rel="noopener"
-                  class="btn btn-primary"
-                  data-directions-label={loc.directionsLabel}
-                >
-                  Get Directions →
-                </a>
-                <a href={`/locations/${loc.slug}`} class="btn-ghost">View {loc.name}</a>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
   {/* ============ SERVICES — TABLE OF CONTENTS, NOT CARD GRID ============ */}
   <section class="services-section section-pad-sm" id="services">
     <div class="container-wide">
@@ -227,7 +263,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
 
       <ul class="toc-list">
         <li>
-          <a href="/locations/north-palm-beach">
+          <a href="#pricing">
             <div class="toc-num">01</div>
             <div class="toc-content">
               <h3>Hand car wash</h3>
@@ -665,13 +701,149 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
   }
   .shop-actions {
     display: flex;
-    gap: 24px;
+    gap: 16px;
     align-items: center;
     flex-wrap: wrap;
   }
+  .locations-note {
+    font-size: 14px;
+    color: var(--color-gray-warm);
+    margin-top: 16px;
+  }
+  .shop-call { display: none; }
   @media (max-width: 768px) {
     .shop-entry { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
     .shop-meta { grid-template-columns: 1fr; gap: 16px; }
+    /* On mobile, directions + call become big full-width tap targets */
+    .shop-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    .shop-directions,
+    .shop-call {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding: 18px 24px;
+      font-size: 14px;
+    }
+    .shop-actions .btn-ghost {
+      text-align: center;
+      padding: 8px 0;
+    }
+  }
+
+  /* ============ HOME PRICING ============ */
+  .home-pricing {
+    background: var(--color-cream);
+  }
+  .pricing-note-top {
+    font-size: 15px;
+    color: var(--color-gray-warm);
+    margin-top: 16px;
+  }
+  .home-pricing .price-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .home-pricing .price-card {
+    border: 1px solid var(--color-gray-line);
+    background: var(--color-cream-warm);
+    padding: 28px 20px;
+    text-align: center;
+    position: relative;
+  }
+  .home-pricing .price-card.featured {
+    border-color: var(--color-gold);
+    border-width: 2px;
+  }
+  .home-pricing .price-flag {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-gold);
+    color: var(--color-navy);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    white-space: nowrap;
+  }
+  .home-pricing .price-name {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-clay);
+    margin-bottom: 10px;
+  }
+  .home-pricing .price-amount {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--color-navy);
+    line-height: 1;
+    margin-bottom: 18px;
+  }
+  .home-pricing .price-includes {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+  }
+  .home-pricing .price-includes li {
+    font-size: 13px;
+    color: var(--color-charcoal-soft);
+    padding: 5px 0 5px 16px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .home-pricing .price-includes li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--color-gold);
+    font-weight: 700;
+  }
+  .membership-note {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--color-navy);
+    color: var(--color-cream);
+    padding: 32px 36px;
+    text-align: center;
+  }
+  .membership-note strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-gold-light);
+    margin-bottom: 10px;
+  }
+  .membership-note span {
+    display: block;
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(247, 242, 232, 0.85);
+    margin-bottom: 18px;
+  }
+  .membership-note .btn-ghost {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+  @media (max-width: 1024px) {
+    .home-pricing .price-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px) {
+    .home-pricing .price-grid { grid-template-columns: 1fr; gap: 12px; }
+    .membership-note { padding: 28px 24px; }
   }
 
   /* ============ SERVICES TOC ============ */
