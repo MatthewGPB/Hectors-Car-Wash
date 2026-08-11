@@ -7,7 +7,7 @@ import locationsData from '../../data/locations.json';
 import siteData from '../../data/site.json';
 
 const title = `Reviews | ${siteData.brand.name}`;
-const description = `Leave a review or read what customers say about Hector's Car Wash across North Palm Beach, Jupiter, and Riviera Beach. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ Google reviews.`;
+const description = `Leave a review or read what customers say about Hector's Car Wash across North Palm Beach and Jupiter. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ Google reviews.`;
 
 const allReviews = reviewsData.reviews;
 const featuredReview = allReviews.find((r) => r.id === 'nico');
@@ -25,7 +25,7 @@ const locations = locationsData.locations;
     metaRight="Verified on Google"
   />
 
-  {/* ============ LEAVE A REVIEW — THREE LOCATIONS ACROSS ============ */}
+  {/* ============ LEAVE A REVIEW — LOCATIONS ============ */}
   <section class="review-locations section-pad-sm">
     <div class="container-wide">
       <div class="section-intro">

@@ -1,0 +1,562 @@
+diff --git a/src/components/ConversionTracking.astro b/src/components/ConversionTracking.astro
+index 3a5e435..0a75ba4 100644
+--- a/src/components/ConversionTracking.astro
++++ b/src/components/ConversionTracking.astro
+@@ -30,7 +30,7 @@
+   // --- Get Directions clicks --------------------------------------------
+   // Fires when a "Get Directions" link is clicked. Each location carries its
+   // own conversion label in a data-directions-label attribute, so NPB,
+-  // Jupiter, and Riviera each report separately in Google Ads.
++  // and Jupiter each report separately in Google Ads.
+   // Directions links open in a new tab (target="_blank"), so the current page
+   // does not unload — the conversion fires reliably with no navigation delay.
+   document.addEventListener('click', function (e) {
+diff --git a/src/components/Hero.astro b/src/components/Hero.astro
+index 75c40aa..ed54d4b 100644
+--- a/src/components/Hero.astro
++++ b/src/components/Hero.astro
+@@ -11,7 +11,7 @@ import siteData from '../data/site.json';
+           The car wash <em>Palm Beach</em> trusts with its finest vehicles.
+         </h1>
+         <p class="hero-lead">
+-          Almost 30 years of hand-wash craftsmanship — from Bentleys to family SUVs, every car gets the same care. Three locations across North Palm Beach, Jupiter, and Riviera Beach.
++          Almost 30 years of hand-wash craftsmanship — from Bentleys to family SUVs, every car gets the same care. Two locations across North Palm Beach and Jupiter.
+         </p>
+         <div class="hero-actions">
+           <a href="/#locations" class="h-btn h-btn-primary">
+diff --git a/src/components/Locations.astro b/src/components/Locations.astro
+index 8d0cfe5..a362381 100644
+--- a/src/components/Locations.astro
++++ b/src/components/Locations.astro
+@@ -19,7 +19,7 @@ function googleMapsUrl(loc: typeof locationsData.locations[number]) {
+ <section class="locations" id="locations">
+   <div class="h-container">
+     <SectionHead
+-      eyebrow="Three locations"
++      eyebrow="Two locations"
+       headlineHtml="Find <em>Hector&rsquo;s</em> near you."
+       subhead="No appointment needed for car washes. Walk in any day — we'll take care of you and your car."
+     />
+diff --git a/src/components/Nav.astro b/src/components/Nav.astro
+index 40d1bb7..e1f2d64 100644
+--- a/src/components/Nav.astro
++++ b/src/components/Nav.astro
+@@ -13,7 +13,6 @@ import siteData from '../data/site.json';
+       <ul class="nav-links">
+         <li><a href="/locations/north-palm-beach">North Palm Beach</a></li>
+         <li><a href="/locations/jupiter">Jupiter</a></li>
+-        <li><a href="/locations/riviera-beach">Riviera Beach</a></li>
+         <li class="sep" aria-hidden="true">·</li>
+         <li><a href="/services/car-detailing">Detailing</a></li>
+         <li><a href="/services/ceramic-coating">Ceramic</a></li>
+@@ -44,7 +43,6 @@ import siteData from '../data/site.json';
+       <li class="mobile-group-label">Locations</li>
+       <li><a href="/locations/north-palm-beach">North Palm Beach</a></li>
+       <li><a href="/locations/jupiter">Jupiter</a></li>
+-      <li><a href="/locations/riviera-beach">Riviera Beach</a></li>
+       <li class="mobile-group-label">Services</li>
+       <li><a href="/services/car-detailing">Car Detailing</a></li>
+       <li><a href="/services/ceramic-coating">Ceramic Coating</a></li>
+diff --git a/src/components/Pricing.astro b/src/components/Pricing.astro
+index fc05ffd..351dd66 100644
+--- a/src/components/Pricing.astro
++++ b/src/components/Pricing.astro
+@@ -18,7 +18,7 @@ function splitPrice(price: string) {
+ 
+     <div class="pricing-tabs" role="tablist">
+       <button class="pricing-tab active" data-tab="handwash" type="button" role="tab" aria-selected="true">
+-        Hand wash · NPB & Riviera
++        Hand wash · North Palm Beach
+       </button>
+       <button class="pricing-tab" data-tab="machine" type="button" role="tab" aria-selected="false">
+         Machine wash · Jupiter
+diff --git a/src/components/Services.astro b/src/components/Services.astro
+index 2d8b01c..0861b74 100644
+--- a/src/components/Services.astro
++++ b/src/components/Services.astro
+@@ -5,7 +5,7 @@ import SectionHead from './SectionHead.astro';
+ const services = [
+   {
+     title: 'Hand car wash',
+-    description: 'Scratch-free exterior and interior cleaning at North Palm Beach and Riviera Beach. Four tiers from $19.99.',
++    description: 'Scratch-free exterior and interior cleaning at North Palm Beach. Four tiers from $19.99.',
+     linkText: 'Explore wash tiers',
+     linkUrl: '/locations/north-palm-beach',
+   },
+diff --git a/src/components/Story.astro b/src/components/Story.astro
+index 356f8d4..bae04c3 100644
+--- a/src/components/Story.astro
++++ b/src/components/Story.astro
+@@ -15,7 +15,7 @@
+           Almost thirty years ago, Hector started as an employee at another local car wash. He worked his way up to management — learning every detail of the craft, from the chemistry of soap to the way light reflects off a properly waxed hood.
+         </p>
+         <p class="story-body">
+-          When he was ready, he left to build something better. Hector's Car Wash opened with one simple promise: every car gets the care he'd give his own. That promise is still what makes the difference, three locations later.
++          When he was ready, he left to build something better. Hector's Car Wash opened with one simple promise: every car gets the care he'd give his own. That promise is still what makes the difference, all these years later.
+         </p>
+         <blockquote class="story-quote">
+           The real treat is all the cars that roll by while you wait. Bentleys, Aston Martins, Mercedes — Hector's is where Palm Beach takes its finest.
+diff --git a/src/data/locations.json b/src/data/locations.json
+index 0fc0efa..f7c78ba 100644
+--- a/src/data/locations.json
++++ b/src/data/locations.json
+@@ -18,7 +18,10 @@
+       "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash,+900+U.S.+Rte+1,+North+Palm+Beach,+FL+33408&ludocid=13440981024942536603#lrd=0x88df2bc4b8976f2d:0xba87f5076077379b,3",
+       "directionsLabel": "AW-18242062636/bDI2CNvF18EcEKySv_pD",
+       "mapsUrl": "https://maps.app.goo.gl/3obHVJTg4s5KjzKt7",
+-      "geo": { "lat": 26.8267, "lng": -80.0607 },
++      "geo": {
++        "lat": 26.8267,
++        "lng": -80.0607
++      },
+       "hours": {
+         "monSat": "8:00 AM – 5:30 PM",
+         "sunday": "9:00 AM – 4:00 PM"
+@@ -55,7 +58,10 @@
+       "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash+Jupiter#lrd=0x88ded7005b5fc1d1:0x74cfb5eade2547a8,1",
+       "directionsLabel": "AW-18242062636/8EVhCOHF18EcEKySv_pD",
+       "mapsUrl": "https://maps.app.goo.gl/om3czxQDdxKx5j1r7",
+-      "geo": { "lat": 26.9342, "lng": -80.1417 },
++      "geo": {
++        "lat": 26.9342,
++        "lng": -80.1417
++      },
+       "hours": {
+         "monSat": "8:00 AM – 5:30 PM",
+         "sunday": "9:00 AM – 4:00 PM"
+@@ -73,41 +79,6 @@
+       "tagline": "Express wash, hands on it.",
+       "intro": "The express wash with hands on it. Every car gets the wheels and rims prepped by staff before the conveyor. Every car gets checked at the dry-off, not just blown and waved through. Single washes or unlimited monthly memberships.",
+       "neighborhoodsCopy": "The Jupiter shop is the daily-driver shop. Members from Abacoa and Tequesta come twice a week. Snowbirds from Jupiter Inlet Colony stop in on the way home from the marina."
+-    },
+-    {
+-      "slug": "riviera-beach",
+-      "name": "Riviera Beach",
+-      "shortName": "Riviera",
+-      "type": "Hand wash",
+-      "typeShort": "Hand wash",
+-      "address": {
+-        "street": "2520 Broadway",
+-        "city": "Riviera Beach",
+-        "state": "FL",
+-        "zip": "33404",
+-        "country": "US"
+-      },
+-      "phone": "(561) 329-4185",
+-      "phoneE164": "+15613294185",
+-      "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash+Riviera+Beach#lrd=0x88d8d51fcb753c9f:0xbfb7d4e8c008ab1,1",
+-      "directionsLabel": "AW-18242062636/4o-sCN7F18EcEKySv_pD",
+-      "mapsUrl": "https://maps.app.goo.gl/qt2kDr6ABqohgoAC7",
+-      "geo": { "lat": 26.7754, "lng": -80.0584 },
+-      "hours": {
+-        "monSat": "8:00 AM – 5:30 PM",
+-        "sunday": "9:00 AM – 4:00 PM"
+-      },
+-      "badge": "Now open",
+-      "areaServed": [
+-        "Riviera Beach",
+-        "Singer Island",
+-        "West Palm Beach",
+-        "Palm Beach"
+-      ],
+-      "pricingMenu": "handwash",
+-      "tagline": "Now open on Broadway.",
+-      "intro": "The newest Hector's, on Broadway in Riviera Beach. Same hand-wash service as North Palm Beach — same staff training, same five tiers, same standards.",
+-      "neighborhoodsCopy": "Convenient for Singer Island residents and West Palm Beach commuters. Right on the corridor heading to the marina and Port of Palm Beach."
+     }
+   ]
+ }
+diff --git a/src/data/pricing.json b/src/data/pricing.json
+index d924e6b..9e1180a 100644
+--- a/src/data/pricing.json
++++ b/src/data/pricing.json
+@@ -1,7 +1,7 @@
+ {
+   "handwash": {
+     "title": "Hand wash pricing",
+-    "subtitle": "North Palm Beach and Riviera Beach. Single visits. No membership, no commitment.",
++    "subtitle": "North Palm Beach. Single visits. No membership, no commitment.",
+     "tiers": [
+       {
+         "name": "Exterior",
+diff --git a/src/data/site.json b/src/data/site.json
+index 4d27bcf..83af612 100644
+--- a/src/data/site.json
++++ b/src/data/site.json
+@@ -21,9 +21,9 @@
+     "tiktok": "https://www.tiktok.com/@hectorscarwash"
+   },
+   "announcement": {
+-    "show": true,
+-    "badge": "Now open",
+-    "message": "Riviera Beach location now welcoming walk-ins at 2520 Broadway",
+-    "link": "/locations/riviera-beach"
++    "show": false,
++    "badge": "",
++    "message": "",
++    "link": ""
+   }
+ }
+diff --git a/src/pages/about.astro b/src/pages/about.astro
+index febc1a5..d81d6a0 100644
+--- a/src/pages/about.astro
++++ b/src/pages/about.astro
+@@ -95,7 +95,7 @@ const schema = generateAboutPageSchema();
+ 
+       <div class="article-chapter">
+         <div class="chapter-num">Chapter IV</div>
+-        <h2 class="display-3">Jupiter and<br /><em>Riviera Beach.</em></h2>
++        <h2 class="display-3">The Jupiter<br /><em>shop.</em></h2>
+       </div>
+ 
+       <div class="long-form">
+@@ -105,9 +105,6 @@ const schema = generateAboutPageSchema();
+         <p>
+           The strategic risk was obvious. Express wash is a different business than hand wash. Different equipment, different customer, different unit economics. Some Hector's regulars wondered, reasonably, whether the Jupiter shop would dilute the brand. Hector's answer was that it wouldn't, because Jupiter would run on the same standards — wheels hand-prepped before the conveyor, every car checked at the dry-off, the owner on-site, the staff actually trained. The chains can't afford to do this. Hector can, because it's his.
+         </p>
+-        <p>
+-          Riviera Beach opened on Broadway in 2026, the third Hector's. Hand wash, just like NPB. Same five tiers. Same staff training. Same standard.
+-        </p>
+       </div>
+ 
+       <div class="article-figure">
+@@ -183,13 +180,6 @@ const schema = generateAboutPageSchema();
+             <p>Express wash with hands on it. Memberships from $45/mo. 6751 W Indiantown Rd.</p>
+           </div>
+         </li>
+-        <li>
+-          <div class="time-year">2026</div>
+-          <div>
+-            <h3>Riviera Beach opens on Broadway.</h3>
+-            <p>Third Hector's. Hand wash. Same standard. 2520 Broadway.</p>
+-          </div>
+-        </li>
+       </ol>
+     </div>
+   </section>
+@@ -202,7 +192,7 @@ const schema = generateAboutPageSchema();
+         <em>It's just a car wash.</em>
+       </h2>
+       <p class="final-lead">
+-        North Palm Beach, Jupiter, or Riviera Beach. Walk in any day, no appointment. The standard is the same at all three.
++        North Palm Beach or Jupiter. Walk in any day, no appointment. The standard is the same at both.
+       </p>
+       <div class="final-actions">
+         <a href="/#locations" class="btn btn-primary on-dark">Find a location</a>
+diff --git a/src/pages/index.astro b/src/pages/index.astro
+index fa1f776..7bd3028 100644
+--- a/src/pages/index.astro
++++ b/src/pages/index.astro
+@@ -8,7 +8,7 @@ import reviewsData from '../data/reviews.json';
+ import { generateHomepageSchema } from '../lib/schema';
+ 
+ const title = `Hand Car Wash & Detailing in Palm Beach County | ${siteData.brand.name}`;
+-const description = `Almost 30 years of real car care. Hand wash in North Palm Beach and Riviera Beach. Express wash in Jupiter. Detailing and ceramic coating by appointment. Walk in any day — no appointment needed.`;
++const description = `Almost 30 years of real car care. Hand wash in North Palm Beach. Express wash in Jupiter. Detailing and ceramic coating by appointment. Walk in any day — no appointment needed.`;
+ const schema = generateHomepageSchema();
+ 
+ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3);
+@@ -27,7 +27,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+             The <em>same hands.</em>
+           </h1>
+           <p class="hero-lead">
+-            Hand wash in North Palm Beach and Riviera Beach. Express wash, owner-operated, in Jupiter. Three shops, one standard — real car care done by people who care.
++            Hand wash in North Palm Beach. Express wash, owner-operated, in Jupiter. Two shops, one standard — real car care done by people who care.
+           </p>
+           <div class="hero-actions">
+             <a href="#locations" class="btn btn-primary">Find your nearest shop →</a>
+@@ -68,7 +68,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+         <h2 class="display-2">
+           Find <em>Hector's</em><br />near you.
+         </h2>
+-        <p class="locations-note">Hand wash at North Palm Beach &amp; Riviera Beach · Express wash &amp; memberships at Jupiter</p>
++        <p class="locations-note">Hand wash at North Palm Beach · Express wash &amp; memberships at Jupiter</p>
+       </div>
+ 
+       <div class="shops-list">
+@@ -148,7 +148,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+           One price list.<br />
+           <em>Every shop.</em>
+         </h2>
+-        <p class="pricing-note-top">Same wash prices at all three locations. Walk in any day — no appointment.</p>
++        <p class="pricing-note-top">Same standard at both locations. Walk in any day — no appointment.</p>
+       </div>
+ 
+       <div class="price-grid">
+@@ -189,11 +189,10 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+           <h3 class="display-3">Hand wash.</h3>
+           <p class="pillar-tagline"><em>For the car you love.</em></p>
+           <p class="pillar-body">
+-            Five tiers from $19.99 to $44.99. Done by hand, top to bottom, by trained staff. Walk in any day — no appointment. Available at North Palm Beach and Riviera Beach.
++            Five tiers from $19.99 to $44.99. Done by hand, top to bottom, by trained staff. Walk in any day — no appointment. Available at North Palm Beach.
+           </p>
+           <ul class="pillar-list">
+             <li>North Palm Beach</li>
+-            <li>Riviera Beach</li>
+           </ul>
+           <a href="#pricing" class="btn-ghost">See the price list →</a>
+         </article>
+@@ -229,7 +228,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+               Almost thirty years ago, Hector took a job at a local car wash. He worked his way up to manager, learning every detail of the work — the chemistry of the soaps, the angle of the towel, the way light reads a properly waxed hood.
+             </p>
+             <p>
+-              When he was ready, he left to build his own shop. The first Hector's opened with one rule: every car gets the care he'd give his own. Three locations later, that rule hasn't moved.
++              When he was ready, he left to build his own shop. The first Hector's opened with one rule: every car gets the care he'd give his own. Years later, that rule hasn't moved.
+             </p>
+             <a href="/about" class="btn-ghost">Read the full story →</a>
+           </div>
+@@ -267,7 +266,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+             <div class="toc-num">01</div>
+             <div class="toc-content">
+               <h3>Hand car wash</h3>
+-              <p>Five tiers from $19.99 to $44.99. North Palm Beach and Riviera Beach. Walk in any day.</p>
++              <p>Five tiers from $19.99 to $44.99. North Palm Beach. Walk in any day.</p>
+             </div>
+             <div class="toc-arrow">→</div>
+           </a>
+@@ -341,7 +340,7 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
+         <em>No appointment for a wash.</em>
+       </h2>
+       <p class="final-lead">
+-        Hand wash in North Palm Beach or Riviera Beach. Express in Jupiter. Pick the one closest to your day.
++        Hand wash in North Palm Beach. Express in Jupiter. Pick the one closest to your day.
+       </p>
+       <div class="final-actions">
+         <a href="#locations" class="btn btn-primary on-dark">Find a location</a>
+diff --git a/src/pages/pages/review.astro b/src/pages/pages/review.astro
+index 60d5e7a..c21dc2f 100644
+--- a/src/pages/pages/review.astro
++++ b/src/pages/pages/review.astro
+@@ -7,7 +7,7 @@ import locationsData from '../../data/locations.json';
+ import siteData from '../../data/site.json';
+ 
+ const title = `Reviews | ${siteData.brand.name}`;
+-const description = `Leave a review or read what customers say about Hector's Car Wash across North Palm Beach, Jupiter, and Riviera Beach. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ Google reviews.`;
++const description = `Leave a review or read what customers say about Hector's Car Wash across North Palm Beach and Jupiter. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ Google reviews.`;
+ 
+ const allReviews = reviewsData.reviews;
+ const featuredReview = allReviews.find((r) => r.id === 'nico');
+@@ -25,7 +25,7 @@ const locations = locationsData.locations;
+     metaRight="Verified on Google"
+   />
+ 
+-  {/* ============ LEAVE A REVIEW — THREE LOCATIONS ACROSS ============ */}
++  {/* ============ LEAVE A REVIEW — LOCATIONS ============ */}
+   <section class="review-locations section-pad-sm">
+     <div class="container-wide">
+       <div class="section-intro">
+diff --git a/src/pages/reviews.astro b/src/pages/reviews.astro
+index f22ebda..55b3e9c 100644
+--- a/src/pages/reviews.astro
++++ b/src/pages/reviews.astro
+@@ -6,7 +6,7 @@ import reviewsData from '../data/reviews.json';
+ import siteData from '../data/site.json';
+ 
+ const title = `Reviews | ${siteData.brand.name}`;
+-const description = `Real Google reviews from Hector's Car Wash customers across North Palm Beach, Jupiter, and Riviera Beach. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ reviews.`;
++const description = `Real Google reviews from Hector's Car Wash customers across North Palm Beach and Jupiter. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ reviews.`;
+ 
+ const allReviews = reviewsData.reviews;
+ const featuredReview = allReviews.find((r) => r.id === 'nico');
+@@ -18,7 +18,7 @@ const otherReviews = allReviews.filter((r) => r.id !== 'nico');
+   <PageHero
+     eyebrow={`${siteData.brand.rating} stars · ${siteData.brand.reviewCount}+ Google reviews`}
+     headlineHtml="What Palm Beach<br /><em>says about us.</em>"
+-    lead="Real Google reviews from customers across North Palm Beach, Jupiter, and Riviera Beach. The kind you can't fake."
++    lead="Real Google reviews from customers across North Palm Beach and Jupiter. The kind you can't fake."
+     metaLeft="Updated regularly"
+     metaRight="Verified on Google"
+   />
+diff --git a/src/pages/services/car-detailing.astro b/src/pages/services/car-detailing.astro
+index 7c022bc..adeaf3e 100644
+--- a/src/pages/services/car-detailing.astro
++++ b/src/pages/services/car-detailing.astro
+@@ -47,7 +47,7 @@ const faqs = [
+ ];
+ 
+ const title = `Car Detailing in Palm Beach County | ${siteData.brand.name}`;
+-const description = `Full interior and exterior car detailing at Hector's. Hand-wash trained staff, clay-bar treatment, leather conditioning, paint polishing. From $300. By appointment in North Palm Beach, Jupiter, and Riviera Beach.`;
++const description = `Full interior and exterior car detailing at Hector's. Hand-wash trained staff, clay-bar treatment, leather conditioning, paint polishing. From $300. By appointment in North Palm Beach and Jupiter.`;
+ const schema = generateServiceSchema({
+   name: "Car Detailing",
+   description: "Full interior and exterior car detailing service in Palm Beach County, FL.",
+@@ -60,7 +60,7 @@ const schema = generateServiceSchema({
+ <BaseLayout title={title} description={description} schema={schema}>
+ 
+   <PageHero
+-    eyebrow="By appointment · all three locations"
++    eyebrow="By appointment · both locations"
+     headlineHtml="Full detailing.<br /><em>The deep clean.</em>"
+     lead="Interior shampoo, clay-bar treatment, paint polishing, leather conditioning. Done by hand-wash trained staff who know what your finish is worth."
+     metaLeft="From $300"
+@@ -232,7 +232,7 @@ const schema = generateServiceSchema({
+     </div>
+     <div class="container-narrow">
+       <p class="book-fineprint">
+-        Prefer to call? North Palm Beach (561) 594-8140 · Jupiter (561) 261-2595 · Riviera Beach (561) 329-4185
++        Prefer to call? North Palm Beach (561) 594-8140 · Jupiter (561) 261-2595
+       </p>
+     </div>
+   </section>
+@@ -270,7 +270,7 @@ const schema = generateServiceSchema({
+         Get your car<br /><em>detailed.</em>
+       </h2>
+       <p class="final-lead">
+-        By appointment at North Palm Beach, Jupiter, or Riviera Beach. From $300. 4 to 6 hours start to finish.
++        By appointment at North Palm Beach or Jupiter. From $300. 4 to 6 hours start to finish.
+       </p>
+       <div class="final-actions">
+         <a href={siteData.primary.calendly} class="btn btn-primary on-dark">Book detailing</a>
+diff --git a/src/pages/services/ceramic-coating.astro b/src/pages/services/ceramic-coating.astro
+index 7b70b64..40de6d8 100644
+--- a/src/pages/services/ceramic-coating.astro
++++ b/src/pages/services/ceramic-coating.astro
+@@ -33,7 +33,7 @@ const faqs = [
+   },
+   {
+     question: "How do I wash a ceramic-coated car?",
+-    answer: "Wash regularly — every 1 to 2 weeks for daily drivers. Use a pH-neutral car wash soap. Avoid automatic brush washes (the express wash at Jupiter is conveyor with foam, not brushes, so it's coating-safe). Hand wash at Hector's NPB or Riviera is ideal. Avoid harsh cleaners and abrasive sponges. We give every ceramic customer a care guide at delivery and recommended products to maintain the coating.",
++    answer: "Wash regularly — every 1 to 2 weeks for daily drivers. Use a pH-neutral car wash soap. Avoid automatic brush washes (the express wash at Jupiter is conveyor with foam, not brushes, so it's coating-safe). Hand wash at Hector's NPB is ideal. Avoid harsh cleaners and abrasive sponges. We give every ceramic customer a care guide at delivery and recommended products to maintain the coating.",
+   },
+   {
+     question: "How long does ceramic coating last?",
+@@ -50,7 +50,7 @@ const faqs = [
+ ];
+ 
+ const title = `Ceramic Coating in Palm Beach County | ${siteData.brand.name}`;
+-const description = `Professional ceramic coating from $800, priced by vehicle size. Same-day service if dropped off at 8 AM. Hydrophobic UV, salt, and scratch protection. By appointment in North Palm Beach, Jupiter, and Riviera Beach.`;
++const description = `Professional ceramic coating from $800, priced by vehicle size. Same-day service if dropped off at 8 AM. Hydrophobic UV, salt, and scratch protection. By appointment in North Palm Beach and Jupiter.`;
+ const schema = generateServiceSchema({
+   name: "Ceramic Coating",
+   description: "Professional ceramic coating service in Palm Beach County. One package for every vehicle, priced by size. Same-day service.",
+@@ -63,7 +63,7 @@ const schema = generateServiceSchema({
+ <BaseLayout title={title} description={description} schema={schema}>
+ 
+   <PageHero
+-    eyebrow="By appointment · all three locations"
++    eyebrow="By appointment · both locations"
+     headlineHtml="Ceramic coating.<br /><em>The long protection.</em>"
+     lead="A liquid polymer that bonds with your clear coat and protects it for years. UV, salt, scratch, and chemical resistance — the strongest paint protection short of film. One package for every car, priced by size."
+     metaLeft="From $800"
+@@ -213,7 +213,7 @@ const schema = generateServiceSchema({
+           <div class="process-num">04</div>
+           <div>
+             <h3>Same day — pickup and care guide.</h3>
+-            <p>You take delivery the same day, and leave with a printed care guide and our recommended maintenance schedule. Coated cars do best with regular pH-neutral hand washes — we offer this at NPB and Riviera Beach.</p>
++            <p>You take delivery the same day, and leave with a printed care guide and our recommended maintenance schedule. Coated cars do best with regular pH-neutral hand washes — we offer this at North Palm Beach.</p>
+           </div>
+         </li>
+       </ol>
+@@ -236,7 +236,7 @@ const schema = generateServiceSchema({
+     </div>
+     <div class="container-narrow">
+       <p class="book-fineprint">
+-        Prefer to call? NPB (561) 594-8140 · Jupiter (561) 261-2595 · Riviera (561) 329-4185
++        Prefer to call? NPB (561) 594-8140 · Jupiter (561) 261-2595
+       </p>
+     </div>
+   </section>
+diff --git a/vercel.json b/vercel.json
+index bb3c6f9..3b407af 100644
+--- a/vercel.json
++++ b/vercel.json
+@@ -1,19 +1,84 @@
+ {
+   "redirects": [
+-    { "source": "/pages/north-palm-beach", "destination": "/locations/north-palm-beach", "permanent": true },
+-    { "source": "/pages/jupiter", "destination": "/locations/jupiter", "permanent": true },
+-    { "source": "/pages/riviera-beach", "destination": "/locations/riviera-beach", "permanent": true },
+-    { "source": "/pages/car-detailing", "destination": "/services/car-detailing", "permanent": true },
+-    { "source": "/pages/ceramic-coating", "destination": "/services/ceramic-coating", "permanent": true },
+-    { "source": "/pages/about", "destination": "/about", "permanent": true },
+-    { "source": "/pages/leave-a-review", "destination": "/pages/review", "permanent": true },
+-    { "source": "/leave-a-review", "destination": "/pages/review", "permanent": true },
+-    { "source": "/reviews", "destination": "/pages/review", "permanent": true },
+-    { "source": "/pages/contact", "destination": "/#locations", "permanent": true },
+-    { "source": "/cart", "destination": "/", "permanent": true },
+-    { "source": "/account/:path*", "destination": "/", "permanent": true },
+-    { "source": "/products/:path*", "destination": "/", "permanent": true },
+-    { "source": "/collections/:path*", "destination": "/", "permanent": true },
+-    { "source": "/blogs/news/:path*", "destination": "/", "permanent": true }
++    {
++      "source": "/pages/north-palm-beach",
++      "destination": "/locations/north-palm-beach",
++      "permanent": true
++    },
++    {
++      "source": "/pages/jupiter",
++      "destination": "/locations/jupiter",
++      "permanent": true
++    },
++    {
++      "source": "/pages/riviera-beach",
++      "destination": "/locations/north-palm-beach",
++      "permanent": true
++    },
++    {
++      "source": "/locations/riviera-beach",
++      "destination": "/locations/north-palm-beach",
++      "permanent": true
++    },
++    {
++      "source": "/pages/car-detailing",
++      "destination": "/services/car-detailing",
++      "permanent": true
++    },
++    {
++      "source": "/pages/ceramic-coating",
++      "destination": "/services/ceramic-coating",
++      "permanent": true
++    },
++    {
++      "source": "/pages/about",
++      "destination": "/about",
++      "permanent": true
++    },
++    {
++      "source": "/pages/leave-a-review",
++      "destination": "/pages/review",
++      "permanent": true
++    },
++    {
++      "source": "/leave-a-review",
++      "destination": "/pages/review",
++      "permanent": true
++    },
++    {
++      "source": "/reviews",
++      "destination": "/pages/review",
++      "permanent": true
++    },
++    {
++      "source": "/pages/contact",
++      "destination": "/#locations",
++      "permanent": true
++    },
++    {
++      "source": "/cart",
++      "destination": "/",
++      "permanent": true
++    },
++    {
++      "source": "/account/:path*",
++      "destination": "/",
++      "permanent": true
++    },
++    {
++      "source": "/products/:path*",
++      "destination": "/",
++      "permanent": true
++    },
++    {
++      "source": "/collections/:path*",
++      "destination": "/",
++      "permanent": true
++    },
++    {
++      "source": "/blogs/news/:path*",
++      "destination": "/",
++      "permanent": true
++    }
+   ]
+ }

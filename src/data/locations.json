@@ -18,7 +18,10 @@
       "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash,+900+U.S.+Rte+1,+North+Palm+Beach,+FL+33408&ludocid=13440981024942536603#lrd=0x88df2bc4b8976f2d:0xba87f5076077379b,3",
       "directionsLabel": "AW-18242062636/bDI2CNvF18EcEKySv_pD",
       "mapsUrl": "https://maps.app.goo.gl/3obHVJTg4s5KjzKt7",
-      "geo": { "lat": 26.8267, "lng": -80.0607 },
+      "geo": {
+        "lat": 26.8267,
+        "lng": -80.0607
+      },
       "hours": {
         "monSat": "8:00 AM – 5:30 PM",
         "sunday": "9:00 AM – 4:00 PM"
@@ -55,7 +58,10 @@
       "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash+Jupiter#lrd=0x88ded7005b5fc1d1:0x74cfb5eade2547a8,1",
       "directionsLabel": "AW-18242062636/8EVhCOHF18EcEKySv_pD",
       "mapsUrl": "https://maps.app.goo.gl/om3czxQDdxKx5j1r7",
-      "geo": { "lat": 26.9342, "lng": -80.1417 },
+      "geo": {
+        "lat": 26.9342,
+        "lng": -80.1417
+      },
       "hours": {
         "monSat": "8:00 AM – 5:30 PM",
         "sunday": "9:00 AM – 4:00 PM"
@@ -73,41 +79,6 @@
       "tagline": "Express wash, hands on it.",
       "intro": "The express wash with hands on it. Every car gets the wheels and rims prepped by staff before the conveyor. Every car gets checked at the dry-off, not just blown and waved through. Single washes or unlimited monthly memberships.",
       "neighborhoodsCopy": "The Jupiter shop is the daily-driver shop. Members from Abacoa and Tequesta come twice a week. Snowbirds from Jupiter Inlet Colony stop in on the way home from the marina."
-    },
-    {
-      "slug": "riviera-beach",
-      "name": "Riviera Beach",
-      "shortName": "Riviera",
-      "type": "Hand wash",
-      "typeShort": "Hand wash",
-      "address": {
-        "street": "2520 Broadway",
-        "city": "Riviera Beach",
-        "state": "FL",
-        "zip": "33404",
-        "country": "US"
-      },
-      "phone": "(561) 329-4185",
-      "phoneE164": "+15613294185",
-      "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash+Riviera+Beach#lrd=0x88d8d51fcb753c9f:0xbfb7d4e8c008ab1,1",
-      "directionsLabel": "AW-18242062636/4o-sCN7F18EcEKySv_pD",
-      "mapsUrl": "https://maps.app.goo.gl/qt2kDr6ABqohgoAC7",
-      "geo": { "lat": 26.7754, "lng": -80.0584 },
-      "hours": {
-        "monSat": "8:00 AM – 5:30 PM",
-        "sunday": "9:00 AM – 4:00 PM"
-      },
-      "badge": "Now open",
-      "areaServed": [
-        "Riviera Beach",
-        "Singer Island",
-        "West Palm Beach",
-        "Palm Beach"
-      ],
-      "pricingMenu": "handwash",
-      "tagline": "Now open on Broadway.",
-      "intro": "The newest Hector's, on Broadway in Riviera Beach. Same hand-wash service as North Palm Beach — same staff training, same five tiers, same standards.",
-      "neighborhoodsCopy": "Convenient for Singer Island residents and West Palm Beach commuters. Right on the corridor heading to the marina and Port of Palm Beach."
     }
   ]
 }

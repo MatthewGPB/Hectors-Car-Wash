@@ -6,7 +6,7 @@ import reviewsData from '../data/reviews.json';
 import siteData from '../data/site.json';
 
 const title = `Reviews | ${siteData.brand.name}`;
-const description = `Real Google reviews from Hector's Car Wash customers across North Palm Beach, Jupiter, and Riviera Beach. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ reviews.`;
+const description = `Real Google reviews from Hector's Car Wash customers across North Palm Beach and Jupiter. ${siteData.brand.rating} stars, ${siteData.brand.reviewCount}+ reviews.`;
 
 const allReviews = reviewsData.reviews;
 const featuredReview = allReviews.find((r) => r.id === 'nico');
@@ -18,7 +18,7 @@ const otherReviews = allReviews.filter((r) => r.id !== 'nico');
   <PageHero
     eyebrow={`${siteData.brand.rating} stars · ${siteData.brand.reviewCount}+ Google reviews`}
     headlineHtml="What Palm Beach<br /><em>says about us.</em>"
-    lead="Real Google reviews from customers across North Palm Beach, Jupiter, and Riviera Beach. The kind you can't fake."
+    lead="Real Google reviews from customers across North Palm Beach and Jupiter. The kind you can't fake."
     metaLeft="Updated regularly"
     metaRight="Verified on Google"
   />

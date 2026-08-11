@@ -21,9 +21,9 @@
     "tiktok": "https://www.tiktok.com/@hectorscarwash"
   },
   "announcement": {
-    "show": true,
-    "badge": "Now open",
-    "message": "Riviera Beach location now welcoming walk-ins at 2520 Broadway",
-    "link": "/locations/riviera-beach"
+    "show": false,
+    "badge": "",
+    "message": "",
+    "link": ""
   }
 }
