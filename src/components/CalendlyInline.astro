@@ -12,7 +12,7 @@ export interface Props {
 }
 const {
   url = siteData.primary.calendly,
-  fallbackText = 'Booking calendar not loading? Open it in a new tab →',
+  fallbackText = 'Booking calendar not loading? Open it in a new tab ',
 } = Astro.props;
 
 // Calendly's inline widget reads the booking URL from a data attribute.
@@ -28,7 +28,7 @@ const calendlyUrl = url;
   ></div>
   <noscript>
     <a href={calendlyUrl} target="_blank" rel="noopener" class="calendly-fallback-link">
-      Open the booking calendar →
+      Open the booking calendar
     </a>
   </noscript>
   <a href={calendlyUrl} target="_blank" rel="noopener" class="calendly-fallback-link">

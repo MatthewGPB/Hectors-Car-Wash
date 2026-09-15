@@ -20,7 +20,7 @@ import siteData from '../data/site.json';
         <li><a href="/about">About</a></li>
       </ul>
 
-      <div class="lang-toggle desktop-lang" role="group" aria-label="Language selector" data-no-i18n>
+      <div class="lang-toggle nav-lang" role="group" aria-label="Language selector" data-no-i18n>
         <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
         <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
       </div>
@@ -44,6 +44,7 @@ import siteData from '../data/site.json';
 
   <!-- Mobile menu panel -->
   <div class="mobile-menu" id="mobileMenu" hidden>
+    <div class="mobile-sheet">
     <ul class="mobile-links">
       <li class="mobile-group-label">Locations</li>
       <li><a href="/locations/north-palm-beach">North Palm Beach</a></li>
@@ -55,11 +56,8 @@ import siteData from '../data/site.json';
       <li><a href="/about">About</a></li>
       <li><a href="/pages/review">Reviews</a></li>
     </ul>
-    <div class="lang-toggle mobile-lang" role="group" aria-label="Language selector" data-no-i18n>
-      <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
-      <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
-    </div>
     <a href={siteData.primary.calendly} class="nav-cta mobile-cta">Book an appointment</a>
+    </div>
   </div>
 </header>
 
@@ -106,6 +104,18 @@ import siteData from '../data/site.json';
         closeMenu();
       }
     });
+
+    // Tap on the panel's empty background closes it
+    menu.addEventListener('click', function (e) {
+      if (e.target === menu) closeMenu();
+    });
+
+    // Leaving mobile widths closes it
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 1024 && toggle.classList.contains('is-open')) {
+        closeMenu();
+      }
+    });
   })();
 </script>
 
@@ -118,6 +128,8 @@ import siteData from '../data/site.json';
     z-index: 100;
   }
   .nav {
+    position: relative;
+    z-index: 110;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -161,10 +173,10 @@ import siteData from '../data/site.json';
     color: var(--color-cream);
     padding: 11px 22px;
     border-radius: 1px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    text-transform: none;
     transition: background 0.2s ease;
     text-decoration: none;
   }
@@ -210,9 +222,9 @@ import siteData from '../data/site.json';
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--color-cream);
+    background: rgba(6, 24, 41, 0.35);
     z-index: 99;
-    padding: 104px 32px 48px;
+    padding: 0;
     overflow-y: auto;
     opacity: 0;
     transform: translateY(-8px);
@@ -222,16 +234,23 @@ import siteData from '../data/site.json';
     opacity: 1;
     transform: translateY(0);
   }
+  .mobile-sheet {
+    background: var(--color-cream);
+    padding: 104px 32px 40px;
+    border-bottom: 1px solid var(--color-gray-line);
+  }
   .mobile-links {
     list-style: none;
-    margin: 0 0 40px;
+    margin: 0 0 32px;
     padding: 0;
   }
   .mobile-group-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-gold);
     margin: 28px 0 12px;
     padding-bottom: 8px;
@@ -301,9 +320,9 @@ import siteData from '../data/site.json';
     color: var(--color-cream, #F7F2E8);
     opacity: 1;
   }
-  .desktop-lang { margin-left: 8px; }
-  .mobile-lang { margin: 8px 0 16px; align-self: flex-start; }
+  .nav-lang { margin-left: 8px; }
   @media (max-width: 1024px) {
-    .desktop-lang { display: none; }
+    .nav-lang { margin-left: auto; margin-right: 14px; }
+    .nav-toggle { margin-left: 0; }
   }
 </style>
