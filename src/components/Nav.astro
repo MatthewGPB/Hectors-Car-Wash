@@ -20,6 +20,11 @@ import siteData from '../data/site.json';
         <li><a href="/about">About</a></li>
       </ul>
 
+      <div class="lang-toggle desktop-lang" role="group" aria-label="Language selector" data-no-i18n>
+        <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+        <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+      </div>
+
       <a href={siteData.primary.calendly} class="nav-cta desktop-cta">Book</a>
 
       <!-- Mobile hamburger button -->
@@ -50,6 +55,10 @@ import siteData from '../data/site.json';
       <li><a href="/about">About</a></li>
       <li><a href="/pages/review">Reviews</a></li>
     </ul>
+    <div class="lang-toggle mobile-lang" role="group" aria-label="Language selector" data-no-i18n>
+      <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+      <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+    </div>
     <a href={siteData.primary.calendly} class="nav-cta mobile-cta">Book an appointment</a>
   </div>
 </header>
@@ -264,5 +273,37 @@ import siteData from '../data/site.json';
     .logo-img { height: 40px; }
     .mobile-menu { padding: 96px 24px 40px; }
     .mobile-links li a { font-size: 23px; }
+  }
+
+  .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(10, 37, 64, 0.18);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .lang-toggle button {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: var(--color-navy-deep, #0A2540);
+    opacity: 0.55;
+    transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .lang-toggle button[aria-pressed="true"] {
+    background: var(--color-navy-deep, #0A2540);
+    color: var(--color-cream, #F7F2E8);
+    opacity: 1;
+  }
+  .desktop-lang { margin-left: 8px; }
+  .mobile-lang { margin: 8px 0 16px; align-self: flex-start; }
+  @media (max-width: 1024px) {
+    .desktop-lang { display: none; }
   }
 </style>

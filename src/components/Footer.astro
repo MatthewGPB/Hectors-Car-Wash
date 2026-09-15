@@ -55,6 +55,9 @@ const year = new Date().getFullYear();
         <a href={siteData.social.tiktok} target="_blank" rel="noopener">TikTok</a>
       </div>
     </div>
+    <div class="footer-credit">
+      Website built by <a href="https://growpalmbeach.com" target="_blank" rel="noopener">Grow Palm Beach</a>
+    </div>
   </div>
 </footer>
 
@@ -157,6 +160,20 @@ const year = new Date().getFullYear();
     transition: color 0.2s ease;
   }
   .social a:hover { color: var(--color-gold); }
+
+  .footer-credit {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: rgba(247, 242, 232, 0.35);
+  }
+  .footer-credit a {
+    color: rgba(247, 242, 232, 0.55);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .footer-credit a:hover { color: var(--color-gold); }
 
   @media (max-width: 1024px) {
     .footer-top { grid-template-columns: repeat(2, 1fr); gap: 40px; }
