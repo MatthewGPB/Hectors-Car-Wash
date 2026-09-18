@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://hectorcarwash.com',
+  site: 'https://www.hectorcarwash.com',
   output: 'static',
   adapter: vercel({
     webAnalytics: { enabled: true },
