@@ -3,14 +3,16 @@ import locationsData from '../data/locations.json';
 
 type Location = (typeof locationsData.locations)[number];
 
-const SITE_URL = 'https://hectorcarwash.com';
+const SITE_URL = 'https://www.hectorcarwash.com';
 
 function locationSchema(loc: Location) {
   return {
     '@type': 'CarWash',
-    '@id': `${SITE_URL}/locations/${loc.slug}#location`,
-    name: `${siteData.brand.name} — ${loc.name}`,
-    url: `${SITE_URL}/locations/${loc.slug}`,
+    '@id': `${SITE_URL}/#location`,
+    name: siteData.brand.name,
+    image: `${SITE_URL}/images/location-north-palm-beach.jpg`,
+    description: 'Hand car wash, detailing and ceramic coating on US Highway 1 in North Palm Beach, FL.',
+    url: `${SITE_URL}/`,
     telephone: loc.phoneE164,
     priceRange: '$$',
     address: {
@@ -84,15 +86,6 @@ export function generateHomepageSchema() {
   };
 }
 
-export function generateLocationPageSchema(slug: string) {
-  const loc = locationsData.locations.find((l) => l.slug === slug);
-  if (!loc) return null;
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [organizationSchema(), locationSchema(loc)],
-  };
-}
-
 interface ServiceSchemaArgs {
   name: string;
   description: string;
@@ -118,7 +111,8 @@ export function generateServiceSchema({
       provider: { '@id': `${SITE_URL}/#organization` },
       areaServed: [
         { '@type': 'City', name: 'North Palm Beach' },
-        { '@type': 'City', name: 'Jupiter' },
+        { '@type': 'City', name: 'Juno Beach' },
+        { '@type': 'City', name: 'Lake Park' },
         { '@type': 'City', name: 'Riviera Beach' },
         { '@type': 'City', name: 'Palm Beach Gardens' },
         { '@type': 'City', name: 'West Palm Beach' },

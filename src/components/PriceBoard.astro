@@ -1,0 +1,102 @@
+---
+// The price board — styled after the menu board posted at the wash lane.
+import pricingData from '../data/pricing.json';
+const menu = pricingData.handwash;
+
+const rows = menu.tiers.map((t: any) => {
+  const [dollars, cents = '00'] = t.price.split('.');
+  const first = t.includes[0] || '';
+  const base = first.startsWith('Everything in') ? first : null;
+  const extras = base ? t.includes.slice(1) : t.includes;
+  // "Hand dry, wheels & tires" — lowercase list items after the first, keep brand names
+  const keepCase = /^(Rain-X|Teflon|[A-Z]{2})/;
+  const list = extras.map((x: string, i: number) => (i === 0 || keepCase.test(x) ? x : x[0].toLowerCase() + x.slice(1))).join(', ');
+  return { ...t, dollars, cents, base, list };
+});
+---
+
+<div class="board">
+  <ol class="board-rows">
+    {rows.map((r) => (
+      <li class={`row ${r.featured ? 'is-featured' : ''}`}>
+        <div class="row-name">
+          <h3>{r.name}</h3>
+          {r.featured && <span class="flag">Best shine</span>}
+        </div>
+        <div class="row-includes">
+          {r.base && <span class="base">{r.base}, plus</span>}
+          <span class="extras">{r.list}</span>
+        </div>
+        <div class="row-price" aria-label={`$${r.price}`}>
+          <span class="cur" aria-hidden="true" data-no-i18n>$</span><span class="dol" aria-hidden="true" data-no-i18n>{r.dollars}</span><span class="cts" aria-hidden="true" data-no-i18n>{r.cents}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+  <p class="board-note">{menu.note}</p>
+</div>
+
+<style>
+  .board { color: #fff; }
+  .board-rows { list-style: none; margin: 0; padding: 0; border-top: 2px solid rgba(255,255,255,0.9); }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(180px, 1.1fr) 2fr auto;
+    align-items: center;
+    gap: 36px;
+    padding: 26px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.16);
+  }
+  .row-name { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .row-name h3 {
+    margin: 0;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: clamp(24px, 2.6vw, 34px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .flag {
+    display: inline-block;
+    background: var(--color-curb);
+    color: var(--color-ink);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .row-includes { font-size: 16px; line-height: 1.5; color: rgba(255,255,255,0.78); max-width: 34em; }
+  .base { display: block; color: var(--color-azure-light); font-size: 14px; margin-bottom: 2px; }
+  .row-price {
+    display: flex;
+    align-items: flex-start;
+    font-stretch: 125%;
+    font-weight: 850;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    font-variant-numeric: lining-nums tabular-nums;
+    justify-self: end;
+  }
+  .cur { font-size: clamp(22px, 2.2vw, 30px); margin-top: 0.2em; margin-right: 2px; font-weight: 700; }
+  .dol { font-size: clamp(60px, 7vw, 104px); }
+  .cts {
+    font-size: clamp(22px, 2.4vw, 36px);
+    margin-left: 4px;
+    margin-top: 0.12em;
+    padding-bottom: 4px;
+    border-bottom: 3px solid currentColor;
+    letter-spacing: 0;
+  }
+  .is-featured .row-price { color: var(--color-curb); }
+  .board-note { margin: 24px 0 0; font-size: 14.5px; color: rgba(255,255,255,0.6); }
+
+  @media (max-width: 820px) {
+    .row { grid-template-columns: 1fr auto; gap: 10px 20px; padding: 24px 0; }
+    .row-name { grid-column: 1; grid-row: 1; }
+    .row-price { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+    .row-includes { grid-column: 1; grid-row: 2; font-size: 15px; }
+  }
+  @media (max-width: 420px) {
+    .dol { font-size: 54px; }
+  }
+</style>

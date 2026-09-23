@@ -1,24 +1,34 @@
 {
   "redirects": [
     {
+      "source": "/locations/north-palm-beach",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/pages/north-palm-beach",
-      "destination": "/locations/north-palm-beach",
-      "permanent": true
-    },
-    {
-      "source": "/pages/jupiter",
-      "destination": "/locations/jupiter",
-      "permanent": true
-    },
-    {
-      "source": "/pages/riviera-beach",
-      "destination": "/locations/north-palm-beach",
+      "destination": "/",
       "permanent": true
     },
     {
       "source": "/locations/riviera-beach",
-      "destination": "/locations/north-palm-beach",
+      "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/pages/riviera-beach",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/locations/jupiter",
+      "destination": "https://jupitercarwash.com/",
+      "permanent": false
+    },
+    {
+      "source": "/pages/jupiter",
+      "destination": "https://jupitercarwash.com/",
+      "permanent": false
     },
     {
       "source": "/pages/car-detailing",
@@ -52,7 +62,7 @@
     },
     {
       "source": "/pages/contact",
-      "destination": "/#locations",
+      "destination": "/#visit",
       "permanent": true
     },
     {

@@ -1,14 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
-import Figure from '../../components/Figure.astro';
 import CalendlyInline from '../../components/CalendlyInline.astro';
 import FAQ from '../../components/FAQ.astro';
 import ReviewCard from '../../components/ReviewCard.astro';
+import EndCTA from '../../components/EndCTA.astro';
 import reviewsData from '../../data/reviews.json';
+import locationsData from '../../data/locations.json';
 import siteData from '../../data/site.json';
 import { generateServiceSchema } from '../../lib/schema';
 
+const shop = locationsData.locations[0];
 const detailReview = reviewsData.reviews.find((r) => r.service === 'detailing');
 
 const faqs = [
@@ -46,12 +48,12 @@ const faqs = [
   },
 ];
 
-const title = `Car Detailing in Palm Beach County | ${siteData.brand.name}`;
-const description = `Full interior and exterior car detailing at Hector's. Hand-wash trained staff, clay-bar treatment, leather conditioning, paint polishing. From $300. By appointment in North Palm Beach and Jupiter.`;
+const title = `Car Detailing in North Palm Beach, FL | ${siteData.brand.name}`;
+const description = `Full interior and exterior car detailing in North Palm Beach. Shampoo, clay bar, hand polish, leather conditioning. From $300, by appointment.`;
 const schema = generateServiceSchema({
   name: "Car Detailing",
-  description: "Full interior and exterior car detailing service in Palm Beach County, FL.",
-  url: "https://hectorcarwash.com/services/car-detailing",
+  description: "Full interior and exterior car detailing in North Palm Beach, FL.",
+  url: "https://www.hectorcarwash.com/services/car-detailing",
   priceFrom: "300.00",
   faqs,
 });
@@ -60,475 +62,150 @@ const schema = generateServiceSchema({
 <BaseLayout title={title} description={description} schema={schema}>
 
   <PageHero
-    eyebrow="By appointment · both locations"
-    headlineHtml="Full detailing.<br /><em>The deep clean.</em>"
-    lead="Interior shampoo, clay-bar treatment, paint polishing, leather conditioning. Done by hand-wash trained staff who know what your finish is worth."
-    metaLeft="From $300"
-    metaRight="4–6 hours by appointment"
-  />
-
-  {/* ============ HERO BANNER PHOTO ============ */}
-  <section class="detail-banner">
-    <div class="container-wide">
-      <Figure
-        src="/images/detail-hero.jpg"
-        alt="Hector's staff detailing a car — interior and exterior work in progress"
-        width={2400}
-        height={1200}
-        ratio="2/1"
-      />
+    title="Full detailing, by appointment."
+    lead="Interior shampoo, clay bar, hand polish and leather conditioning, done by the same crew that hand-washes cars every day on US-1."
+    facts={['From $300', '4 to 6 hours', 'North Palm Beach']}
+  >
+    <div class="btn-row hero-btns">
+      <a href="#book" class="btn btn-azure">Book a detail</a>
+      <a href={`tel:${shop.phoneE164}`} class="btn btn-line">Call <span data-no-i18n>{shop.phone}</span></a>
     </div>
-  </section>
+  </PageHero>
 
-  {/* ============ WHAT'S INCLUDED ============ */}
-  <section class="included section-pad">
+  <div class="banner container-wide">
+    <img src="/images/detail-hero.jpg" alt="A crew member polishing a grey Tesla" width="1600" height="800" />
+  </div>
+
+  <section class="section">
     <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">What's included</div>
-        <h2 class="display-2">
-          The full job.<br />
-          <em>Not the basics.</em>
-        </h2>
-        <p class="lead-text">
-          A detail at Hector's is a 4-to-6 hour job, not a 30-minute wash with a fancy name. Here's what we actually do to your car.
-        </p>
+      <div class="section-head">
+        <h2 class="h-lg">The full job.</h2>
+        <p class="lede">A detail here takes four to six hours. This is what that time goes into.</p>
       </div>
-
-      <div class="included-grid">
-        <article class="included-block">
-          <div class="eyebrow">Interior</div>
-          <h3 class="display-3">Inside the cabin.</h3>
-          <ul class="checklist">
-            <li>Full vacuum — seats, floor, trunk, mats, every seam</li>
+      <div class="included">
+        <div>
+          <h3 class="h-md">Inside</h3>
+          <ul class="ticks">
+            <li>Full vacuum: seats, floor, trunk, mats, every seam</li>
             <li>Hot-water shampoo and extraction on carpets and cloth seats</li>
-            <li>Leather cleaned and conditioned (if equipped)</li>
-            <li>Dashboard, console, door panels, vents — wiped and dressed</li>
-            <li>Windows in and out, including streak-free interior glass</li>
+            <li>Leather cleaned and conditioned</li>
+            <li>Dashboard, console, door panels and vents wiped and dressed</li>
+            <li>Streak-free glass, inside and out</li>
             <li>Headliner spot-cleaned</li>
-            <li>Air freshener of your choice</li>
           </ul>
-        </article>
-
-        <article class="included-block">
-          <div class="eyebrow">Exterior</div>
-          <h3 class="display-3">The paint and beyond.</h3>
-          <ul class="checklist">
-            <li>Two-bucket hand wash with PH-balanced soap</li>
-            <li>Clay-bar treatment to remove embedded contaminants from clear coat</li>
-            <li>Hand polish for swirl-mark removal and gloss restoration</li>
-            <li>Wheel wells, tire dressing, chrome polish on trim</li>
-            <li>Headlight clarity check and restoration if needed</li>
-            <li>Door jambs, fuel door, hood gap detail</li>
-            <li>Hand dry with microfiber — no air blower marks on paint</li>
+        </div>
+        <div>
+          <h3 class="h-md">Outside</h3>
+          <ul class="ticks">
+            <li>Two-bucket hand wash with pH-balanced soap</li>
+            <li>Clay-bar treatment to lift contaminants bonded to the clear coat</li>
+            <li>Hand polish to remove light swirls and bring back gloss</li>
+            <li>Wheel wells, tire dressing, chrome polished</li>
+            <li>Door jambs, fuel door and hood gaps</li>
+            <li>Hand dried with microfiber</li>
           </ul>
-        </article>
+        </div>
       </div>
     </div>
   </section>
 
-  {/* ============ EDITORIAL TEXT: WHY DETAIL ============ */}
-  <section class="why-section section-pad">
-    <div class="container-reading">
-      <div class="eyebrow">Why detail your car</div>
-      <h2 class="display-3">Wash protects the surface.<br /><em>Detailing protects the asset.</em></h2>
-      <div class="long-form">
-        <p class="dropcap">
-          In Palm Beach County, your car is fighting a daily war with the climate. Salt spray off the Atlantic. UV that fades and embrittles plastics and leather. Humidity that turns minor moisture into mildew in the carpets. Sand that scratches paint micro-fine over weeks of beach trips. Pollen that sets up like glue every spring.
-        </p>
-        <p>
-          A weekly hand wash handles the surface dirt. It does not handle what's been working its way into the clear coat for months. That's what a detail does. The clay-bar pulls contaminants you can't see but can feel — run your hand across a freshly washed roof and you'll feel grit. That grit is bonded to your paint. Clay-bar removes it. Polish restores the gloss it's been hiding.
-        </p>
-        <p>
-          Two or three details a year keeps a car ten years old looking five. It preserves the resale value, the leather, the paint depth, the headlight clarity. For Bentley and Mercedes owners, this is the difference between a car that holds its value and a car that loses it. For families with kids and dogs, it's the difference between a backseat you actually want to sit in and one you avoid.
-        </p>
-        <p>
-          The other thing detailing does — and this is harder to put in a list — is that a careful operator notices things you'd miss. A starting rust spot under the trim. A door seal beginning to dry-rot. A wheel bearing humming on inspection drive. Hector and his team have caught problems for customers that saved them serious money down the road. That's not a marketing claim; it's what happens when someone who's been doing this almost 30 years actually looks at your car.
-        </p>
+  <section class="section bg-mist">
+    <div class="container-wide why">
+      <div>
+        <h2 class="h-lg">A wash cleans the car. A detail restores it.</h2>
+      </div>
+      <div class="prose">
+        <p>In Palm Beach County your car takes salt spray off the Atlantic, UV that fades plastic and leather, humidity that turns into mildew in the carpet, and sand from every beach trip.</p>
+        <p>A weekly hand wash takes care of surface dirt. It doesn't reach what has worked into the clear coat over months. Run your hand across a freshly washed roof and you'll feel grit. The clay bar pulls that out, and the polish brings back the gloss it was hiding.</p>
+        <p>Two or three details a year keeps the paint, leather and headlights in shape and helps the car hold its value.</p>
       </div>
     </div>
   </section>
 
-  {/* ============ GALLERY ============ */}
-  <section class="detail-gallery section-pad-sm">
+  <section class="section-tight">
+    <div class="container-wide gallery">
+      <figure>
+        <img src="/images/detail-interior-before-after.jpg" alt="Car floor mats before and after a detail" width="1600" height="1200" loading="lazy" />
+        <figcaption>Interior, before and after.</figcaption>
+      </figure>
+      <figure>
+        <img src="/images/detail-paint-correction.jpg" alt="Machine polishing the rear of a grey Tesla" width="1200" height="1200" loading="lazy" />
+        <figcaption>Paint correction, mid-pass.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container-wide">
-      <div class="gallery-grid">
-        <Figure
-          src="/images/detail-interior-before-after.jpg"
-          alt="Car interior before and after a Hector's detail"
-          width={1600}
-          height={1200}
-          ratio="4/3"
-          caption="Interior, before and after."
-        />
-        <Figure
-          src="/images/detail-paint-correction.jpg"
-          alt="Paint correction removing swirl marks on a car panel"
-          width={1200}
-          height={1200}
-          ratio="1"
-          caption="Paint correction, mid-pass."
-        />
+      <div class="section-head">
+        <h2 class="h-lg">How booking works.</h2>
       </div>
-    </div>
-  </section>
-
-  {/* ============ PROCESS ============ */}
-  <section class="process section-pad">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">The process</div>
-        <h2 class="display-2">
-          What happens<br />
-          <em>when you book.</em>
-        </h2>
-      </div>
-
-      <ol class="process-list">
+      <ol class="steps">
         <li>
-          <div class="process-num">01</div>
-          <div>
-            <h3>Book through Calendly.</h3>
-            <p>Pick a date and time. Tell us the make, model, and any specific concerns — pet hair, stains, ceramic coating you want preserved. We'll confirm the appointment and the estimated price range.</p>
-          </div>
+          <h3 class="h-sm">Pick a time.</h3>
+          <p>Book online and tell us the make, model and anything specific: pet hair, stains, a coating to protect.</p>
         </li>
         <li>
-          <div class="process-num">02</div>
-          <div>
-            <h3>Drop the car off.</h3>
-            <p>Bring the car to the location you booked. We do a walk-around with you, confirm scope, and quote the final price. No surprises mid-job — if we find something that changes the scope, we call you before doing it.</p>
-          </div>
+          <h3 class="h-sm">Drop the car off.</h3>
+          <p>We walk around the car with you and confirm the price. If we find something that changes the job, we call before doing it.</p>
         </li>
         <li>
-          <div class="process-num">03</div>
-          <div>
-            <h3>We work the car for 4–6 hours.</h3>
-            <p>Interior first, then exterior. Multiple people on the car at once for larger jobs. We don't double-book your appointment — your slot is your slot.</p>
-          </div>
+          <h3 class="h-sm">We work the car.</h3>
+          <p>Inside first, then outside. One car per slot, so your appointment is your appointment.</p>
         </li>
         <li>
-          <div class="process-num">04</div>
-          <div>
-            <h3>Inspection and pickup.</h3>
-            <p>Before you leave, we walk through the car with you. Anything you're not happy with, we fix on the spot. You drive away with a car that looks better than it did the day you bought it.</p>
-          </div>
+          <h3 class="h-sm">Walk through and pick up.</h3>
+          <p>We go over the car together. Anything you're not happy with gets fixed on the spot.</p>
         </li>
       </ol>
     </div>
   </section>
 
-  {/* ============ BIG CTA TO BOOK ============ */}
-  <section class="book-section">
+  <section class="book on-ink section" id="book">
     <div class="container-narrow">
-      <h2 class="display-2 inverse">
-        Ready to book?<br />
-        <em>It takes 30 seconds.</em>
-      </h2>
-      <p class="book-lead">
-        Pick a date and time below, tell us about your car, and we'll confirm. Detailing available at both Hector's locations.
-      </p>
-    </div>
-    <div class="book-widget container-narrow">
-      <CalendlyInline />
-    </div>
-    <div class="container-narrow">
-      <p class="book-fineprint">
-        Prefer to call? North Palm Beach (561) 594-8140 · Jupiter (561) 261-2595
-      </p>
+      <h2 class="h-lg">Book a detail.</h2>
+      <p class="lede">Choose a date and time, tell us about the car, and we'll confirm.</p>
+      <div class="book-widget"><CalendlyInline /></div>
+      <p class="book-alt">Prefer to call? <a href={`tel:${shop.phoneE164}`} data-no-i18n>{shop.phone}</a></p>
     </div>
   </section>
 
-  {/* ============ FAQ ============ */}
-  <section class="faq-section section-pad">
+  <section class="section">
     <div class="container-narrow">
-      <div class="section-intro">
-        <div class="eyebrow centered">Questions, answered</div>
-        <h2 class="display-2">
-          The most-asked<br />
-          <em>detailing questions.</em>
-        </h2>
-      </div>
+      <h2 class="h-lg faq-title">Detailing questions.</h2>
       <FAQ faqs={faqs} />
     </div>
   </section>
 
-  {/* ============ REVIEW ============ */}
   {detailReview && (
-    <section class="review-section section-pad-sm">
+    <section class="section-tight bg-mist">
       <div class="container-narrow">
-        <div class="rule-ornament">
-          <div class="rule-ornament-diamond"></div>
-        </div>
         <ReviewCard quote={detailReview.quote} author={detailReview.author} source={detailReview.source} variant="large" />
       </div>
     </section>
   )}
 
-  {/* ============ FINAL CTA ============ */}
-  <section class="final-cta">
-    <div class="container-narrow">
-      <h2 class="display-2 inverse">
-        Get your car<br /><em>detailed.</em>
-      </h2>
-      <p class="final-lead">
-        By appointment at North Palm Beach or Jupiter. From $300. 4 to 6 hours start to finish.
-      </p>
-      <div class="final-actions">
-        <a href={siteData.primary.calendly} class="btn btn-primary on-dark">Book detailing</a>
-        <a href="/services/ceramic-coating" class="btn-ghost on-dark">Or learn about ceramic coating</a>
-      </div>
-    </div>
-  </section>
+  <EndCTA title="Rather talk it through?" lead="Call the shop and tell us about the car. Detailing is by appointment, from $300." book={true} />
 
 </BaseLayout>
 
 <style>
-  .lead-text {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: var(--color-charcoal-soft);
-    max-width: 640px;
-    margin: 28px auto 0;
-  }
-
-  /* ============ BANNER + GALLERY ============ */
-  .detail-banner {
-    background: var(--color-cream);
-    padding: 32px 0 0;
-  }
-  .detail-gallery {
-    background: var(--color-cream-warm);
-  }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 32px;
-    max-width: 1100px;
-    margin: 0 auto;
-    align-items: start;
-  }
-  @media (max-width: 768px) {
-    .gallery-grid { grid-template-columns: 1fr; gap: 40px; }
-  }
-
-  /* ============ INCLUDED ============ */
-  .included {
-    background: var(--color-cream);
-  }
-  .included-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .included-block {
-    padding: 48px 40px;
-    background: var(--color-cream-warm);
-    border-top: 3px solid var(--color-gold);
-  }
-  .included-block .eyebrow {
-    margin-bottom: 16px;
-  }
-  .included-block h3 {
-    margin: 0 0 28px;
-  }
-  .checklist {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .checklist li {
-    padding: 12px 0 12px 28px;
-    position: relative;
-    border-bottom: 1px solid var(--color-gray-line);
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--color-charcoal);
-  }
-  .checklist li:last-child { border-bottom: none; }
-  .checklist li::before {
-    content: '◆';
-    position: absolute;
-    left: 0;
-    top: 14px;
-    color: var(--color-gold);
-    font-size: 9px;
-  }
-
-  /* ============ WHY ============ */
-  .why-section {
-    background: var(--color-cream-warm);
-  }
-  .why-section .eyebrow {
-    margin-bottom: 28px;
-  }
-  .why-section h2 {
-    margin: 0 0 48px;
-  }
-  .long-form p {
-    font-size: 18px;
-    line-height: 1.75;
-    color: var(--color-charcoal);
-    margin: 0 0 24px;
-  }
-
-  /* ============ PROCESS ============ */
-  .process {
-    background: var(--color-cream);
-  }
-  .process-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-width: 880px;
-    margin: 0 auto;
-    counter-reset: process;
-  }
-  .process-list li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 40px;
-    padding: 40px 0;
-    border-bottom: 1px solid var(--color-gray-line);
-  }
-  .process-list li:first-child {
-    border-top: 1px solid var(--color-gray-line);
-  }
-  .process-num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 32px;
-    color: var(--color-gold);
-    line-height: 1;
-    min-width: 60px;
-    font-weight: 500;
-  }
-  .process-list h3 {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--color-navy);
-    margin: 0 0 12px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-  .process-list p {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--color-charcoal-soft);
-    margin: 0;
-  }
-
-  /* ============ BOOK SECTION ============ */
-  .book-section {
-    padding: 120px 0;
-    background: var(--color-navy);
-    color: var(--color-cream);
-    text-align: center;
-  }
-  .book-section .inverse {
-    color: var(--color-cream);
-    margin: 0;
-  }
-  .book-section .inverse em {
-    color: var(--color-gold);
-  }
-  .book-lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: rgba(247, 242, 232, 0.85);
-    max-width: 540px;
-    margin: 28px auto 40px;
-  }
-  .book-widget {
-    margin: 0 auto 32px;
-  }
-  .btn.on-dark {
-    background: var(--color-gold);
-    color: var(--color-navy);
-    padding: 20px 40px;
-    font-size: 13px;
-  }
-  .btn.on-dark.large {
-    padding: 22px 48px;
-    font-size: 14px;
-  }
-  .btn.on-dark:hover {
-    background: var(--color-gold-light);
-  }
-  .book-fineprint {
-    margin-top: 40px;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: rgba(247, 242, 232, 0.55);
-    line-height: 1.7;
-  }
-
-  /* ============ FAQ ============ */
-  .faq-section {
-    background: var(--color-cream-warm);
-  }
-  .review-section {
-    background: var(--color-cream);
-  }
-
-  /* ============ FINAL CTA (same as homepage pattern) ============ */
-  .final-cta {
-    padding: 128px 0;
-    background: var(--color-navy-deep);
-    color: var(--color-cream);
-    text-align: center;
-    position: relative;
-  }
-  .final-cta::before,
-  .final-cta::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--color-gold);
-    opacity: 0.3;
-  }
-  .final-cta::before { top: 32px; }
-  .final-cta::after { bottom: 32px; }
-  .display-2.inverse { color: var(--color-cream); }
-  .display-2.inverse em { color: var(--color-gold); }
-  .final-lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: rgba(247, 242, 232, 0.8);
-    max-width: 540px;
-    margin: 32px auto 48px;
-  }
-  .final-actions {
-    display: flex;
-    gap: 32px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .btn-ghost.on-dark {
-    color: var(--color-gold);
-    border-bottom-color: var(--color-gold);
-  }
-  .btn-ghost.on-dark:hover {
-    color: var(--color-gold-light);
-    border-bottom-color: var(--color-gold-light);
-  }
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width: 768px) {
-    .included-grid { grid-template-columns: 1fr; gap: 32px; }
-    .included-block { padding: 32px 24px; }
-    .process-list li { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
-    .book-section { padding: 80px 0; }
-    .final-cta { padding: 80px 0; }
+  .hero-btns { margin-top: 32px; }
+  .banner img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
+  .included { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .included h3 { padding-bottom: 14px; border-bottom: 2px solid var(--color-ink); margin-bottom: 4px; }
+  .why { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: start; }
+  .gallery { display: grid; grid-template-columns: 1.33fr 1fr; gap: 24px; align-items: end; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; height: auto; }
+  .gallery figcaption { margin-top: 10px; font-size: 14px; color: var(--color-slate); }
+  .book .lede { margin: 20px 0 36px; }
+  .book-alt { margin: 20px 0 0; color: rgba(255,255,255,0.75); }
+  .book-alt a { color: #fff; font-weight: 700; }
+  .faq-title { margin-bottom: 36px; }
+  @media (max-width: 860px) {
+    .banner { padding: 0; }
+    .banner img { aspect-ratio: 16 / 10; }
+    .included, .why, .gallery { grid-template-columns: 1fr; gap: 40px; }
   }
 </style>

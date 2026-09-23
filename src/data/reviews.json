@@ -3,18 +3,18 @@
     {
       "id": "nico",
       "author": "Nico",
-      "source": "Google Local Guide · 65 reviews",
+      "source": "Google Local Guide, 65 reviews",
       "rating": 5,
       "featured": true,
       "homepage": true,
       "quote": "No where else in Palm Beach County can you get a hand wash as fast and as well compared to Hector's. Not to mention the pricing that is unbeatable but the real treat is all the cars that roll by while you wait on yours to be completed. You will see Bentleys, Aston Martins, and Mercedes galore. Come to Hector's and get the VIP treatment for fair prices.",
-      "shortQuote": "No where else in Palm Beach County can you get a hand wash as fast and as well as Hector's. The real treat is all the cars that roll by — Bentleys, Aston Martins, Mercedes galore.",
+      "shortQuote": "No where else in Palm Beach County can you get a hand wash as fast and as well as Hector's. The real treat is all the cars that roll by, Bentleys, Aston Martins, Mercedes galore.",
       "location": "north-palm-beach"
     },
     {
       "id": "riley-ziegler",
       "author": "Riley Ziegler",
-      "source": "Google Reviews · 6 reviews",
+      "source": "Google review",
       "rating": 5,
       "featured": true,
       "homepage": true,
@@ -25,7 +25,7 @@
     {
       "id": "christopher-schalk",
       "author": "Christopher Schalk",
-      "source": "Google Reviews",
+      "source": "Google review",
       "rating": 5,
       "featured": true,
       "homepage": true,
@@ -36,7 +36,7 @@
     {
       "id": "peter-flavor",
       "author": "Peter Flavor",
-      "source": "Google Reviews · 5 reviews",
+      "source": "Google review",
       "rating": 5,
       "featured": true,
       "homepage": false,
@@ -47,7 +47,7 @@
     {
       "id": "jayden-anthony",
       "author": "Jayden Anthony",
-      "source": "Google Reviews · 2 reviews",
+      "source": "Google review",
       "rating": 5,
       "featured": true,
       "homepage": false,

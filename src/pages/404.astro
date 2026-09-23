@@ -1,67 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
 const title = "Page not found | Hector's Car Wash";
-const description = "The page you're looking for doesn't exist. Find our locations and services here.";
+const description = "That page doesn't exist. Find prices, hours and directions for Hector's hand car wash in North Palm Beach.";
 ---
 
 <BaseLayout title={title} description={description} showAnnouncement={false}>
-  <section class="not-found section-pad">
-    <div class="container-narrow">
-      <div class="not-found-content">
-        <p class="num">404</p>
-        <h1 class="display-2">
-          Page not<br />
-          <em>found.</em>
-        </h1>
-        <p class="lead">
-          The page you're looking for doesn't exist — but we're still here, hand-washing cars seven days a week.
-        </p>
-        <div class="actions">
-          <a href="/" class="btn btn-primary">Back to home</a>
-          <a href="/#locations" class="btn btn-outline">Find a location</a>
-        </div>
+  <section class="nf section">
+    <div class="container-wide">
+      <p class="code" data-no-i18n>404</p>
+      <h1 class="h-xl">Wrong turn off US-1.</h1>
+      <p class="lede">That page doesn't exist. The car wash does, and it's open seven days a week.</p>
+      <div class="btn-row">
+        <a href="/" class="btn btn-azure">Back to home</a>
+        <a href="/#prices" class="btn btn-line">See prices</a>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .not-found {
-    background: var(--color-cream);
-    text-align: center;
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-  }
-  .not-found-content {
-    width: 100%;
-  }
-  .num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 96px;
-    color: var(--color-gold);
-    font-weight: 400;
-    margin: 0;
-    line-height: 1;
-  }
-  .not-found h1 {
-    margin: 16px 0 32px;
-  }
-  .lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    color: var(--color-charcoal-soft);
-    max-width: 520px;
-    margin: 0 auto 40px;
-    line-height: 1.5;
-  }
-  .actions {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .nf { min-height: 62vh; display: flex; align-items: center; }
+  .code { font-stretch: 125%; font-weight: 850; font-size: 20px; color: var(--color-azure-deep); margin: 0 0 16px; }
+  .lede { margin: 24px 0 36px; }
 </style>

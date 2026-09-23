@@ -3,8 +3,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import CalendlyInline from '../../components/CalendlyInline.astro';
 import FAQ from '../../components/FAQ.astro';
+import EndCTA from '../../components/EndCTA.astro';
+import locationsData from '../../data/locations.json';
 import siteData from '../../data/site.json';
 import { generateServiceSchema } from '../../lib/schema';
+
+const shop = locationsData.locations[0];
 
 const faqs = [
   {
@@ -24,8 +28,8 @@ const faqs = [
     answer: "For most Palm Beach County drivers, yes — possibly more than anywhere else in the country. Florida's combination of intense UV, salt air, humidity, and frequent rain is brutal on paint. Ceramic coating's UV protection alone can extend the life of your clear coat by years. The hydrophobic effect makes the car much easier to wash. Bird droppings and tree sap, which can etch unprotected paint in hours, slide off coated paint with a rinse. For luxury vehicles, leases, and any car you plan to keep more than two years, ceramic coating is among the best dollar-per-year protection investments available.",
   },
   {
-    question: "What's the difference between professional ceramic coating and the ceramic spray at the express wash?",
-    answer: "Very different products. The ceramic spray at Jupiter's express wash is a wash-cycle additive — it adds a thin hydrophobic layer that lasts a few weeks before washing off. Professional ceramic coating is a chemically bonded polymer that lasts for years. The express spray is great for a temporary water-beading effect. The professional coating is a real paint protection system applied in a controlled environment. Same word, very different products.",
+    question: "What's the difference between ceramic coating and a ceramic spray?",
+    answer: "Very different products. A ceramic spray, whether it comes as a wash add-on or out of a bottle, lays down a thin water-repelling layer that lasts a few weeks. A professional ceramic coating is a polymer that bonds to the clear coat and lasts for years. The spray is a nice short-term shine. The coating is a real paint protection system, applied by hand after the paint is prepped.",
   },
   {
     question: "Will ceramic coating prevent scratches?",
@@ -33,7 +37,7 @@ const faqs = [
   },
   {
     question: "How do I wash a ceramic-coated car?",
-    answer: "Wash regularly — every 1 to 2 weeks for daily drivers. Use a pH-neutral car wash soap. Avoid automatic brush washes (the express wash at Jupiter is conveyor with foam, not brushes, so it's coating-safe). Hand wash at Hector's NPB is ideal. Avoid harsh cleaners and abrasive sponges. We give every ceramic customer a care guide at delivery and recommended products to maintain the coating.",
+    answer: "Wash regularly — every 1 to 2 weeks for daily drivers. Use a pH-neutral soap. A hand wash like the one at Hector's is ideal. Avoid harsh cleaners and abrasive sponges. We give every ceramic customer a care guide at delivery and recommended products to maintain the coating.",
   },
   {
     question: "How long does ceramic coating last?",
@@ -49,12 +53,12 @@ const faqs = [
   },
 ];
 
-const title = `Ceramic Coating in Palm Beach County | ${siteData.brand.name}`;
-const description = `Professional ceramic coating from $800, priced by vehicle size. Same-day service if dropped off at 8 AM. Hydrophobic UV, salt, and scratch protection. By appointment in North Palm Beach and Jupiter.`;
+const title = `Ceramic Coating in North Palm Beach, FL | ${siteData.brand.name}`;
+const description = `Professional ceramic coating in North Palm Beach from $800, priced by vehicle size. Drop off at 8 AM, pick up the same day.`;
 const schema = generateServiceSchema({
   name: "Ceramic Coating",
-  description: "Professional ceramic coating service in Palm Beach County. One package for every vehicle, priced by size. Same-day service.",
-  url: "https://hectorcarwash.com/services/ceramic-coating",
+  description: "Professional ceramic coating in North Palm Beach, FL. One package for every vehicle, priced by size. Same-day service.",
+  url: "https://www.hectorcarwash.com/services/ceramic-coating",
   priceFrom: "800.00",
   faqs,
 });
@@ -63,543 +67,135 @@ const schema = generateServiceSchema({
 <BaseLayout title={title} description={description} schema={schema}>
 
   <PageHero
-    eyebrow="By appointment · both locations"
-    headlineHtml="Ceramic coating.<br /><em>The long protection.</em>"
-    lead="A liquid polymer that bonds with your clear coat and protects it for years. UV, salt, scratch, and chemical resistance — the strongest paint protection short of film. One package for every car, priced by size."
-    metaLeft="From $800"
-    metaRight="Same day · drop off at 8 AM"
-  />
+    title="Ceramic coating, done in a day."
+    lead="A hard, clear layer bonded to your clear coat that protects against UV, salt and grime for years. One package for every car, priced by size."
+    facts={['From $800', 'Drop off at 8 AM', 'Ready the same day']}
+  >
+    <div class="btn-row hero-btns">
+      <a href="#book" class="btn btn-azure">Get a quote</a>
+      <a href={`tel:${shop.phoneE164}`} class="btn btn-line">Call <span data-no-i18n>{shop.phone}</span></a>
+    </div>
+  </PageHero>
 
-  {/* ============ THE PRODUCT ============ */}
-  <section class="product section-pad">
-    <div class="container-wide">
-      <div class="product-grid">
-        <div>
-          <div class="eyebrow">What it is</div>
-          <h2 class="display-2">
-            A second skin<br />for your <em>clear coat.</em>
-          </h2>
-          <div class="long-form">
-            <p class="dropcap">
-              Ceramic coating is not a wax. Wax sits on top of paint, lasts weeks, and gets washed away by detergent. Ceramic coating chemically bonds with the clear coat and becomes part of the surface. Once cured, it's harder than the paint underneath, transparent enough that you can't see it, and water-repellent enough that rain beads off like mercury.
-            </p>
-            <p>
-              On the pencil-hardness scale, factory clear coat measures around 2H to 4H. Professional ceramic coating is around 9H. That difference is what stops the fine swirl marks from improper washing, the etching from bird droppings, and the dulling from UV exposure that wears Florida cars down over time.
-            </p>
-            <p>
-              The hydrophobic effect — water beading at 90+ degree contact angles — is the most-noticed feature, but it's not the most important one. The most important one is what you don't see: UV protection that keeps your paint from oxidizing, chemical resistance against bird droppings and tree sap that would otherwise etch unprotected paint within hours, and the sealing of micro-pores in the clear coat that absorb contaminants.
-            </p>
-          </div>
-        </div>
-        <div class="product-image">
-          <div class="image-frame">
-            <img
-              src="/images/ceramic-water-beading.jpg"
-              alt="Water beading on a freshly ceramic-coated car finish"
-              class="image-placeholder"
-              width="1200"
-              height="1200"
-              onerror="this.style.visibility='hidden'"
-            />
-          </div>
-          <p class="image-caption"><em>Hydrophobic effect on a freshly coated finish.</em></p>
+  <section class="section-tight">
+    <div class="container-wide product">
+      <div class="product-img">
+        <img src="/images/ceramic-water-beading.jpg" alt="Water beading on freshly coated dark grey paint" width="1200" height="1200" />
+      </div>
+      <div>
+        <h2 class="h-lg">Not a wax.</h2>
+        <div class="prose">
+          <p>Wax sits on top of the paint and washes away in weeks. A ceramic coating bonds with the clear coat and becomes part of the surface. Once it cures it's harder than the paint underneath, clear enough that you can't see it, and slick enough that rain beads straight off.</p>
+          <p>The beading is what people notice. What matters more is what you don't see: UV protection that keeps paint from oxidizing, and resistance to bird droppings and tree sap that would otherwise etch bare paint within hours.</p>
         </div>
       </div>
     </div>
   </section>
 
-  {/* ============ ONE PACKAGE / WHAT YOU GET ============ */}
-  <section class="package section-pad">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">What you get</div>
-        <h2 class="display-2">
-          One package.<br />
-          <em>Every car.</em>
-        </h2>
-        <p class="lead-text">
-          We don't sell tiers or talk you into a bigger one. Every car gets the same professional ceramic coating, the same process, the same result. The only thing that changes is the price — and that's based purely on the size and value of your car.
-        </p>
-      </div>
-
-      <div class="package-card">
-        <div class="package-head">
-          <div class="package-eyebrow">The Hector's ceramic coating</div>
-          <h3 class="display-3">Same coating for everyone.</h3>
-          <p class="package-price">
-            From <strong>$800</strong>
-            <span class="package-price-note">priced by vehicle size — exact quote on-site</span>
-          </p>
+  <section class="section bg-mist">
+    <div class="container-wide package">
+      <div>
+        <h2 class="h-lg">One package. Every car.</h2>
+        <p class="lede">No tiers and no upselling. Every car gets the same coating and the same process. The price changes only with the size and value of the car.</p>
+        <div class="price-tag">
+          <span class="from">From</span>
+          <span class="amt" data-no-i18n>$800</span>
         </div>
-        <ul class="package-list">
+        <p class="price-note">A coupe and a three-row SUV aren't the same job. Bigger cars take more product and more hours, and high-value cars often need more prep so the finish is flawless under the coating. We look at the car and give you the exact number before any work starts.</p>
+      </div>
+      <div class="package-list">
+        <h3 class="h-sm">What's included</h3>
+        <ul class="ticks">
           <li>Full hand wash and decontamination</li>
           <li>Clay-bar treatment to lift bonded contaminants</li>
           <li>Paint correction where it's needed</li>
-          <li>Professional ceramic coating, hand-applied panel by panel</li>
-          <li>9H hardness, hydrophobic, UV and salt resistant</li>
-          <li>Final inspection and a care guide for keeping it</li>
-          <li>Same-day turnaround — drop off at 8 AM</li>
+          <li>Professional ceramic coating, applied by hand panel by panel</li>
+          <li>9H hardness, water-repelling, UV and salt resistant</li>
+          <li>Final inspection and a care guide to keep it looking right</li>
         </ul>
-      </div>
-
-      <div class="package-pricing-note">
-        <div class="rule-ornament">
-          <div class="rule-ornament-diamond"></div>
-        </div>
-        <h3 class="display-3">Why the price changes by car.</h3>
-        <p>
-          A coupe and a three-row SUV are not the same job. A bigger vehicle has more square footage of paint, which means more product and more hours at the bench. A higher-value car often warrants more time on prep and correction so the finish is flawless under the coating. So the $800 starting point is for smaller cars, and it scales up from there with size and value. We don't guess at it over the phone — we look at the car and give you the exact number before any work starts.
-        </p>
-        <p class="package-addon">
-          Add-on coatings for wheels, glass, and trim are available and quoted at the same time. Warranty details are confirmed on-site with your quote.
-        </p>
+        <p class="addon">Coatings for wheels, glass and trim can be added and quoted at the same time. Warranty details are confirmed with your quote.</p>
       </div>
     </div>
   </section>
 
-  {/* ============ FLORIDA-SPECIFIC ARGUMENT ============ */}
-  <section class="why-florida section-pad">
-    <div class="container-reading">
-      <div class="eyebrow">Why Florida</div>
-      <h2 class="display-3">Florida is the hardest climate<br /><em>for paint in the country.</em></h2>
-      <div class="long-form">
-        <p class="dropcap">
-          UV index in Palm Beach County averages 9+ for eight months of the year. Salt air rolls inland from the Atlantic and the Intracoastal. Humidity sits above 70% most days. Tropical storms bring sap, debris, and aggressive rain. Pollen season turns hoods yellow overnight. There is no harder paint environment in the continental United States.
-        </p>
-        <p>
-          A coated car in Florida holds its color and finish longer, washes faster, and resists the etching that turns five-year-old cars into ten-year-old-looking cars. For luxury vehicles, where paint condition is a meaningful component of resale value, the coating often pays for itself when the car is sold or traded.
-        </p>
-        <p>
-          For ceramic-coated Tesla owners, this is especially relevant — Tesla's factory paint is famously soft, and ceramic coating compensates for what the factory didn't do. We've coated dozens of Teslas. We know what works on the finish and what doesn't.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  {/* ============ THE PROCESS ============ */}
-  <section class="process section-pad">
+  <section class="section">
     <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">The process</div>
-        <h2 class="display-2">
-          One day,<br />
-          <em>start to finish.</em>
-        </h2>
+      <div class="section-head">
+        <h2 class="h-lg">One day, start to finish.</h2>
       </div>
-
-      <ol class="process-list">
+      <ol class="steps">
         <li>
-          <div class="process-num">01</div>
-          <div>
-            <h3>8 AM — drop off.</h3>
-            <p>Bring the car in first thing. We do a walk-around together, confirm the work, and give you the exact price based on the size and condition of your car. Nothing starts until you've okayed the number.</p>
-          </div>
+          <h3 class="h-sm">8 AM, drop off.</h3>
+          <p>We walk around the car together and give you the exact price. Nothing starts until you've okayed it.</p>
         </li>
         <li>
-          <div class="process-num">02</div>
-          <div>
-            <h3>Morning — prep and correction.</h3>
-            <p>Hand wash, full decontamination with iron remover and clay-bar to lift embedded contaminants out of the clear coat. Paint inspection under specialty lighting. Paint correction where it's needed — this is the step that determines how good the coating will look.</p>
-          </div>
+          <h3 class="h-sm">Morning, prep.</h3>
+          <p>Hand wash, iron remover and clay bar, then paint correction where it's needed. This is what decides how good the coating looks.</p>
         </li>
         <li>
-          <div class="process-num">03</div>
-          <div>
-            <h3>Afternoon — application.</h3>
-            <p>Coating applied panel by panel in a controlled environment, away from dust and direct sun. Each panel is coated, leveled, and buffed to a uniform finish, then given time to set.</p>
-          </div>
+          <h3 class="h-sm">Afternoon, coating.</h3>
+          <p>Applied panel by panel out of dust and direct sun, leveled and buffed, then given time to set.</p>
         </li>
         <li>
-          <div class="process-num">04</div>
-          <div>
-            <h3>Same day — pickup and care guide.</h3>
-            <p>You take delivery the same day, and leave with a printed care guide and our recommended maintenance schedule. Coated cars do best with regular pH-neutral hand washes — we offer this at North Palm Beach.</p>
-          </div>
+          <h3 class="h-sm">Same day, pickup.</h3>
+          <p>You drive home the same day with a care guide. Coated cars do best with regular pH-neutral hand washes, which is exactly what we do.</p>
         </li>
       </ol>
     </div>
   </section>
 
-  {/* ============ BOOK ============ */}
-  <section class="book-section">
-    <div class="container-narrow">
-      <h2 class="display-2 inverse">
-        Get a ceramic quote.<br />
-        <em>Start with photos.</em>
-      </h2>
-      <p class="book-lead">
-        Book a time below and send us photos of your car. We'll come back with an exact quote based on its size and condition. No pressure, no sales call.
-      </p>
-    </div>
-    <div class="book-widget container-narrow">
-      <CalendlyInline />
-    </div>
-    <div class="container-narrow">
-      <p class="book-fineprint">
-        Prefer to call? NPB (561) 594-8140 · Jupiter (561) 261-2595
-      </p>
+  <section class="section on-ink why-fl">
+    <div class="container-wide why">
+      <h2 class="h-lg">Florida is hard on paint.</h2>
+      <div class="prose">
+        <p>High UV most of the year, salt air off the Atlantic and the Intracoastal, humidity, storm debris, and pollen that turns hoods yellow overnight. A coated car here holds its color longer, washes faster and resists the etching that makes a five-year-old car look ten.</p>
+        <p>It's especially worth it on Teslas, whose factory paint is known for being soft.</p>
+      </div>
     </div>
   </section>
 
-  {/* ============ FAQ ============ */}
-  <section class="faq-section section-pad">
+  <section class="book section" id="book">
     <div class="container-narrow">
-      <div class="section-intro">
-        <div class="eyebrow centered">Questions, answered</div>
-        <h2 class="display-2">
-          Ceramic coating,<br />
-          <em>fully explained.</em>
-        </h2>
-      </div>
+      <h2 class="h-lg">Get a ceramic quote.</h2>
+      <p class="lede">Book a time below and tell us about the car. We'll give you an exact quote once we've seen it. No pressure, no sales call.</p>
+      <div class="book-widget"><CalendlyInline /></div>
+      <p class="book-alt">Prefer to call? <a href={`tel:${shop.phoneE164}`} data-no-i18n>{shop.phone}</a></p>
+    </div>
+  </section>
+
+  <section class="section bg-mist">
+    <div class="container-narrow">
+      <h2 class="h-lg faq-title">Ceramic coating questions.</h2>
       <FAQ faqs={faqs} />
     </div>
   </section>
 
-  {/* ============ FINAL CTA ============ */}
-  <section class="final-cta">
-    <div class="container-narrow">
-      <h2 class="display-2 inverse">
-        Protect your paint<br /><em>for years.</em>
-      </h2>
-      <p class="final-lead">
-        Professional ceramic coating from $800. By appointment at any Hector's location.
-      </p>
-      <div class="final-actions">
-        <a href={siteData.primary.calendly} class="btn btn-primary on-dark">Get a ceramic quote</a>
-        <a href="/services/car-detailing" class="btn-ghost on-dark">Or get a full detail</a>
-      </div>
-    </div>
-  </section>
+  <EndCTA title="Protect the paint." lead="Ceramic coating on US-1 in North Palm Beach. From $800, done the same day." book={true} />
 
 </BaseLayout>
 
 <style>
-  .lead-text {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: var(--color-charcoal-soft);
-    max-width: 640px;
-    margin: 28px auto 0;
-  }
-  .section-intro {
-    text-align: center;
-    margin-bottom: 80px;
-  }
-  .section-intro .eyebrow {
-    margin-bottom: 24px;
-  }
-  .section-intro h2 {
-    margin: 0;
-  }
-
-  /* ============ PRODUCT ============ */
-  .product {
-    background: var(--color-cream);
-  }
-  .product-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 1fr;
-    gap: 96px;
-    align-items: center;
-  }
-  .product-grid .eyebrow {
-    margin-bottom: 28px;
-  }
-  .product-grid h2 {
-    margin: 0 0 40px;
-  }
-  .long-form p {
-    font-size: 18px;
-    line-height: 1.75;
-    color: var(--color-charcoal);
-    margin: 0 0 24px;
-  }
-  .image-frame {
-    aspect-ratio: 1;
-    background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 100%);
-    position: relative;
-  }
-  .image-frame::after {
-    content: '';
-    position: absolute;
-    inset: 16px;
-    border: 1px solid rgba(200, 151, 63, 0.3);
-    pointer-events: none;
-    z-index: 2;
-  }
-  .image-placeholder {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: relative;
-    z-index: 1;
-  }
-  .image-caption {
-    margin-top: 16px;
-    font-family: var(--font-display);
-    font-size: 14px;
-    color: var(--color-gray-warm);
-  }
-
-  /* ============ TIERS ============ */
-  .package {
-    background: var(--color-cream-warm);
-  }
-  .package-card {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-navy);
-    color: var(--color-cream);
-    border: 2px solid var(--color-gold);
-    padding: 56px 56px 48px;
-  }
-  .package-head {
-    text-align: center;
-    padding-bottom: 32px;
-    margin-bottom: 32px;
-    border-bottom: 1px solid rgba(247, 242, 232, 0.15);
-  }
-  .package-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-gold);
-    margin-bottom: 16px;
-  }
-  .package-head h3 {
-    color: var(--color-cream);
-    margin: 0 0 24px;
-  }
-  .package-price {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 24px;
-    color: var(--color-gold-light);
-    margin: 0;
-  }
-  .package-price strong {
-    font-style: normal;
-    color: var(--color-cream);
-    font-weight: 600;
-    font-size: 44px;
-  }
-  .package-price-note {
-    display: block;
-    font-family: var(--font-body);
-    font-style: normal;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(247, 242, 232, 0.6);
-    margin-top: 12px;
-  }
-  .package-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 32px;
-    font-size: 15px;
-    line-height: 1.5;
-    color: rgba(247, 242, 232, 0.85);
-  }
-  .package-list li {
-    padding: 10px 0 10px 22px;
-    position: relative;
-  }
-  .package-list li::before {
-    content: '◆';
-    position: absolute;
-    left: 0;
-    top: 12px;
-    color: var(--color-gold);
-    font-size: 9px;
-  }
-  .package-pricing-note {
-    max-width: 680px;
-    margin: 72px auto 0;
-    text-align: center;
-  }
-  .package-pricing-note .rule-ornament {
-    margin-bottom: 40px;
-  }
-  .package-pricing-note h3 {
-    margin: 0 0 24px;
-  }
-  .package-pricing-note p {
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--color-charcoal-soft);
-    margin: 0 0 20px;
-  }
-  .package-addon {
-    font-style: italic;
-    font-size: 15px;
-    color: var(--color-gray-warm);
-  }
-
-  /* ============ WHY FLORIDA ============ */
-  .why-florida {
-    background: var(--color-cream);
-  }
-  .why-florida .eyebrow {
-    margin-bottom: 28px;
-  }
-  .why-florida h2 {
-    margin: 0 0 48px;
-  }
-
-  /* ============ PROCESS (shared style with detail page) ============ */
-  .process {
-    background: var(--color-cream-warm);
-  }
-  .process-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    max-width: 880px;
-  }
-  .process-list li {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 40px;
-    padding: 40px 0;
-    border-bottom: 1px solid var(--color-gray-line);
-  }
-  .process-list li:first-child {
-    border-top: 1px solid var(--color-gray-line);
-  }
-  .process-num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 32px;
-    color: var(--color-gold);
-    line-height: 1;
-    min-width: 60px;
-    font-weight: 500;
-  }
-  .process-list h3 {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--color-navy);
-    margin: 0 0 12px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-  .process-list p {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--color-charcoal-soft);
-    margin: 0;
-  }
-
-  /* ============ BOOK ============ */
-  .book-section {
-    padding: 120px 0;
-    background: var(--color-navy);
-    color: var(--color-cream);
-    text-align: center;
-  }
-  .book-section .inverse {
-    color: var(--color-cream);
-    margin: 0;
-  }
-  .book-section .inverse em { color: var(--color-gold); }
-  .book-lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: rgba(247, 242, 232, 0.85);
-    max-width: 540px;
-    margin: 28px auto 40px;
-  }
-  .book-widget {
-    margin: 0 auto 32px;
-  }
-  .btn.on-dark {
-    background: var(--color-gold);
-    color: var(--color-navy);
-    padding: 20px 40px;
-  }
-  .btn.on-dark.large {
-    padding: 22px 48px;
-    font-size: 14px;
-  }
-  .btn.on-dark:hover { background: var(--color-gold-light); }
-  .book-fineprint {
-    margin-top: 40px;
-    font-size: 12px;
-    letter-spacing: 0.06em;
-    color: rgba(247, 242, 232, 0.55);
-    line-height: 1.7;
-  }
-
-  /* ============ FAQ ============ */
-  .faq-section {
-    background: var(--color-cream-warm);
-  }
-
-  /* ============ FINAL CTA ============ */
-  .final-cta {
-    padding: 128px 0;
-    background: var(--color-navy-deep);
-    color: var(--color-cream);
-    text-align: center;
-    position: relative;
-  }
-  .final-cta::before,
-  .final-cta::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--color-gold);
-    opacity: 0.3;
-  }
-  .final-cta::before { top: 32px; }
-  .final-cta::after { bottom: 32px; }
-  .display-2.inverse { color: var(--color-cream); }
-  .display-2.inverse em { color: var(--color-gold); }
-  .final-lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: rgba(247, 242, 232, 0.8);
-    max-width: 540px;
-    margin: 32px auto 48px;
-  }
-  .final-actions {
-    display: flex;
-    gap: 32px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .btn-ghost.on-dark {
-    color: var(--color-gold);
-    border-bottom-color: var(--color-gold);
-  }
-  .btn-ghost.on-dark:hover {
-    color: var(--color-gold-light);
-    border-bottom-color: var(--color-gold-light);
-  }
-
-  @media (max-width: 1024px) {
-    .product-grid { grid-template-columns: 1fr; gap: 48px; }
-  }
-  @media (max-width: 768px) {
-    .package-card { padding: 40px 28px 32px; }
-    .package-list { grid-template-columns: 1fr; }
-    .process-list li { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
-    .book-section { padding: 80px 0; }
-    .final-cta { padding: 80px 0; }
+  .hero-btns { margin-top: 32px; }
+  .product { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: center; }
+  .product-img img { width: 100%; aspect-ratio: 5 / 4; object-fit: cover; object-position: 50% 100%; }
+  .product h2 { margin-bottom: 28px; }
+  .package { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+  .package .lede { margin-top: 20px; }
+  .price-tag { display: flex; align-items: baseline; gap: 12px; margin: 36px 0 16px; }
+  .from { font-size: 18px; font-weight: 600; color: var(--color-slate); }
+  .amt { font-stretch: 125%; font-weight: 850; font-size: clamp(64px, 7vw, 104px); letter-spacing: -0.045em; line-height: 0.9; color: var(--color-azure-deep); }
+  .price-note { margin: 0; font-size: 16px; line-height: 1.65; color: var(--color-slate); max-width: 34em; }
+  .package-list { background: #fff; padding: 36px 36px 30px; }
+  .package-list h3 { margin-bottom: 8px; }
+  .addon { margin: 20px 0 0; font-size: 14.5px; color: var(--color-slate); }
+  .why { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: start; }
+  .why-fl .prose p { color: rgba(255,255,255,0.85); }
+  .book .lede { margin: 20px 0 36px; }
+  .book-alt { margin: 20px 0 0; color: var(--color-slate); }
+  .book-alt a { color: var(--color-ink); font-weight: 700; }
+  .faq-title { margin-bottom: 36px; }
+  @media (max-width: 900px) {
+    .product, .package, .why { grid-template-columns: 1fr; gap: 40px; }
+    .package-list { padding: 28px 22px; }
   }
 </style>

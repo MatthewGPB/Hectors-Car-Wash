@@ -1,0 +1,50 @@
+---
+// Shared closing block: where to go, when, and how to reach us.
+import locationsData from '../data/locations.json';
+import siteData from '../data/site.json';
+import OpenStatus from './OpenStatus.astro';
+export interface Props {
+  title?: string;
+  lead?: string;
+  book?: boolean;
+}
+const shop = locationsData.locations[0];
+const {
+  title = 'Pull in any day.',
+  lead = 'No appointment for a wash. Detailing and ceramic coating are booked ahead.',
+  book = false,
+} = Astro.props;
+---
+
+<section class="end-cta on-ink">
+  <div class="container-wide end-grid">
+    <div>
+      <h2 class="h-lg">{title}</h2>
+      <p class="lede">{lead}</p>
+    </div>
+    <div class="end-side">
+      <OpenStatus />
+      <p class="end-addr" data-no-i18n>{shop.address.street}<br />{shop.address.city}, {shop.address.state} {shop.address.zip}</p>
+      <div class="btn-row stack">
+        {book ? (
+          <a href={siteData.primary.calendly} class="btn btn-azure">Book online</a>
+        ) : (
+          <a href={shop.mapsUrl} target="_blank" rel="noopener" class="btn btn-azure" data-directions-label={shop.directionsLabel}>Get directions</a>
+        )}
+        <a href={`tel:${shop.phoneE164}`} class="btn btn-line">Call <span data-no-i18n>{shop.phone}</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .end-cta { padding: 104px 0; }
+  .end-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: end; }
+  .end-grid .lede { margin-top: 22px; }
+  .end-side { display: flex; flex-direction: column; gap: 18px; }
+  .end-addr { margin: 0; font-size: 17px; line-height: 1.5; color: rgba(255,255,255,0.85); }
+  @media (max-width: 900px) {
+    .end-cta { padding: 72px 0; }
+    .end-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+</style>

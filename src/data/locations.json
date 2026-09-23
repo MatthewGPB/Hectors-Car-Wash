@@ -37,48 +37,8 @@
       ],
       "pricingMenu": "handwash",
       "tagline": "The original shop.",
-      "intro": "Hector's first location, on US Highway 1 since the beginning. Hand-washed inside and out by trained staff. Five tiers, walk-in service, no appointment needed.",
+      "intro": "Hector's original shop on US Highway 1. Every car washed and dried by hand, inside and out, by a trained crew. Five packages, walk in any day, no appointment.",
       "neighborhoodsCopy": "Customers drive in from Palm Beach Gardens, Lake Park, Juno Beach, and the islands. Lost Tree Village and Old Port Cove regulars know the routine."
-    },
-    {
-      "slug": "jupiter",
-      "name": "Jupiter",
-      "shortName": "Jupiter",
-      "type": "Express car wash",
-      "typeShort": "Express",
-      "address": {
-        "street": "6751 W Indiantown Rd",
-        "city": "Jupiter",
-        "state": "FL",
-        "zip": "33458",
-        "country": "US"
-      },
-      "phone": "(561) 261-2595",
-      "phoneE164": "+15612612595",
-      "reviewUrl": "https://www.google.com/search?q=Hector%27s+Car+Wash+Jupiter#lrd=0x88ded7005b5fc1d1:0x74cfb5eade2547a8,1",
-      "directionsLabel": "AW-18242062636/8EVhCOHF18EcEKySv_pD",
-      "mapsUrl": "https://maps.app.goo.gl/om3czxQDdxKx5j1r7",
-      "geo": {
-        "lat": 26.9342,
-        "lng": -80.1417
-      },
-      "hours": {
-        "monSat": "8:00 AM – 5:30 PM",
-        "sunday": "9:00 AM – 4:00 PM"
-      },
-      "badge": null,
-      "areaServed": [
-        "Jupiter",
-        "Tequesta",
-        "Abacoa",
-        "Palm Beach Gardens",
-        "Jupiter Inlet Colony",
-        "Loxahatchee"
-      ],
-      "pricingMenu": "machine",
-      "tagline": "Express wash, hands on it.",
-      "intro": "The express wash with hands on it. Every car gets the wheels and rims prepped by staff before the conveyor. Every car gets checked at the dry-off, not just blown and waved through. Single washes or unlimited monthly memberships.",
-      "neighborhoodsCopy": "The Jupiter shop is the daily-driver shop. Members from Abacoa and Tequesta come twice a week. Snowbirds from Jupiter Inlet Colony stop in on the way home from the marina."
     }
   ]
 }

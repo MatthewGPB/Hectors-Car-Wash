@@ -1,346 +1,238 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReviewCard from '../components/ReviewCard.astro';
+import PriceBoard from '../components/PriceBoard.astro';
+import OpenStatus from '../components/OpenStatus.astro';
 import siteData from '../data/site.json';
 import locationsData from '../data/locations.json';
-import pricingData from '../data/pricing.json';
 import reviewsData from '../data/reviews.json';
 import { generateHomepageSchema } from '../lib/schema';
 
-const title = `Hand Car Wash & Detailing in Palm Beach County | Hector's`;
-const description = `Almost 30 years of real car care. Hand wash in North Palm Beach, express wash in Jupiter, detailing and ceramic coating by appointment. Walk in any day.`;
+const shop = locationsData.locations[0];
+const title = `Hand Car Wash in North Palm Beach, FL | Hector's Car Wash`;
+const description = `Hand car wash on US Highway 1 in North Palm Beach. Washed and dried by hand, inside and out, from $19.99. Detailing and ceramic coating by appointment.`;
 const schema = generateHomepageSchema();
 
-const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3);
+const nico = reviewsData.reviews.find((r) => r.id === 'nico');
+const featured = reviewsData.reviews.filter((r) => r.homepage && r.id !== 'nico').concat(
+  reviewsData.reviews.filter((r) => !r.homepage && r.id === 'peter-flavor')
+).slice(0, 3);
+
+const mapQ = encodeURIComponent(`Hector's Car Wash, ${shop.address.street}, ${shop.address.city}, ${shop.address.state} ${shop.address.zip}`);
+const mapSrc = `https://www.google.com/maps?q=${mapQ}&output=embed`;
 ---
 
 <BaseLayout title={title} description={description} schema={schema}>
 
-  {/* ============ HERO — ASYMMETRIC EDITORIAL ============ */}
-  <section class="home-hero">
-    <div class="container-wide">
-      <div class="hero-grid">
-        <div class="hero-left">
-          <div class="eyebrow">Palm Beach County · since 1996</div>
-          <h1 class="display-1">
-            Almost 30 years.<br />
-            The <em>same hands.</em>
-          </h1>
-          <p class="hero-lead">
-            Hand wash in North Palm Beach. Express wash, owner-operated, in Jupiter. Two shops, one standard — real car care done by people who care.
-          </p>
-          <div class="hero-actions">
-            <a href="#locations" class="btn btn-primary">Find your nearest shop</a>
-            <a href={siteData.primary.calendly} class="btn btn-ghost">Book detailing</a>
-          </div>
+  {/* ============ HERO ============ */}
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1 class="h-xl">North Palm Beach’s hand car wash.</h1>
+        <p class="lede">
+          Soap, wash mitts and microfiber towels, a crew of people on every car, and Hector on the lot. Bentleys, work trucks and family SUVs all get the same care.
+        </p>
+        <OpenStatus class="hero-status" />
+        <div class="btn-row stack">
+          <a href={shop.mapsUrl} target="_blank" rel="noopener" class="btn btn-azure" data-directions-label={shop.directionsLabel}>Get directions</a>
+          <a href="#prices" class="btn btn-line">See prices</a>
         </div>
-        <div class="hero-right">
-          <div class="hero-image-block">
-            <div class="hero-image-frame">
-              <img
-                src="/images/hero-hector-portrait.jpg"
-                alt="Hector David Ramirez at his North Palm Beach car wash"
-                class="hero-image-placeholder"
-                width="1200"
-                height="1600"
-                onerror="this.style.visibility='hidden'"
-              />
-            </div>
-            <div class="hero-folio">
-              <span class="folio-num">Vol. 30</span>
-              <span class="folio-sep">·</span>
-              <span class="folio-text">A Palm Beach County institution</span>
-            </div>
+        <p class="hero-addr">
+          <span data-no-i18n>{shop.address.street}, {shop.address.city}</span><br />
+          <a href={`tel:${shop.phoneE164}`} data-no-i18n>{shop.phone}</a>
+        </p>
+      </div>
+      <div class="hero-photo">
+        <img
+          src="/images/story-hector-working.jpg"
+          alt="A Hector's crew member hand-drying a white sports car with a microfiber towel"
+          width="1200"
+          height="1500"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+    <hr class="stripe" />
+  </section>
+
+  {/* ============ PROOF ============ */}
+  <section class="proof section-tight">
+    <div class="container-wide proof-grid">
+      {nico && (
+        <figure class="proof-quote">
+          <blockquote data-no-i18n>
+            <p>“No where else in Palm Beach County can you get a hand wash as fast and as well as Hector’s. The real treat is all the cars that roll by. Bentleys, Aston Martins, Mercedes galore.”</p>
+          </blockquote>
+          <figcaption><strong data-no-i18n>{nico.author}</strong>, Google Local Guide</figcaption>
+        </figure>
+      )}
+      <div class="proof-score">
+        <div class="score" data-no-i18n>{siteData.brand.rating}</div>
+        <p>out of 5 across {siteData.brand.reviewCount}+ Google reviews</p>
+        <a href="/pages/review" class="text-link">Read the reviews</a>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PRICE BOARD ============ */}
+  <section class="prices section on-ink" id="prices">
+    <div class="container-wide">
+      <div class="section-head">
+        <h2 class="h-lg">Five washes. Posted prices.</h2>
+        <p class="lede">Hand wash, per car, done while you wait. No membership and no appointment.</p>
+      </div>
+      <PriceBoard />
+      <div class="price-more">
+        <a href="/services/car-detailing" class="more">
+          <span class="more-name">Full detailing</span>
+          <span class="more-price">From $300, by appointment</span>
+        </a>
+        <a href="/services/ceramic-coating" class="more">
+          <span class="more-name">Ceramic coating</span>
+          <span class="more-price">From $800, same day</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ BY HAND ============ */}
+  <section class="byhand section">
+    <div class="container-wide byhand-grid">
+      <div class="byhand-photo">
+        <img
+          src="/images/location-north-palm-beach.jpg"
+          alt="Hector's Car Wash on US Highway 1 in North Palm Beach, a white building with blue lettering"
+          width="1600"
+          height="800"
+          loading="lazy"
+        />
+      </div>
+      <div class="byhand-copy">
+        <h2 class="h-lg">What “by hand” means here.</h2>
+        <div class="points">
+          <div>
+            <h3 class="h-sm">Mitts and microfiber, top to bottom.</h3>
+            <p>Every car is washed with soft mitts and dried with microfiber towels by trained staff. The right soap for your finish, fresh water, careful hands.</p>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="container-wide">
-      <hr class="rule-gold" />
-    </div>
-  </section>
-
-  {/* ============ THE THREE SHOPS — LOCATIONS FIRST (mobile priority) ============ */}
-  <section class="shops-section section-pad" id="locations">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">The two shops</div>
-        <h2 class="display-2">
-          Find <em>Hector's</em><br />near you.
-        </h2>
-        <p class="locations-note">Hand wash at North Palm Beach · Express wash &amp; memberships at Jupiter</p>
-      </div>
-
-      <div class="shops-list">
-        {locationsData.locations.map((loc, i) => (
-          <article class="shop-entry">
-            <div class="shop-num">0{i + 1}</div>
-            <div class="shop-content">
-              <div class="shop-header">
-                <h3 class="display-3">{loc.name}</h3>
-                <div class="shop-type">{loc.typeShort}</div>
-                {loc.badge && <span class="shop-badge">{loc.badge}</span>}
-              </div>
-              <p class="shop-tagline"><em>{loc.tagline}</em></p>
-              <p class="shop-intro">{loc.intro}</p>
-              <div class="shop-meta">
-                <div>
-                  <span class="meta-label">Address</span>
-                  <div>{loc.address.street}</div>
-                  <div>{loc.address.city}, {loc.address.state} {loc.address.zip}</div>
-                </div>
-                <div>
-                  <span class="meta-label">Phone</span>
-                  <div><a href={`tel:${loc.phoneE164}`}>{loc.phone}</a></div>
-                </div>
-                <div>
-                  <span class="meta-label">Hours</span>
-                  <div>Mon – Sat: {loc.hours.monSat}</div>
-                  <div>Sunday: {loc.hours.sunday}</div>
-                </div>
-              </div>
-              <div class="shop-actions">
-                <a
-                  href={loc.mapsUrl}
-                  target="_blank"
-                  rel="noopener"
-                  class="btn btn-primary shop-directions"
-                  data-directions-label={loc.directionsLabel}
-                >
-                  Get Directions
-                </a>
-                <a href={`tel:${loc.phoneE164}`} class="btn btn-outline shop-call">Call {loc.phone}</a>
-                <a href={`/locations/${loc.slug}`} class="btn-ghost">View {loc.name}</a>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  {/* ============ TRUST — QUICK HIT (stars + killer quote) ============ */}
-  <section class="quote-section">
-    <div class="container-narrow">
-      <div class="quote-ornament rule-ornament">
-        <div class="rule-ornament-diamond"></div>
-      </div>
-      <blockquote class="pull-quote">
-        "No where else in Palm Beach County can you get a hand wash as fast and as well as Hector's. The real treat is all the cars that roll by — Bentleys, Aston Martins, Mercedes galore."
-        <span class="pull-quote-attribution">— Nico · Google Local Guide · 65 reviews</span>
-      </blockquote>
-      <div class="quote-stats">
-        <span><strong>4.9</strong> ★ ★ ★ ★ ★</span>
-        <span class="stat-sep">·</span>
-        <span><strong>200+</strong> Google reviews</span>
-        <span class="stat-sep">·</span>
-        <span>Serving Palm Beach <strong>since 1996</strong></span>
-      </div>
-    </div>
-  </section>
-
-  {/* ============ PRICING — SHARED ACROSS ALL LOCATIONS ============ */}
-  <section class="home-pricing section-pad" id="pricing">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">What it costs</div>
-        <h2 class="display-2">
-          One price list.<br />
-          <em>Every shop.</em>
-        </h2>
-        <p class="pricing-note-top">Same standard at both locations. Walk in any day — no appointment.</p>
-      </div>
-
-      <div class="price-grid">
-        {pricingData.handwash.tiers.map((tier) => (
-          <div class={`price-card ${tier.featured ? 'featured' : ''}`}>
-            {tier.featured && <span class="price-flag">Best shine</span>}
-            <div class="price-name">{tier.name}</div>
-            <div class="price-amount">${tier.price}</div>
-            <ul class="price-includes">
-              {tier.includes.map((item) => <li>{item}</li>)}
-            </ul>
+          <div>
+            <h3 class="h-sm">The inside counts too.</h3>
+            <p>From Silver up: vacuum, windows in and out, dash dusted, rims and tires shined. We don't upsell the basics.</p>
           </div>
-        ))}
-      </div>
-
-      <div class="membership-note">
-        <strong>Jupiter also offers memberships.</strong>
-        <span>Unlimited monthly washes from $45/mo — wash as often as you want, cancel anytime. Available at the Jupiter express location only.</span>
-        <a href="/locations/jupiter" class="btn-ghost">See Jupiter memberships</a>
-      </div>
-    </div>
-  </section>
-
-  {/* ============ THE TWO PILLARS — "WHICH HECTOR'S IS RIGHT FOR YOU?" ============ */}
-  <section class="pillars section-pad" id="which">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">Which Hector's is right for you?</div>
-        <h2 class="display-2">
-          Two ways to keep<br />
-          your car <em>right.</em>
-        </h2>
-      </div>
-
-      <div class="pillars-grid">
-        <article class="pillar">
-          <div class="pillar-num">01</div>
-          <h3 class="display-3">Hand wash.</h3>
-          <p class="pillar-tagline"><em>For the car you love.</em></p>
-          <p class="pillar-body">
-            Five tiers from $19.99 to $44.99. Done by hand, top to bottom, by trained staff. Walk in any day — no appointment. Available at North Palm Beach.
-          </p>
-          <ul class="pillar-list">
-            <li>North Palm Beach</li>
-          </ul>
-          <a href="#pricing" class="btn-ghost">See the price list</a>
-        </article>
-
-        <article class="pillar">
-          <div class="pillar-num">02</div>
-          <h3 class="display-3">Express wash.</h3>
-          <p class="pillar-tagline"><em>For the week that won't slow down.</em></p>
-          <p class="pillar-body">
-            The express wash with hands on it. Every car gets the wheels prepped by staff before the conveyor, and every car gets checked at the dry-off. Single washes from $20 or unlimited memberships from $45/month.
-          </p>
-          <ul class="pillar-list">
-            <li>Jupiter only</li>
-          </ul>
-          <a href="/locations/jupiter" class="btn-ghost">See Jupiter memberships</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  {/* ============ THE STORY — EDITORIAL LONG-FORM ============ */}
-  <section class="story-section section-pad" id="story">
-    <div class="container-wide">
-      <div class="story-grid">
-        <div class="story-text">
-          <div class="eyebrow">The story</div>
-          <h2 class="display-2">
-            Started at the bottom.<br />
-            <em>Stayed obsessed.</em>
-          </h2>
-          <div class="story-body">
-            <p class="dropcap">
-              Almost thirty years ago, Hector took a job at a local car wash. He worked his way up to manager, learning every detail of the work — the chemistry of the soaps, the angle of the towel, the way light reads a properly waxed hood.
-            </p>
-            <p>
-              When he was ready, he left to build his own shop. The first Hector's opened with one rule: every car gets the care he'd give his own. Years later, that rule hasn't moved.
-            </p>
-            <a href="/about" class="btn-ghost">Read the full story</a>
+          <div>
+            <h3 class="h-sm">Luxury finishes, handled right.</h3>
+            <p>Ceramic-coated paint, chrome, soft-touch interiors. Tell us what your car has and we'll treat it accordingly.</p>
           </div>
-        </div>
-        <div class="story-image">
-          <div class="story-image-frame">
-            <img
-              src="/images/story-hector-working.jpg"
-              alt="Hector hand-drying a car at the shop"
-              class="story-image-placeholder"
-              width="1200"
-              height="1500"
-              onerror="this.style.visibility='hidden'"
-            />
+          <div>
+            <h3 class="h-sm">Walk in. No appointment.</h3>
+            <p>Just pull up. Detailing and ceramic coating are booked ahead because they take hours.</p>
           </div>
-          <span class="img-caption">Hector David Ramirez · founder</span>
         </div>
       </div>
     </div>
   </section>
 
-  {/* ============ SERVICES — TABLE OF CONTENTS, NOT CARD GRID ============ */}
-  <section class="services-section section-pad-sm" id="services">
+  {/* ============ BEYOND THE WASH ============ */}
+  <section class="beyond section bg-mist">
     <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">What we do</div>
-        <h2 class="display-2">
-          The services<br />we <em>actually offer.</em>
-        </h2>
+      <div class="section-head">
+        <h2 class="h-lg">When a wash isn’t enough.</h2>
+        <p class="lede">Deep cleaning and long-term paint protection, done at the same shop by the same crew.</p>
       </div>
-
-      <ul class="toc-list">
-        <li>
-          <a href="#pricing">
-            <div class="toc-num">01</div>
-            <div class="toc-content">
-              <h3>Hand car wash</h3>
-              <p>Five tiers from $19.99 to $44.99. North Palm Beach. Walk in any day.</p>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="/locations/jupiter">
-            <div class="toc-num">02</div>
-            <div class="toc-content">
-              <h3>Express car wash</h3>
-              <p>Single visits or unlimited memberships. $20 to $90/month. Jupiter only.</p>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="/services/car-detailing">
-            <div class="toc-num">03</div>
-            <div class="toc-content">
-              <h3>Full detailing</h3>
-              <p>Interior shampoo, clay bar, paint correction. By appointment. From $300.</p>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="/services/ceramic-coating">
-            <div class="toc-num">04</div>
-            <div class="toc-content">
-              <h3>Ceramic coating</h3>
-              <p>2–5 year hydrophobic paint protection. By appointment. From $800.</p>
-            </div>
-          </a>
-        </li>
-      </ul>
-
-      <p class="services-footnote">
-        <em>Pricing on every location and service page. No printed menu. No haggling.</em>
-      </p>
+      <div class="beyond-grid">
+        <a href="/services/car-detailing" class="svc svc-wide">
+          <div class="svc-img">
+            <img src="/images/detail-hero.jpg" alt="A crew member polishing a grey Tesla" width="1600" height="800" loading="lazy" />
+          </div>
+          <div class="svc-body">
+            <h3 class="h-md">Full detailing</h3>
+            <p>Interior shampoo, clay bar, hand polish, leather conditioning. Four to six hours, from $300.</p>
+            <span class="text-link">See what's included</span>
+          </div>
+        </a>
+        <a href="/services/ceramic-coating" class="svc">
+          <div class="svc-img">
+            <img class="ceramic-img" src="/images/ceramic-water-beading.jpg" alt="Water beading on freshly ceramic-coated paint" width="1200" height="1200" loading="lazy" />
+          </div>
+          <div class="svc-body">
+            <h3 class="h-md">Ceramic coating</h3>
+            <p>One package, priced by vehicle size. Drop off at 8 AM, drive home the same day. From $800.</p>
+            <span class="text-link">How it works</span>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
-  {/* ============ REVIEWS — THREE COLUMN ============ */}
-  <section class="reviews-section section-pad" id="reviews">
-    <div class="container-wide">
-      <div class="section-intro">
-        <div class="eyebrow centered">What Palm Beach says</div>
-        <h2 class="display-2">
-          The kind of reviews<br />
-          <em>you can't fake.</em>
-        </h2>
+  {/* ============ HECTOR ============ */}
+  <section class="hector section">
+    <div class="container-wide hector-grid">
+      <div class="hector-photo">
+        <img src="/images/about-hector-portrait.jpg" alt="Hector David Ramirez, owner of Hector's Car Wash" width="1600" height="2000" loading="lazy" />
       </div>
+      <div class="hector-copy">
+        <h2 class="h-lg">The name on the sign is the man on the lot.</h2>
+        <div class="prose">
+          <p>Hector started at a local car wash almost thirty years ago and worked his way up to running the place. He learned the soaps, the towels, the drying, and the difference between a car that looks clean and one that is.</p>
+          <p>In 2019 he opened his own shop on US Highway 1 with one rule: every car gets the care he'd give his own.</p>
+        </div>
+        <a href="/about" class="text-link">Read Hector's story</a>
+      </div>
+    </div>
+  </section>
 
+  {/* ============ REVIEWS ============ */}
+  <section class="reviews section bg-mist">
+    <div class="container-wide">
+      <div class="reviews-head">
+        <h2 class="h-lg">What regulars say.</h2>
+        <a href="/pages/review" class="text-link">All reviews, or leave one</a>
+      </div>
       <div class="reviews-grid">
-        {featuredReviews.map((review) => (
-          <ReviewCard quote={review.shortQuote} author={review.author} source={review.source} />
+        {featured.map((r) => (
+          <ReviewCard quote={r.shortQuote} author={r.author} source={r.source} />
         ))}
-      </div>
-
-      <div class="reviews-cta">
-        <a href="/pages/review" class="btn btn-outline">Read all reviews</a>
       </div>
     </div>
   </section>
 
-  {/* ============ FINAL CTA ============ */}
-  <section class="final-cta">
-    <div class="container-narrow">
-      <h2 class="display-2 inverse">
-        Drop by today.<br />
-        <em>No appointment for a wash.</em>
-      </h2>
-      <p class="final-lead">
-        Hand wash in North Palm Beach. Express in Jupiter. Pick the one closest to your day.
-      </p>
-      <div class="final-actions">
-        <a href="#locations" class="btn btn-primary on-dark">Find a location</a>
-        <a href={siteData.primary.calendly} class="btn-ghost on-dark">Book detailing or ceramic</a>
+  {/* ============ VISIT ============ */}
+  <section class="visit section" id="visit">
+    <div class="container-wide visit-grid">
+      <div class="visit-copy">
+        <h2 class="h-lg">Find us on US-1.</h2>
+        <OpenStatus class="visit-status" />
+        <dl class="visit-facts">
+          <div>
+            <dt>Address</dt>
+            <dd data-no-i18n>{shop.address.street}<br />{shop.address.city}, {shop.address.state} {shop.address.zip}</dd>
+          </div>
+          <div>
+            <dt>Phone</dt>
+            <dd><a href={`tel:${shop.phoneE164}`} data-no-i18n>{shop.phone}</a></dd>
+          </div>
+          <div>
+            <dt>Monday to Saturday</dt>
+            <dd data-no-i18n>{shop.hours.monSat}</dd>
+          </div>
+          <div>
+            <dt>Sunday</dt>
+            <dd data-no-i18n>{shop.hours.sunday}</dd>
+          </div>
+        </dl>
+        <p class="visit-area">{shop.neighborhoodsCopy}</p>
+        <div class="btn-row stack">
+          <a href={shop.mapsUrl} target="_blank" rel="noopener" class="btn btn-ink" data-directions-label={shop.directionsLabel}>Get directions</a>
+          <a href={`tel:${shop.phoneE164}`} class="btn btn-line">Call the shop</a>
+        </div>
+      </div>
+      <div class="visit-map">
+        <iframe
+          src={mapSrc}
+          title="Map to Hector's Car Wash in North Palm Beach"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
   </section>
@@ -349,579 +241,210 @@ const featuredReviews = reviewsData.reviews.filter((r) => r.homepage).slice(0, 3
 
 <style>
   /* ============ HERO ============ */
-  .home-hero {
-    padding: 96px 0 0;
-  }
+  .hero { position: relative; }
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 80px;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    min-height: min(calc(100vh - 76px), 860px);
   }
-  .hero-left .eyebrow {
-    margin-bottom: 36px;
+  .hero-copy {
+    align-self: center;
+    padding: 72px 56px 72px max(32px, calc((100vw - 1240px) / 2 + 32px));
   }
-  .hero-left h1 {
-    margin: 0;
-  }
-  .hero-lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(20px, 2.2vw, 26px);
-    line-height: 1.4;
-    color: var(--color-charcoal-soft);
-    max-width: 480px;
-    margin: 40px 0;
-    font-weight: 400;
-  }
-  .hero-actions {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .hero-right {
-    position: relative;
-  }
-  .hero-image-block {
-    position: relative;
-  }
-  .hero-image-frame {
-    position: relative;
-    aspect-ratio: 3/4;
-    /* Gradient shows behind the image until it loads, or if it's missing */
-    background: linear-gradient(135deg, #0A2540 0%, #1a3a5c 50%, #2a4a72 100%);
-  }
-  .hero-image-frame::after {
-    content: '';
+  .hero-copy h1 { font-size: clamp(40px, 5.2vw, 78px); max-width: 8.6em; }
+  .hero-copy .lede { margin-top: 28px; max-width: 31em; }
+  .hero-copy :global(.hero-status) { margin: 32px 0 20px; }
+  .hero-addr { margin: 24px 0 0; font-size: 15px; line-height: 1.6; color: var(--color-slate); }
+  .hero-addr a { color: var(--color-ink); font-weight: 700; text-decoration: none; }
+
+  .hero-photo { position: relative; overflow: hidden; background: var(--color-mist); }
+  .hero-photo img {
     position: absolute;
-    inset: 16px;
-    border: 1px solid rgba(200, 151, 63, 0.3);
-    pointer-events: none;
-    z-index: 2;
-  }
-  .hero-image-placeholder {
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    position: relative;
-    z-index: 1;
+    object-position: 45% 40%;
   }
-  .hero-folio {
-    margin-top: 16px;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 13px;
-    color: var(--color-gray-warm);
-    display: flex;
+  /* The one orchestrated moment: a squeegee pass across the photo on load */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-photo img { animation: wipe 1.1s cubic-bezier(0.65, 0, 0.25, 1) 0.15s both; }
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 12px;
+      background: var(--color-azure);
+      animation: blade 1.1s cubic-bezier(0.65, 0, 0.25, 1) 0.15s both;
+    }
+  }
+  @keyframes wipe {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes blade {
+    0% { left: 0; opacity: 1; }
+    92% { left: calc(100% - 12px); opacity: 1; }
+    100% { left: calc(100% - 12px); opacity: 0; }
+  }
+
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; min-height: 0; }
+    .hero-copy { padding: 48px 20px 44px; }
+    .hero-photo { order: -1; aspect-ratio: 4 / 3; }
+  }
+
+  /* ============ PROOF ============ */
+  .proof-grid {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    gap: 64px;
     align-items: center;
-    gap: 10px;
-    letter-spacing: 0.02em;
   }
-  .folio-num {
-    color: var(--color-gold);
-    font-weight: 500;
-  }
-  .folio-sep { color: var(--color-gold); opacity: 0.5; }
-  .home-hero .rule-gold {
-    margin: 96px 0 0;
-  }
-  @media (max-width: 1024px) {
-    .home-hero { padding: 56px 0 0; }
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .hero-image-block { max-width: 420px; }
-    .home-hero .rule-gold { margin-top: 64px; }
-  }
-
-  /* ============ SECTION INTRO ============ */
-  .section-intro {
-    text-align: center;
-    margin-bottom: 80px;
-  }
-  .section-intro .eyebrow {
-    margin-bottom: 28px;
-  }
-  .section-intro h2 {
+  .proof-quote { margin: 0; }
+  .proof-quote blockquote { margin: 0 0 16px; }
+  .proof-quote p {
     margin: 0;
+    font-stretch: 108%;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .proof-quote figcaption { font-size: 15px; color: var(--color-slate); }
+  .proof-quote strong { color: var(--color-ink); }
+  .proof-score { border-left: 2px solid var(--color-ink); padding-left: 36px; }
+  .score {
+    font-stretch: 125%;
+    font-weight: 850;
+    font-size: clamp(72px, 8vw, 112px);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--color-azure);
+  }
+  .proof-score p { margin: 14px 0 14px; font-size: 16px; color: var(--color-slate); max-width: 14em; }
+  @media (max-width: 860px) {
+    .proof-grid { grid-template-columns: 1fr; gap: 36px; }
+    .proof-score { border-left: 0; border-top: 2px solid var(--color-ink); padding: 28px 0 0; }
   }
 
-  /* ============ PILLARS ============ */
-  .pillars {
-    background: var(--color-cream);
-  }
-  .pillars-grid {
+  /* ============ PRICES ============ */
+  .price-more {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .pillar {
-    padding: 56px 48px;
-    background: var(--color-cream-warm);
-    border-top: 3px solid var(--color-gold);
-    position: relative;
-  }
-  .pillar-num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 16px;
-    color: var(--color-gold);
-    letter-spacing: 0.04em;
-    margin-bottom: 24px;
-    font-weight: 500;
-  }
-  .pillar h3 {
-    margin: 0 0 8px;
-  }
-  .pillar-tagline {
-    font-family: var(--font-display);
-    font-size: 22px;
-    line-height: 1.3;
-    color: var(--color-clay);
-    margin: 0 0 28px;
-  }
-  .pillar-body {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--color-charcoal-soft);
-    margin: 0 0 24px;
-  }
-  .pillar-list {
-    list-style: none;
-    padding: 16px 0;
-    margin: 0 0 28px;
-    border-top: 1px solid var(--color-gray-line);
-    border-bottom: 1px solid var(--color-gray-line);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-navy);
-  }
-  .pillar-list li {
-    padding: 4px 0;
-  }
-  .pillar-list li::before {
-    content: '◆ ';
-    color: var(--color-gold);
-    font-size: 8px;
-    vertical-align: middle;
-    margin-right: 8px;
-  }
-  @media (max-width: 1024px) {
-    .pillars-grid { grid-template-columns: 1fr; gap: 32px; }
-    .pillar { padding: 40px 32px; }
-  }
-
-  /* ============ PULL QUOTE SECTION ============ */
-  .quote-section {
-    padding: 96px 0;
-    background: var(--color-cream);
-  }
-  .quote-ornament {
-    margin-bottom: 48px;
-  }
-  .quote-stats {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-gray-warm);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
     gap: 16px;
+    margin-top: 56px;
   }
-  .quote-stats strong {
-    color: var(--color-navy);
-    font-weight: 700;
-  }
-  .stat-sep {
-    color: var(--color-gold);
-  }
-  @media (max-width: 640px) {
-    .quote-section { padding: 64px 0; }
-  }
-
-  /* ============ STORY ============ */
-  .story-section {
-    background: var(--color-cream-warm);
-  }
-  .story-grid {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 96px;
-    align-items: center;
-  }
-  .story-text .eyebrow {
-    margin-bottom: 32px;
-  }
-  .story-text h2 {
-    margin: 0 0 40px;
-  }
-  .story-body p {
-    font-size: 18px;
-    line-height: 1.75;
-    color: var(--color-charcoal);
-    margin: 0 0 20px;
-  }
-  .story-image {
-    position: relative;
-  }
-  .story-image-frame {
-    aspect-ratio: 4/5;
-    background: linear-gradient(160deg, #1a3a5c 0%, #0A2540 100%);
-    position: relative;
-  }
-  .story-image-frame::after {
-    content: '';
-    position: absolute;
-    inset: 16px;
-    border: 1px solid rgba(200, 151, 63, 0.3);
-    pointer-events: none;
-    z-index: 2;
-  }
-  .story-image-placeholder {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: relative;
-    z-index: 1;
-  }
-  .img-caption {
-    position: absolute;
-    bottom: -32px;
-    left: 0;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 13px;
-    color: var(--color-gray-warm);
-  }
-  @media (max-width: 1024px) {
-    .story-grid { grid-template-columns: 1fr; gap: 48px; }
-    .story-image-frame { max-width: 440px; }
-  }
-
-  /* ============ SHOPS LIST ============ */
-  .shops-section {
-    background: var(--color-cream);
-  }
-  .shops-list {
-    border-top: 1px solid var(--color-gray-line);
-  }
-  .shop-entry {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 56px;
-    padding: 64px 0;
-    border-bottom: 1px solid var(--color-gray-line);
-  }
-  .shop-num {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: 22px;
-    color: var(--color-gold);
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    padding-top: 8px;
-  }
-  .shop-header {
+  .more {
     display: flex;
+    justify-content: space-between;
     align-items: baseline;
-    gap: 20px;
-    margin-bottom: 12px;
     flex-wrap: wrap;
+    gap: 8px 16px;
+    padding: 22px 26px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    color: #fff;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
   }
-  .shop-header h3 {
-    margin: 0;
+  .more:hover { border-color: var(--color-azure); background: rgba(46,156,214,0.12); }
+  .more-name { font-stretch: 118%; font-weight: 750; font-size: 19px; }
+  .more-price { color: var(--color-azure-light); font-size: 15px; }
+  @media (max-width: 760px) {
+    .price-more { grid-template-columns: 1fr; }
+    .more { border-radius: 20px; }
   }
-  .shop-type {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-gray-warm);
-  }
-  .shop-badge {
-    background: var(--color-clay);
-    color: var(--color-cream);
-    padding: 4px 10px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-  .shop-tagline {
-    font-family: var(--font-display);
-    font-size: 22px;
-    color: var(--color-gold);
-    margin: 0 0 16px;
-  }
-  .shop-intro {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--color-charcoal-soft);
-    margin: 0 0 32px;
-    max-width: 680px;
-  }
-  .shop-meta {
+
+  /* ============ BY HAND ============ */
+  .byhand-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1.2fr;
-    gap: 32px;
-    padding: 24px 0;
-    border-top: 1px solid var(--color-gray-line);
-    border-bottom: 1px solid var(--color-gray-line);
-    margin-bottom: 28px;
-    font-size: 14px;
-    color: var(--color-charcoal-soft);
-    line-height: 1.55;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 72px;
+    align-items: start;
   }
-  .shop-meta a {
-    color: var(--color-navy);
-    font-weight: 500;
+  .byhand-photo { position: sticky; top: 108px; }
+  .byhand-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 38% 50%; }
+  .byhand-copy h2 { margin-bottom: 44px; }
+  .points { display: grid; gap: 0; border-top: 2px solid var(--color-ink); }
+  .points > div { padding: 26px 0; border-bottom: 1px solid var(--color-line); }
+  .points p { margin: 10px 0 0; font-size: 16.5px; line-height: 1.6; color: var(--color-slate); max-width: 34em; }
+  @media (max-width: 960px) {
+    .byhand-grid { grid-template-columns: 1fr; gap: 40px; }
+    .byhand-photo { position: static; }
+    .byhand-photo img { aspect-ratio: 16 / 10; }
+  }
+
+  /* ============ BEYOND ============ */
+  .beyond-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 28px; align-items: stretch; }
+  .svc {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    color: var(--color-ink);
     text-decoration: none;
   }
-  .meta-label {
-    display: block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--color-gold);
-    margin-bottom: 8px;
-  }
-  .shop-actions {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .locations-note {
-    font-size: 14px;
-    color: var(--color-gray-warm);
-    margin-top: 16px;
-  }
-  .shop-call { display: none; }
-  @media (max-width: 768px) {
-    .shop-entry { grid-template-columns: 1fr; gap: 24px; padding: 40px 0; }
-    .shop-meta { grid-template-columns: 1fr; gap: 16px; }
-    /* On mobile, directions + call become big full-width tap targets */
-    .shop-actions {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 12px;
-    }
-    .shop-directions,
-    .shop-call {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      padding: 18px 24px;
-      font-size: 14px;
-    }
-    .shop-actions .btn-ghost {
-      text-align: center;
-      padding: 8px 0;
-    }
+  .svc-img { overflow: hidden; aspect-ratio: 4 / 3; }
+  .svc-wide .svc-img { aspect-ratio: auto; flex: 1; min-height: 300px; }
+  .svc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .svc:hover .svc-img img { transform: scale(1.03); }
+  .svc-img .ceramic-img { object-position: 50% 100%; }
+  .svc-body { padding: 28px 30px 32px; }
+  .svc-body p { margin: 12px 0 18px; font-size: 16.5px; line-height: 1.55; color: var(--color-slate); max-width: 32em; }
+  @media (max-width: 860px) {
+    .beyond-grid { grid-template-columns: 1fr; }
+    .svc-wide .svc-img { aspect-ratio: 16 / 10; flex: none; min-height: 0; }
   }
 
-  /* ============ HOME PRICING ============ */
-  .home-pricing {
-    background: var(--color-cream);
-  }
-  .pricing-note-top {
-    font-size: 15px;
-    color: var(--color-gray-warm);
-    margin-top: 16px;
-  }
-  .home-pricing .price-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-  .home-pricing .price-card {
-    border: 1px solid var(--color-gray-line);
-    background: var(--color-cream-warm);
-    padding: 28px 20px;
-    text-align: center;
-    position: relative;
-  }
-  .home-pricing .price-card.featured {
-    border-color: var(--color-gold);
-    border-width: 2px;
-  }
-  .home-pricing .price-flag {
-    position: absolute;
-    top: -11px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--color-gold);
-    color: var(--color-navy);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    white-space: nowrap;
-  }
-  .home-pricing .price-name {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-clay);
-    margin-bottom: 10px;
-  }
-  .home-pricing .price-amount {
-    font-family: var(--font-display);
-    font-size: 36px;
-    font-weight: 500;
-    color: var(--color-navy);
-    line-height: 1;
-    margin-bottom: 18px;
-  }
-  .home-pricing .price-includes {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    text-align: left;
-  }
-  .home-pricing .price-includes li {
-    font-size: 13px;
-    color: var(--color-charcoal-soft);
-    padding: 5px 0 5px 16px;
-    position: relative;
-    line-height: 1.4;
-  }
-  .home-pricing .price-includes li::before {
-    content: '·';
-    position: absolute;
-    left: 4px;
-    color: var(--color-gold);
-    font-weight: 700;
-  }
-  .membership-note {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--color-navy);
-    color: var(--color-cream);
-    padding: 32px 36px;
-    text-align: center;
-  }
-  .membership-note strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--color-gold-light);
-    margin-bottom: 10px;
-  }
-  .membership-note span {
-    display: block;
-    font-size: 15px;
-    line-height: 1.6;
-    color: rgba(247, 242, 232, 0.85);
-    margin-bottom: 18px;
-  }
-  .membership-note .btn-ghost {
-    color: var(--color-gold);
-    border-bottom-color: var(--color-gold);
-  }
-  @media (max-width: 1024px) {
-    .home-pricing .price-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 560px) {
-    .home-pricing .price-grid { grid-template-columns: 1fr; gap: 12px; }
-    .membership-note { padding: 28px 24px; }
-  }
-
-  /* ============ SERVICES TOC ============ */
-  .services-section {
-    background: var(--color-cream-warm);
-  }
-  .services-footnote {
-    text-align: center;
-    margin-top: 32px;
-    font-size: 13px;
-    color: var(--color-gray-warm);
+  /* ============ HECTOR ============ */
+  .hector-grid { display: grid; grid-template-columns: 0.8fr 1fr; gap: 80px; align-items: center; }
+  .hector-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .hector-copy h2 { margin-bottom: 32px; max-width: 11em; }
+  .hector-copy .prose { margin-bottom: 26px; }
+  @media (max-width: 900px) {
+    .hector-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hector-photo { max-width: 420px; }
   }
 
   /* ============ REVIEWS ============ */
-  .reviews-section {
-    background: var(--color-cream);
+  .reviews-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 48px;
   }
   .reviews-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    max-width: 1180px;
-    margin: 0 auto;
+    gap: 48px;
   }
-  .reviews-cta {
-    text-align: center;
-    margin-top: 64px;
-  }
-  @media (max-width: 1024px) {
-    .reviews-grid { grid-template-columns: 1fr; }
-  }
+  .reviews-grid > :global(*) { border-top: 2px solid var(--color-ink); padding-top: 26px; }
+  @media (max-width: 960px) { .reviews-grid { grid-template-columns: 1fr; gap: 40px; } }
 
-  /* ============ FINAL CTA ============ */
-  .final-cta {
-    padding: 128px 0;
-    background: var(--color-navy-deep);
-    color: var(--color-cream);
-    text-align: center;
-    position: relative;
+  /* ============ VISIT ============ */
+  .visit-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: stretch; }
+  .visit-copy :global(.visit-status) { margin: 24px 0 8px; }
+  .visit-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 32px;
+    margin: 28px 0;
+    padding: 28px 0;
+    border-top: 2px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-line);
   }
-  .final-cta::before,
-  .final-cta::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--color-gold);
-    opacity: 0.3;
+  .visit-facts dt { font-size: 14px; font-weight: 650; color: var(--color-azure-deep); margin-bottom: 4px; }
+  .visit-facts dd { margin: 0; font-size: 17px; line-height: 1.5; }
+  .visit-facts a { color: var(--color-ink); font-weight: 700; text-decoration: none; }
+  .visit-area { margin: 0 0 28px; font-size: 16px; line-height: 1.6; color: var(--color-slate); max-width: 34em; }
+  .visit-map { min-height: 460px; background: var(--color-mist); }
+  .visit-map iframe { width: 100%; height: 100%; min-height: 460px; border: 0; display: block; }
+  @media (max-width: 960px) {
+    .visit-grid { grid-template-columns: 1fr; gap: 40px; }
+    .visit-map, .visit-map iframe { min-height: 340px; }
   }
-  .final-cta::before { top: 32px; }
-  .final-cta::after { bottom: 32px; }
-  .display-2.inverse {
-    color: var(--color-cream);
-  }
-  .display-2.inverse em {
-    color: var(--color-gold);
-  }
-  .final-lead {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(18px, 2vw, 22px);
-    line-height: 1.5;
-    color: rgba(247, 242, 232, 0.8);
-    max-width: 580px;
-    margin: 32px auto 48px;
-  }
-  .final-actions {
-    display: flex;
-    gap: 32px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .btn-ghost.on-dark {
-    color: var(--color-gold);
-    border-bottom-color: var(--color-gold);
-  }
-  .btn-ghost.on-dark:hover {
-    color: var(--color-gold-light);
-    border-bottom-color: var(--color-gold-light);
-  }
-  @media (max-width: 640px) {
-    .final-cta { padding: 80px 0; }
-  }
+  @media (max-width: 480px) { .visit-facts { grid-template-columns: 1fr; } }
 </style>

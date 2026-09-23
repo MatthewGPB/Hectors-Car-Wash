@@ -8,57 +8,32 @@ export interface Props {
 const { quote, author, source, variant = 'default' } = Astro.props;
 ---
 
-<article class={`review-card ${variant}`} data-no-i18n>
-  <div class="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
-  <p class="review-text">"{quote}"</p>
-  <div class="review-author">{author}</div>
-  <div class="review-meta">{source}</div>
-</article>
+<figure class={`review ${variant}`}>
+  <div class="stars" role="img" aria-label="5 out of 5 stars">
+    {[1, 2, 3, 4, 5].map(() => (
+      <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M10 1.5l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L10 14.8l-5.3 2.9 1.2-5.9L1.4 7.7l6-.7z"/></svg>
+    ))}
+  </div>
+  <blockquote data-no-i18n><p>“{quote}”</p></blockquote>
+  <figcaption>
+    <span class="who" data-no-i18n>{author}</span>
+    <span class="src" data-no-i18n>{source}</span>
+  </figcaption>
+</figure>
 
 <style>
-  .review-card {
-    padding: 36px 32px;
-    background: var(--color-cream-warm);
-    border-left: 2px solid var(--color-gold);
-  }
-  .review-card.large {
-    padding: 56px 48px;
-    background: var(--color-cream);
-    border: 1px solid var(--color-gray-line);
-    border-left: 3px solid var(--color-gold);
-  }
-  .review-stars {
-    color: var(--color-gold);
-    letter-spacing: 0.1em;
-    font-size: 14px;
-    margin-bottom: 18px;
-  }
-  .review-card.large .review-stars { font-size: 16px; }
-  .review-text {
-    font-family: var(--font-display);
-    font-weight: 400;
-    line-height: 1.55;
-    color: var(--color-charcoal);
-    margin: 0 0 24px;
-    font-style: italic;
-    font-size: 17px;
-  }
-  .review-card.large .review-text {
-    font-size: 22px;
+  .review { margin: 0; display: flex; flex-direction: column; }
+  .stars { display: flex; gap: 2px; color: var(--color-azure); margin-bottom: 16px; }
+  blockquote { margin: 0 0 20px; }
+  blockquote p {
+    margin: 0;
+    font-size: 19px;
     line-height: 1.5;
-    margin-bottom: 32px;
+    font-weight: 500;
+    color: var(--color-ink);
   }
-  .review-author {
-    font-size: 13px;
-    color: var(--color-navy);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
-  .review-meta {
-    font-size: 11px;
-    color: var(--color-gray-warm);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
+  .large blockquote p { font-size: clamp(20px, 2vw, 24px); line-height: 1.45; }
+  figcaption { margin-top: auto; display: flex; flex-direction: column; gap: 2px; }
+  .who { font-weight: 700; font-size: 15px; }
+  .src { font-size: 13.5px; color: var(--color-slate); }
 </style>
