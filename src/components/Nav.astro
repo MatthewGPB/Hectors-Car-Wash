@@ -46,23 +46,24 @@ const links = [
     </nav>
   </div>
 
-  <div class="mobile-menu" id="mobileMenu" hidden>
-    <div class="mobile-sheet">
-      <ul class="mobile-links">
-        <li><a href="/">Home</a></li>
-        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-      </ul>
-      <div class="mobile-actions">
-        <a href={shop.mapsUrl} target="_blank" rel="noopener" class="btn btn-azure" data-directions-label={shop.directionsLabel}>Get directions</a>
-        <a href={siteData.primary.calendly} class="btn btn-line">Book detailing or ceramic</a>
-      </div>
-      <p class="mobile-hours">
-        <span data-no-i18n>{shop.address.street}, {shop.address.city}</span><br />
-        Mon–Sat 8:00 AM – 5:30 PM, Sun 9:00 AM – 4:00 PM
-      </p>
-    </div>
-  </div>
 </header>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+  <div class="mobile-sheet">
+    <ul class="mobile-links">
+      <li><a href="/">Home</a></li>
+      {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+    </ul>
+    <div class="mobile-actions">
+      <a href={shop.mapsUrl} target="_blank" rel="noopener" class="btn btn-azure" data-directions-label={shop.directionsLabel}>Get directions</a>
+      <a href={siteData.primary.calendly} class="btn btn-line">Book detailing or ceramic</a>
+    </div>
+    <p class="mobile-hours">
+      <span data-no-i18n>{shop.address.street}, {shop.address.city}</span><br />
+      Mon–Sat 8:00 AM – 5:30 PM, Sun 9:00 AM – 4:00 PM
+    </p>
+  </div>
+</div>
 
 <script is:inline>
   (function () {
@@ -230,6 +231,7 @@ const links = [
     overflow-y: auto;
   }
   .mobile-menu.open { opacity: 1; }
+  .mobile-menu[hidden] { display: none !important; }
   .mobile-sheet {
     background: #fff;
     padding: 96px 24px 32px;
