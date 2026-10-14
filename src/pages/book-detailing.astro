@@ -1,7 +1,8 @@
 ---
 // Google Ads landing page for detailing bookings.
-// No site nav or footer links: the only actions are book (Calendly) or call.
-// noindex + left out of the sitemap so it doesn't compete with /services/car-detailing.
+// Built for one action: book a drop-off time in the embedded Calendly. Calling is the backup.
+// No site nav or footer links. noindex + left out of the sitemap so it doesn't
+// compete with /services/car-detailing in organic search.
 // Calendly completions fire the booking conversion in ConversionTracking.astro.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CalendlyInline from '../components/CalendlyInline.astro';
@@ -11,9 +12,16 @@ import locationsData from '../data/locations.json';
 import reviewsData from '../data/reviews.json';
 
 const shop = locationsData.locations[0];
-const CALENDLY = 'https://calendly.com/hectorscarwash/30min';
+
+// hide_event_type_details: hides the Calendly event name and "30 min" label, which
+// would contradict the 4 to 6 hour job. The rest matches the site's colors.
+const CALENDLY =
+  'https://calendly.com/hectorscarwash/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=2e9cd6&text_color=122029';
+
 const detailReview = reviewsData.reviews.find((r) => r.id === 'jayden-anthony');
-const familyReview = reviewsData.reviews.find((r) => r.id === 'riley-ziegler');
+const reviews = ['riley-ziegler', 'christopher-schalk', 'nico']
+  .map((id) => reviewsData.reviews.find((r) => r.id === id))
+  .filter(Boolean);
 
 const title = `Book a Car Detail in North Palm Beach | ${siteData.brand.name}`;
 const description = `Book a full interior and exterior detail at Hector's on US Highway 1 in North Palm Beach. From $300, four to six hours, one car per slot.`;
@@ -22,6 +30,10 @@ const faqs = [
   {
     question: 'How much does a detail cost?',
     answer: "From $300 for a sedan. Larger SUVs, trucks and cars in heavier condition cost more. We look at the car at drop-off and give you the exact price before any work starts.",
+  },
+  {
+    question: 'Do I pay to book?',
+    answer: "No. Booking is free and there's no card to enter. You pay at the shop.",
   },
   {
     question: 'How long does it take?',
@@ -40,6 +52,8 @@ const faqs = [
     answer: 'Use the link in your Calendly confirmation email to pick a new time, or call the shop.',
   },
 ];
+
+const star = 'M10 1.5l2.6 5.5 6 .7-4.5 4.1 1.2 5.9L10 14.8l-5.3 2.9 1.2-5.9L1.4 7.7l6-.7z';
 ---
 
 <BaseLayout title={title} description={description} bare={true} noindex={true}>
@@ -67,76 +81,146 @@ const faqs = [
   <section class="lp-hero">
     <div class="container-wide lp-grid">
       <div class="lp-copy">
+        <a href="#reviews" class="rating">
+          <span class="stars" aria-hidden="true">
+            {[1, 2, 3, 4, 5].map(() => <svg viewBox="0 0 20 20" width="16" height="16"><path fill="currentColor" d={star} /></svg>)}
+          </span>
+          <span><strong data-no-i18n>{siteData.brand.rating}</strong> from {siteData.brand.reviewCount}+ Google reviews</span>
+        </a>
         <h1 class="h-xl">Book a full detail in North Palm Beach.</h1>
-        <p class="lede">Inside and out, by hand, at Hector's on US Highway 1. Pick a drop-off time and we'll have the car back to you the same day.</p>
+        <p class="lede">Inside and out, by hand, on US Highway 1. Drop it off in the morning, drive home in a car that looks better than the day you bought it.</p>
         <ul class="lp-facts">
-          <li><strong>From $300</strong><span>Exact price at drop-off</span></li>
+          <li><strong>From $300</strong><span>Exact price before we start</span></li>
           <li><strong>4 to 6 hours</strong><span>Same-day pickup</span></li>
-          <li><strong>4.9 on Google</strong><span>{siteData.brand.reviewCount}+ reviews</span></li>
+          <li class="hide-sm"><strong>One car per slot</strong><span>Your time is your time</span></li>
         </ul>
-        <a href="#calendar" class="btn btn-azure lp-jump">Pick a time</a>
+
+        {detailReview && (
+          <figure class="hero-quote">
+            <span class="q-mark" aria-hidden="true" data-no-i18n>“</span>
+            <div>
+              <blockquote data-no-i18n><p>{detailReview.shortQuote}</p></blockquote>
+              <figcaption><strong data-no-i18n>{detailReview.author}</strong>, detail customer</figcaption>
+            </div>
+          </figure>
+        )}
       </div>
 
       <div class="lp-cal" id="calendar">
         <div class="lp-cal-head">
-          <h2 class="h-sm">Choose your drop-off time</h2>
-          <p>Free to book. No card needed.</p>
+          <span class="step" data-no-i18n>1</span>
+          <div>
+            <h2 class="h-sm">Pick your drop-off day and time</h2>
+            <p>Takes under a minute. We'll confirm by email.</p>
+          </div>
         </div>
-        <CalendlyInline url={CALENDLY} eager={true} height={720} />
+        <div class="cal-body">
+          <div class="cal-loading" aria-hidden="true">
+            <span class="spinner"></span>
+            <span>Loading open times…</span>
+          </div>
+          <CalendlyInline url={CALENDLY} eager={true} height={680} fallbackText="Calendar not loading? Open it in a new tab" />
+        </div>
+        <ul class="assure">
+          <li>Free to book, no card</li>
+          <li>Price confirmed before work starts</li>
+          <li>Not happy? Fixed on the spot</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <hr class="stripe" />
+  {/* ============ RESULTS ============ */}
+  <section class="section results">
+    <div class="container-wide">
+      <div class="section-head">
+        <h2 class="h-lg">The difference a detail makes.</h2>
+        <p class="lede">Real cars from our shop on US-1.</p>
+      </div>
+      <div class="gallery">
+        <figure class="g-big">
+          <img src="/images/detail-interior-before-after.jpg" alt="Floor mats before and after a Hector's detail" width="1600" height="1200" loading="lazy" />
+          <figcaption>Interior, before and after.</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/story-hector-working.jpg" alt="A crew member hand-finishing a white sports car" width="1200" height="1500" loading="lazy" />
+          <figcaption>Hand finish, every panel.</figcaption>
+        </figure>
+        <figure>
+          <img src="/images/detail-hero.jpg" alt="Polishing the paint on a grey Tesla" width="1600" height="800" loading="lazy" />
+          <figcaption>Hand polish for gloss.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
 
   {/* ============ WHAT'S INCLUDED ============ */}
-  <section class="section">
-    <div class="container-wide inc-grid">
-      <div class="inc-photo">
-        <img src="/images/detail-hero.jpg" alt="A Hector's crew member polishing a grey Tesla" width="1600" height="800" loading="lazy" />
+  <section class="section bg-mist">
+    <div class="container-wide">
+      <div class="section-head">
+        <h2 class="h-lg">Everything in a full detail.</h2>
+        <p class="lede">One package, inside and out. No upsell menu at the counter.</p>
       </div>
-      <div>
-        <h2 class="h-lg">What a detail covers.</h2>
-        <div class="inc-cols">
-          <div>
-            <h3 class="h-sm">Inside</h3>
-            <ul class="ticks">
-              <li>Full vacuum, seats, trunk and every seam</li>
-              <li>Hot-water shampoo on carpets and cloth</li>
-              <li>Leather cleaned and conditioned</li>
-              <li>Dash, console, doors and vents dressed</li>
-              <li>Streak-free glass, inside and out</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="h-sm">Outside</h3>
-            <ul class="ticks">
-              <li>Two-bucket hand wash</li>
-              <li>Clay-bar treatment</li>
-              <li>Hand polish for gloss and light swirls</li>
-              <li>Wheels, tires, wells and chrome</li>
-              <li>Door jambs, hand dried with microfiber</li>
-            </ul>
-          </div>
+      <div class="inc-cols">
+        <div>
+          <h3 class="h-sm">Inside</h3>
+          <ul class="ticks">
+            <li>Full vacuum, seats, trunk and every seam</li>
+            <li>Hot-water shampoo on carpets and cloth</li>
+            <li>Leather cleaned and conditioned</li>
+            <li>Dash, console, doors and vents dressed</li>
+            <li>Streak-free glass, inside and out</li>
+          </ul>
         </div>
+        <div>
+          <h3 class="h-sm">Outside</h3>
+          <ul class="ticks">
+            <li>Two-bucket hand wash</li>
+            <li>Clay-bar treatment</li>
+            <li>Hand polish for gloss and light swirls</li>
+            <li>Wheels, tires, wells and chrome</li>
+            <li>Door jambs, hand dried with microfiber</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mid-cta">
+        <a href="#calendar" class="btn btn-azure" data-cta="mid">Pick a drop-off time</a>
+        <span>or call <a href={`tel:${shop.phoneE164}`} data-no-i18n>{shop.phone}</a></span>
       </div>
     </div>
   </section>
 
-  {/* ============ PROOF ============ */}
-  <section class="section-tight bg-mist">
-    <div class="container-wide proof">
-      <figure class="proof-photo">
-        <img src="/images/detail-interior-before-after.jpg" alt="Floor mats before and after a Hector's detail" width="1600" height="1200" loading="lazy" />
-        <figcaption>Interior, before and after.</figcaption>
-      </figure>
-      <div class="quotes">
-        {[detailReview, familyReview].filter(Boolean).map((r) => (
+  {/* ============ REVIEWS ============ */}
+  <section class="section" id="reviews">
+    <div class="container-wide">
+      <div class="rev-head">
+        <h2 class="h-lg">Why North Palm Beach comes back.</h2>
+        <div class="rev-score">
+          <span class="score" data-no-i18n>{siteData.brand.rating}</span>
+          <span class="stars" aria-hidden="true">
+            {[1, 2, 3, 4, 5].map(() => <svg viewBox="0 0 20 20" width="18" height="18"><path fill="currentColor" d={star} /></svg>)}
+          </span>
+          <span class="rev-count">{siteData.brand.reviewCount}+ Google reviews</span>
+        </div>
+      </div>
+      <div class="rev-grid">
+        {reviews.map((r) => (
           <figure class="q">
             <blockquote data-no-i18n><p>“{r!.shortQuote}”</p></blockquote>
             <figcaption><strong data-no-i18n>{r!.author}</strong>, Google review</figcaption>
           </figure>
         ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ HECTOR ============ */}
+  <section class="section-tight bg-mist">
+    <div class="container-wide owner">
+      <img src="/images/about-hector-portrait.jpg" alt="Hector David Ramirez, owner" width="1600" height="2000" loading="lazy" />
+      <div>
+        <h2 class="h-md">Hector is on the lot every day.</h2>
+        <p>Almost thirty years of washing and detailing cars, and since 2019 under his own name. He hires and trains the crew that works on your car, and he's there when you pick it up.</p>
       </div>
     </div>
   </section>
@@ -178,20 +262,20 @@ const faqs = [
   <section class="lp-close on-ink">
     <div class="container-wide close-grid">
       <div>
-        <h2 class="h-lg">Ready when you are.</h2>
-        <p class="lede">900 US Highway 1, North Palm Beach. Mon–Sat 8:00 AM – 5:30 PM, Sun 9:00 AM – 4:00 PM.</p>
+        <h2 class="h-lg">Your car, back to its best.</h2>
+        <p class="lede">From $300. Same-day pickup. 900 US Highway 1, North Palm Beach.</p>
       </div>
       <div class="btn-row stack">
-        <a href="#calendar" class="btn btn-azure">Pick a time</a>
+        <a href="#calendar" class="btn btn-azure" data-cta="close">Pick a drop-off time</a>
         <a href={`tel:${shop.phoneE164}`} class="btn btn-line">Call <span data-no-i18n>{shop.phone}</span></a>
       </div>
     </div>
-    <p class="lp-legal container-wide">© {new Date().getFullYear()} <span data-no-i18n>Hector's Car Wash</span>. <a href="/">Visit hectorcarwash.com</a></p>
+    <p class="lp-legal container-wide">© {new Date().getFullYear()} <span data-no-i18n>Hector's Car Wash</span>, 900 US Highway 1, North Palm Beach, FL 33408. Mon–Sat 8:00 AM – 5:30 PM, Sun 9:00 AM – 4:00 PM.</p>
   </section>
 
-  {/* Mobile: keep the two actions in reach once the calendar has scrolled away */}
+  {/* Mobile: both actions stay in reach whenever the calendar is off screen */}
   <div class="lp-bar" id="lpBar" aria-hidden="true">
-    <a href="#calendar" class="btn btn-azure" tabindex="-1">Pick a time</a>
+    <a href="#calendar" class="btn btn-azure" tabindex="-1" data-cta="bar">Pick a time</a>
     <a href={`tel:${shop.phoneE164}`} class="btn btn-ink" tabindex="-1">Call</a>
   </div>
 
@@ -199,22 +283,37 @@ const faqs = [
 
 <script is:inline>
   (function () {
+    // Sticky bar: show whenever the calendar is fully out of view (above or below).
     var bar = document.getElementById('lpBar');
     var cal = document.getElementById('calendar');
-    if (!bar || !cal || !('IntersectionObserver' in window)) return;
-    new IntersectionObserver(function (es) {
-      var past = !es[0].isIntersecting && es[0].boundingClientRect.top < 0;
-      bar.classList.toggle('show', past);
-      bar.setAttribute('aria-hidden', past ? 'false' : 'true');
-      bar.querySelectorAll('a').forEach(function (a) { a.tabIndex = past ? 0 : -1; });
-    }).observe(cal);
+    if (bar && cal && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        var off = !es[0].isIntersecting;
+        bar.classList.toggle('show', off);
+        bar.setAttribute('aria-hidden', off ? 'false' : 'true');
+        bar.querySelectorAll('a').forEach(function (a) { a.tabIndex = off ? 0 : -1; });
+      }, { threshold: 0.15 }).observe(cal);
+    }
+
+    // Hide the loading note once Calendly's iframe reports in.
+    window.addEventListener('message', function (e) {
+      if (e.data && typeof e.data.event === 'string' && e.data.event.indexOf('calendly.') === 0) {
+        var l = document.querySelector('.cal-loading');
+        if (l) l.classList.add('done');
+      }
+    });
+    // Fallback: hide it after the iframe has had time to paint.
+    setTimeout(function () {
+      var l = document.querySelector('.cal-loading');
+      if (l) l.classList.add('done');
+    }, 6000);
   })();
 </script>
 
 <style>
   /* ---------- slim header ---------- */
   .lp-top { border-bottom: 1px solid var(--color-line); background: #fff; }
-  .lp-top-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+  .lp-top-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
   .lp-brand { display: inline-flex; align-items: center; gap: 10px; font-stretch: 125%; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
   .lp-brand img { width: 40px; height: 40px; }
   .lp-top-right { display: flex; align-items: center; gap: 10px; }
@@ -226,40 +325,92 @@ const faqs = [
   .lang-toggle button { appearance: none; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 999px; color: var(--color-slate); cursor: pointer; }
   .lang-toggle button[aria-pressed='true'] { background: var(--color-ink); color: #fff; }
 
-  /* ---------- hero + calendar ---------- */
-  .lp-hero { padding: 56px 0 72px; background: var(--color-mist); }
-  .lp-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
-  .lp-copy { position: sticky; top: 32px; padding-top: 16px; }
-  .lp-copy h1 { font-size: clamp(38px, 4.6vw, 68px); }
-  .lp-copy .lede { margin-top: 24px; }
-  .lp-facts { list-style: none; margin: 36px 0 0; padding: 0; border-top: 2px solid var(--color-ink); }
-  .lp-facts li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--color-line); }
-  .lp-facts strong { font-stretch: 118%; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; }
-  .lp-facts span { font-size: 15px; color: var(--color-slate); text-align: right; }
-  .lp-jump { display: none; }
+  .stars { display: inline-flex; gap: 1px; color: var(--color-curb); }
 
-  .lp-cal { background: #fff; border: 1px solid var(--color-line); box-shadow: 0 24px 60px -30px rgba(18, 32, 41, 0.35); border-top: 8px solid var(--color-azure); }
-  .lp-cal-head { padding: 22px 24px 4px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; }
-  .lp-cal-head p { margin: 0; font-size: 14px; color: var(--color-slate); }
-  .lp-cal :global(.calendly-wrap) { padding: 0 4px 4px; max-width: none; }
+  /* ---------- hero + calendar ---------- */
+  .lp-hero { padding: 48px 0 80px; background: var(--color-mist); }
+  .lp-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
+  .lp-copy { position: sticky; top: 24px; padding-top: 8px; }
+  .rating {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
+    font-size: 15px; color: var(--color-ink); text-decoration: none;
+  }
+  .rating strong { font-weight: 800; }
+  .lp-copy h1 { font-size: clamp(38px, 4.4vw, 64px); }
+  .lp-copy .lede { margin-top: 20px; }
+  .lp-facts { list-style: none; margin: 32px 0 0; padding: 0; border-top: 2px solid var(--color-ink); }
+  .lp-facts li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--color-line); }
+  .lp-facts strong { font-stretch: 118%; font-weight: 800; font-size: 19px; letter-spacing: -0.01em; }
+  .lp-facts span { font-size: 15px; color: var(--color-slate); text-align: right; }
+
+  .hero-quote { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; margin: 28px 0 0; padding: 20px 22px; background: #fff; }
+  .q-mark { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-azure); color: var(--color-ink); font-stretch: 125%; font-weight: 850; font-size: 34px; line-height: 1; padding-top: 12px; }
+  .hero-quote blockquote { margin: 0 0 4px; }
+  .hero-quote p { margin: 0; font-weight: 600; font-size: 16.5px; line-height: 1.4; }
+  .hero-quote figcaption { font-size: 14px; color: var(--color-slate); }
+  .hero-quote strong { color: var(--color-ink); }
+
+  .lp-cal { background: #fff; box-shadow: 0 30px 70px -36px rgba(18, 32, 41, 0.45); border-top: 8px solid var(--color-azure); }
+  .lp-cal-head { display: flex; align-items: center; gap: 14px; padding: 20px 24px 8px; }
+  .step {
+    flex-shrink: 0; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%;
+    background: var(--color-azure); color: var(--color-ink); font-stretch: 125%; font-weight: 800;
+  }
+  .lp-cal-head p { margin: 2px 0 0; font-size: 14px; color: var(--color-slate); }
+  .cal-body { position: relative; min-height: 680px; }
+  .cal-body :global(.calendly-wrap) { padding: 0 4px; max-width: none; background: transparent; }
+  .cal-loading {
+    position: absolute; inset: 0 0 auto; height: 320px; z-index: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    font-size: 15px; color: var(--color-slate); pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .cal-loading.done { opacity: 0; }
+  .cal-body :global(.calendly-inline-widget) { position: relative; z-index: 1; }
+  .spinner { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--color-mist-deep); border-top-color: var(--color-azure); animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+  .assure {
+    list-style: none; margin: 0; padding: 16px 24px 20px; border-top: 1px solid var(--color-line);
+    display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14px; font-weight: 600;
+  }
+  .assure li { position: relative; padding-left: 20px; }
+  .assure li::before {
+    content: ''; position: absolute; left: 2px; top: 5px; width: 10px; height: 5px;
+    border-left: 2.5px solid var(--color-azure); border-bottom: 2.5px solid var(--color-azure); transform: rotate(-45deg);
+  }
+
+  /* ---------- results ---------- */
+  .gallery { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 20px; }
+  .gallery figure { margin: 0; }
+  .gallery img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+  .gallery .g-big img { aspect-ratio: auto; height: 100%; max-height: 100%; }
+  .g-big { display: flex; flex-direction: column; }
+  .g-big img { flex: 1; min-height: 0; }
+  .gallery figcaption { margin-top: 10px; font-size: 14px; color: var(--color-slate); }
 
   /* ---------- included ---------- */
-  .inc-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
-  .inc-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 60% 50%; }
-  .inc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 36px; }
+  .inc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
   .inc-cols h3 { padding-bottom: 12px; border-bottom: 2px solid var(--color-ink); }
+  .mid-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 48px; font-size: 15px; color: var(--color-slate); }
+  .mid-cta a:not(.btn) { color: var(--color-ink); font-weight: 700; }
 
-  /* ---------- proof ---------- */
-  .proof { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-  .proof-photo { margin: 0; }
-  .proof-photo img { width: 100%; height: auto; }
-  .proof-photo figcaption { margin-top: 10px; font-size: 14px; color: var(--color-slate); }
-  .quotes { display: grid; gap: 36px; }
+  /* ---------- reviews ---------- */
+  .rev-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 48px; }
+  .rev-head h2 { max-width: 12em; }
+  .rev-score { display: grid; grid-template-columns: auto auto; column-gap: 14px; align-items: center; }
+  .score { grid-row: span 2; font-stretch: 125%; font-weight: 850; font-size: 64px; letter-spacing: -0.05em; line-height: 0.9; color: var(--color-azure); }
+  .rev-count { font-size: 14px; color: var(--color-slate); }
+  .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
   .q { margin: 0; border-top: 2px solid var(--color-ink); padding-top: 22px; }
   .q blockquote { margin: 0 0 12px; }
-  .q p { margin: 0; font-stretch: 106%; font-weight: 600; font-size: clamp(20px, 2vw, 25px); line-height: 1.35; letter-spacing: -0.01em; }
-  .q figcaption { font-size: 15px; color: var(--color-slate); }
+  .q p { margin: 0; font-weight: 600; font-size: 18px; line-height: 1.45; }
+  .q figcaption { font-size: 14.5px; color: var(--color-slate); }
   .q strong { color: var(--color-ink); }
+
+  /* ---------- owner ---------- */
+  .owner { display: grid; grid-template-columns: 160px 1fr; gap: 36px; align-items: center; max-width: 880px; }
+  .owner img { width: 160px; height: 160px; object-fit: cover; border-radius: 50%; }
+  .owner p { margin: 12px 0 0; font-size: 17px; line-height: 1.65; color: var(--color-slate); max-width: 36em; }
 
   .steps-title { margin-bottom: 48px; }
   .faq-title { margin-bottom: 36px; }
@@ -270,27 +421,38 @@ const faqs = [
   .close-grid .lede { margin-top: 18px; }
   .close-grid .btn-row { justify-content: flex-end; }
   .lp-legal { margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.14); font-size: 13.5px; color: rgba(255,255,255,0.55); }
-  .lp-legal a { color: rgba(255,255,255,0.8); }
 
-  /* ---------- sticky mobile bar ---------- */
   .lp-bar { display: none; }
 
   @media (max-width: 960px) {
-    .lp-hero { padding: 28px 0 0; background: #fff; }
-    .lp-copy .lede { margin-top: 16px; font-size: 17px; }
-    .lp-grid { grid-template-columns: 1fr; gap: 28px; }
+    .lp-hero { padding: 20px 0 0; background: #fff; }
+    .lp-grid { grid-template-columns: 1fr; gap: 20px; }
     .lp-copy { position: static; padding-top: 0; }
-    .lp-facts { margin-top: 24px; }
-    .lp-cal { margin: 0 -20px; border-left: 0; border-right: 0; box-shadow: none; }
-    .inc-grid, .proof, .close-grid { grid-template-columns: 1fr; gap: 40px; }
-    .inc-photo img { aspect-ratio: 16 / 10; }
+    .rating { margin-bottom: 12px; font-size: 14px; }
+    .lp-copy h1 { font-size: clamp(32px, 8.6vw, 44px); }
+    .lp-copy .lede { display: none; }
+    .lp-facts { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--color-line); }
+    .lp-facts li { flex-direction: column; gap: 2px; border-bottom: 0; padding: 12px 0; }
+    .lp-facts li + li { padding-left: 16px; border-left: 1px solid var(--color-line); }
+    .lp-facts span { text-align: left; font-size: 13.5px; }
+    .lp-facts strong { font-size: 18px; }
+    .hide-sm { display: none !important; }
+    .hero-quote { display: none; }
+    .lp-cal { margin: 0 -20px; box-shadow: none; border-bottom: 1px solid var(--color-line); }
+    .lp-cal-head { padding: 18px 20px 4px; }
+    .assure { padding: 14px 20px 18px; flex-direction: column; gap: 8px; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .g-big { grid-column: 1 / -1; }
+    .gallery .g-big img { height: auto; }
+    .rev-grid, .close-grid { grid-template-columns: 1fr; gap: 32px; }
     .close-grid .btn-row { justify-content: flex-start; }
-    .lp-close { padding-bottom: 96px; }
+    .lp-close { padding-bottom: 104px; }
     .lp-bar {
       display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px;
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
       padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-      background: rgba(255,255,255,0.96); border-top: 1px solid var(--color-line);
+      background: rgba(255,255,255,0.97); border-top: 1px solid var(--color-line);
+      box-shadow: 0 -10px 30px -20px rgba(18,32,41,0.5);
       transform: translateY(110%); transition: transform 0.2s ease;
     }
     .lp-bar.show { transform: none; }
@@ -300,5 +462,8 @@ const faqs = [
     .lp-call span { display: none; }
     .lp-call { width: 42px; padding: 0; justify-content: center; }
     .lp-brand-full { display: none; }
+    .owner { grid-template-columns: 96px 1fr; gap: 20px; align-items: start; }
+    .owner img { width: 96px; height: 96px; }
+    .score { font-size: 52px; }
   }
 </style>

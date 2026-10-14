@@ -50,7 +50,14 @@
   // NOTE: this requires Calendly to be EMBEDDED on the page (inline or popup widget).
   // If the site only links out to calendly.com, this will not fire — see chat for the
   // popup-embed or thank-you-page redirect alternative.
+  // Funnel steps go to Google Analytics as events (calendly_profile_page_viewed,
+  // calendly_date_and_time_selected, calendly_event_scheduled...) so drop-off
+  // inside the calendar is visible. Only the completed booking is an Ads conversion.
   window.addEventListener('message', function (e) {
+    if (e.origin.indexOf('calendly.com') === -1) return;
+    if (e.data && typeof e.data.event === 'string' && e.data.event.indexOf('calendly.') === 0) {
+      gtag('event', e.data.event.replace('.', '_'), { page_path: location.pathname });
+    }
     if (e.data && e.data.event === 'calendly.event_scheduled') {
       gtag('event', 'conversion', {
         'send_to': 'AW-18242062636/xgSBCOLussEcEKySv_pD',
@@ -58,5 +65,11 @@
         'currency': 'USD'
       });
     }
+  });
+
+  // Which "Pick a time" button people use (hero bar, mid-page, closing, sticky bar).
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-cta]');
+    if (a) gtag('event', 'cta_click', { cta: a.getAttribute('data-cta'), page_path: location.pathname });
   });
 </script>
