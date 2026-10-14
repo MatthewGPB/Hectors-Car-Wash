@@ -13,6 +13,9 @@ export interface Props {
   schema?: object | null;
   ogImage?: string;
   showAnnouncement?: boolean;
+  /** Ad landing pages: no site nav/footer, so the only paths are book or call. */
+  bare?: boolean;
+  noindex?: boolean;
 }
 
 const {
@@ -22,6 +25,8 @@ const {
   schema,
   ogImage = '/og-image.png',
   showAnnouncement = true,
+  bare = false,
+  noindex = false,
 } = Astro.props;
 
 const fullOgImage = new URL(ogImage, Astro.site).toString();
@@ -38,6 +43,7 @@ const fullOgImage = new URL(ogImage, Astro.site).toString();
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
 
     <meta property="og:title" content={title} />
@@ -76,13 +82,13 @@ const fullOgImage = new URL(ogImage, Astro.site).toString();
     <ConversionTracking />
   </head>
   <body>
-    {showAnnouncement && <Announcement />}
+    {showAnnouncement && !bare && <Announcement />}
     <a href="#main" class="skip-link">Skip to content</a>
-    <Nav />
+    {!bare && <Nav />}
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    {!bare && <Footer />}
     <script is:inline src="/i18n-dict.js"></script>
     <script is:inline src="/i18n.js"></script>
   </body>

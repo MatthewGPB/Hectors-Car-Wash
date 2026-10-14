@@ -12,7 +12,7 @@ export default defineConfig({
     webAnalytics: { enabled: true },
     imageService: true,
   }),
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/book-detailing') })],
   vite: {
     plugins: [tailwindcss()],
   },

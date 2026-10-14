@@ -9,10 +9,15 @@ import siteData from '../data/site.json';
 export interface Props {
   url?: string;
   fallbackText?: string;
+  /** Load immediately instead of on scroll (use when the calendar is above the fold). */
+  eager?: boolean;
+  height?: number;
 }
 const {
   url = siteData.primary.calendly,
   fallbackText = 'Booking calendar not loading? Open it in a new tab ',
+  eager = false,
+  height = 700,
 } = Astro.props;
 
 // Calendly's inline widget reads the booking URL from a data attribute.
@@ -24,7 +29,8 @@ const calendlyUrl = url;
     class="calendly-inline-widget"
     data-url={calendlyUrl}
     data-auto-load="false"
-    style="min-width:320px;height:700px;"
+    data-eager={eager ? 'true' : undefined}
+    style={`min-width:320px;height:${height}px;`}
   ></div>
   <noscript>
     <a href={calendlyUrl} target="_blank" rel="noopener" class="calendly-fallback-link">
@@ -45,8 +51,22 @@ const calendlyUrl = url;
       if (!window.Calendly) return;
       document.querySelectorAll('.calendly-inline-widget[data-auto-load="false"]').forEach(function (el) {
         if (el.getAttribute('data-loaded') === 'true') return;
+        // Pass ad UTMs through so Calendly records which campaign booked.
+        var url = el.getAttribute('data-url');
+        try {
+          var page = new URLSearchParams(window.location.search);
+          var u = new URL(url);
+          ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+            if (page.get(k)) u.searchParams.set(k, page.get(k));
+          });
+          if (page.get('gclid') && !u.searchParams.get('utm_source')) {
+            u.searchParams.set('utm_source', 'google');
+            u.searchParams.set('utm_medium', 'cpc');
+          }
+          url = u.toString();
+        } catch (e) {}
         window.Calendly.initInlineWidget({
-          url: el.getAttribute('data-url'),
+          url: url,
           parentElement: el,
         });
         el.setAttribute('data-loaded', 'true');
@@ -74,6 +94,10 @@ const calendlyUrl = url;
     function observe() {
       var targets = document.querySelectorAll('.calendly-inline-widget[data-auto-load="false"]');
       if (!targets.length) return;
+      if (document.querySelector('.calendly-inline-widget[data-eager="true"]')) {
+        loadCalendlyScript(initWidgets);
+        return;
+      }
 
       if (!('IntersectionObserver' in window)) {
         // Old browser — just load it.

@@ -1,0 +1,304 @@
+---
+// Google Ads landing page for detailing bookings.
+// No site nav or footer links: the only actions are book (Calendly) or call.
+// noindex + left out of the sitemap so it doesn't compete with /services/car-detailing.
+// Calendly completions fire the booking conversion in ConversionTracking.astro.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CalendlyInline from '../components/CalendlyInline.astro';
+import FAQ from '../components/FAQ.astro';
+import siteData from '../data/site.json';
+import locationsData from '../data/locations.json';
+import reviewsData from '../data/reviews.json';
+
+const shop = locationsData.locations[0];
+const CALENDLY = 'https://calendly.com/hectorscarwash/30min';
+const detailReview = reviewsData.reviews.find((r) => r.id === 'jayden-anthony');
+const familyReview = reviewsData.reviews.find((r) => r.id === 'riley-ziegler');
+
+const title = `Book a Car Detail in North Palm Beach | ${siteData.brand.name}`;
+const description = `Book a full interior and exterior detail at Hector's on US Highway 1 in North Palm Beach. From $300, four to six hours, one car per slot.`;
+
+const faqs = [
+  {
+    question: 'How much does a detail cost?',
+    answer: "From $300 for a sedan. Larger SUVs, trucks and cars in heavier condition cost more. We look at the car at drop-off and give you the exact price before any work starts.",
+  },
+  {
+    question: 'How long does it take?',
+    answer: 'Four to six hours, depending on the size and condition of the car. Most people drop off in the morning and pick up the same afternoon.',
+  },
+  {
+    question: 'What should I tell you when I book?',
+    answer: "The make and model, and anything specific: pet hair, stains, odors, sand, or a ceramic coating you want protected. It helps us plan the time and the products.",
+  },
+  {
+    question: 'Do you detail luxury cars and Teslas?',
+    answer: "Every week. Bentleys, Porsches, Mercedes and Teslas come through regularly. The crew is trained on coated paint, soft-touch interiors and Tesla glass.",
+  },
+  {
+    question: 'What if I need to reschedule?',
+    answer: 'Use the link in your Calendly confirmation email to pick a new time, or call the shop.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} bare={true} noindex={true}>
+
+  <header class="lp-top">
+    <div class="container-wide lp-top-row">
+      <span class="lp-brand">
+        <img src="/images/hectors-car-wash-logo.png" alt="" width="40" height="40" />
+        <span data-no-i18n>Hector's<span class="lp-brand-full"> Car Wash</span></span>
+      </span>
+      <div class="lp-top-right">
+        <div class="lang-toggle" role="group" aria-label="Language" data-no-i18n>
+          <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+          <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+        </div>
+        <a href={`tel:${shop.phoneE164}`} class="lp-call">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>
+          <span data-no-i18n>{shop.phone}</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  {/* ============ HERO + CALENDAR ============ */}
+  <section class="lp-hero">
+    <div class="container-wide lp-grid">
+      <div class="lp-copy">
+        <h1 class="h-xl">Book a full detail in North Palm Beach.</h1>
+        <p class="lede">Inside and out, by hand, at Hector's on US Highway 1. Pick a drop-off time and we'll have the car back to you the same day.</p>
+        <ul class="lp-facts">
+          <li><strong>From $300</strong><span>Exact price at drop-off</span></li>
+          <li><strong>4 to 6 hours</strong><span>Same-day pickup</span></li>
+          <li><strong>4.9 on Google</strong><span>{siteData.brand.reviewCount}+ reviews</span></li>
+        </ul>
+        <a href="#calendar" class="btn btn-azure lp-jump">Pick a time</a>
+      </div>
+
+      <div class="lp-cal" id="calendar">
+        <div class="lp-cal-head">
+          <h2 class="h-sm">Choose your drop-off time</h2>
+          <p>Free to book. No card needed.</p>
+        </div>
+        <CalendlyInline url={CALENDLY} eager={true} height={720} />
+      </div>
+    </div>
+  </section>
+
+  <hr class="stripe" />
+
+  {/* ============ WHAT'S INCLUDED ============ */}
+  <section class="section">
+    <div class="container-wide inc-grid">
+      <div class="inc-photo">
+        <img src="/images/detail-hero.jpg" alt="A Hector's crew member polishing a grey Tesla" width="1600" height="800" loading="lazy" />
+      </div>
+      <div>
+        <h2 class="h-lg">What a detail covers.</h2>
+        <div class="inc-cols">
+          <div>
+            <h3 class="h-sm">Inside</h3>
+            <ul class="ticks">
+              <li>Full vacuum, seats, trunk and every seam</li>
+              <li>Hot-water shampoo on carpets and cloth</li>
+              <li>Leather cleaned and conditioned</li>
+              <li>Dash, console, doors and vents dressed</li>
+              <li>Streak-free glass, inside and out</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="h-sm">Outside</h3>
+            <ul class="ticks">
+              <li>Two-bucket hand wash</li>
+              <li>Clay-bar treatment</li>
+              <li>Hand polish for gloss and light swirls</li>
+              <li>Wheels, tires, wells and chrome</li>
+              <li>Door jambs, hand dried with microfiber</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ============ PROOF ============ */}
+  <section class="section-tight bg-mist">
+    <div class="container-wide proof">
+      <figure class="proof-photo">
+        <img src="/images/detail-interior-before-after.jpg" alt="Floor mats before and after a Hector's detail" width="1600" height="1200" loading="lazy" />
+        <figcaption>Interior, before and after.</figcaption>
+      </figure>
+      <div class="quotes">
+        {[detailReview, familyReview].filter(Boolean).map((r) => (
+          <figure class="q">
+            <blockquote data-no-i18n><p>“{r!.shortQuote}”</p></blockquote>
+            <figcaption><strong data-no-i18n>{r!.author}</strong>, Google review</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* ============ HOW IT WORKS ============ */}
+  <section class="section">
+    <div class="container-wide">
+      <h2 class="h-lg steps-title">How it works.</h2>
+      <ol class="steps">
+        <li>
+          <h3 class="h-sm">Book a time.</h3>
+          <p>Pick a drop-off slot above and tell us the make, model and anything specific.</p>
+        </li>
+        <li>
+          <h3 class="h-sm">Drop it off.</h3>
+          <p>We walk around the car with you and confirm the price before starting.</p>
+        </li>
+        <li>
+          <h3 class="h-sm">We detail it.</h3>
+          <p>One car per slot. If we find something that changes the job, we call first.</p>
+        </li>
+        <li>
+          <h3 class="h-sm">Pick it up.</h3>
+          <p>We go over the car together. Anything you're not happy with gets fixed on the spot.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  {/* ============ FAQ ============ */}
+  <section class="section bg-mist">
+    <div class="container-narrow">
+      <h2 class="h-lg faq-title">Before you book.</h2>
+      <FAQ faqs={faqs} />
+    </div>
+  </section>
+
+  {/* ============ CLOSE ============ */}
+  <section class="lp-close on-ink">
+    <div class="container-wide close-grid">
+      <div>
+        <h2 class="h-lg">Ready when you are.</h2>
+        <p class="lede">900 US Highway 1, North Palm Beach. Mon–Sat 8:00 AM – 5:30 PM, Sun 9:00 AM – 4:00 PM.</p>
+      </div>
+      <div class="btn-row stack">
+        <a href="#calendar" class="btn btn-azure">Pick a time</a>
+        <a href={`tel:${shop.phoneE164}`} class="btn btn-line">Call <span data-no-i18n>{shop.phone}</span></a>
+      </div>
+    </div>
+    <p class="lp-legal container-wide">© {new Date().getFullYear()} <span data-no-i18n>Hector's Car Wash</span>. <a href="/">Visit hectorcarwash.com</a></p>
+  </section>
+
+  {/* Mobile: keep the two actions in reach once the calendar has scrolled away */}
+  <div class="lp-bar" id="lpBar" aria-hidden="true">
+    <a href="#calendar" class="btn btn-azure" tabindex="-1">Pick a time</a>
+    <a href={`tel:${shop.phoneE164}`} class="btn btn-ink" tabindex="-1">Call</a>
+  </div>
+
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('lpBar');
+    var cal = document.getElementById('calendar');
+    if (!bar || !cal || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (es) {
+      var past = !es[0].isIntersecting && es[0].boundingClientRect.top < 0;
+      bar.classList.toggle('show', past);
+      bar.setAttribute('aria-hidden', past ? 'false' : 'true');
+      bar.querySelectorAll('a').forEach(function (a) { a.tabIndex = past ? 0 : -1; });
+    }).observe(cal);
+  })();
+</script>
+
+<style>
+  /* ---------- slim header ---------- */
+  .lp-top { border-bottom: 1px solid var(--color-line); background: #fff; }
+  .lp-top-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+  .lp-brand { display: inline-flex; align-items: center; gap: 10px; font-stretch: 125%; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+  .lp-brand img { width: 40px; height: 40px; }
+  .lp-top-right { display: flex; align-items: center; gap: 10px; }
+  .lp-call {
+    display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 999px;
+    background: var(--color-ink); color: #fff; font-stretch: 110%; font-weight: 700; font-size: 15px; text-decoration: none;
+  }
+  .lang-toggle { display: inline-flex; border: 1.5px solid var(--color-line); border-radius: 999px; padding: 2px; }
+  .lang-toggle button { appearance: none; border: 0; background: transparent; font: inherit; font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 999px; color: var(--color-slate); cursor: pointer; }
+  .lang-toggle button[aria-pressed='true'] { background: var(--color-ink); color: #fff; }
+
+  /* ---------- hero + calendar ---------- */
+  .lp-hero { padding: 56px 0 72px; background: var(--color-mist); }
+  .lp-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
+  .lp-copy { position: sticky; top: 32px; padding-top: 16px; }
+  .lp-copy h1 { font-size: clamp(38px, 4.6vw, 68px); }
+  .lp-copy .lede { margin-top: 24px; }
+  .lp-facts { list-style: none; margin: 36px 0 0; padding: 0; border-top: 2px solid var(--color-ink); }
+  .lp-facts li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--color-line); }
+  .lp-facts strong { font-stretch: 118%; font-weight: 800; font-size: 20px; letter-spacing: -0.01em; }
+  .lp-facts span { font-size: 15px; color: var(--color-slate); text-align: right; }
+  .lp-jump { display: none; }
+
+  .lp-cal { background: #fff; border: 1px solid var(--color-line); box-shadow: 0 24px 60px -30px rgba(18, 32, 41, 0.35); border-top: 8px solid var(--color-azure); }
+  .lp-cal-head { padding: 22px 24px 4px; display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px 16px; }
+  .lp-cal-head p { margin: 0; font-size: 14px; color: var(--color-slate); }
+  .lp-cal :global(.calendly-wrap) { padding: 0 4px 4px; max-width: none; }
+
+  /* ---------- included ---------- */
+  .inc-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: center; }
+  .inc-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 60% 50%; }
+  .inc-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 36px; }
+  .inc-cols h3 { padding-bottom: 12px; border-bottom: 2px solid var(--color-ink); }
+
+  /* ---------- proof ---------- */
+  .proof { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .proof-photo { margin: 0; }
+  .proof-photo img { width: 100%; height: auto; }
+  .proof-photo figcaption { margin-top: 10px; font-size: 14px; color: var(--color-slate); }
+  .quotes { display: grid; gap: 36px; }
+  .q { margin: 0; border-top: 2px solid var(--color-ink); padding-top: 22px; }
+  .q blockquote { margin: 0 0 12px; }
+  .q p { margin: 0; font-stretch: 106%; font-weight: 600; font-size: clamp(20px, 2vw, 25px); line-height: 1.35; letter-spacing: -0.01em; }
+  .q figcaption { font-size: 15px; color: var(--color-slate); }
+  .q strong { color: var(--color-ink); }
+
+  .steps-title { margin-bottom: 48px; }
+  .faq-title { margin-bottom: 36px; }
+
+  /* ---------- close ---------- */
+  .lp-close { padding: 88px 0 32px; }
+  .close-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; }
+  .close-grid .lede { margin-top: 18px; }
+  .close-grid .btn-row { justify-content: flex-end; }
+  .lp-legal { margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.14); font-size: 13.5px; color: rgba(255,255,255,0.55); }
+  .lp-legal a { color: rgba(255,255,255,0.8); }
+
+  /* ---------- sticky mobile bar ---------- */
+  .lp-bar { display: none; }
+
+  @media (max-width: 960px) {
+    .lp-hero { padding: 28px 0 0; background: #fff; }
+    .lp-copy .lede { margin-top: 16px; font-size: 17px; }
+    .lp-grid { grid-template-columns: 1fr; gap: 28px; }
+    .lp-copy { position: static; padding-top: 0; }
+    .lp-facts { margin-top: 24px; }
+    .lp-cal { margin: 0 -20px; border-left: 0; border-right: 0; box-shadow: none; }
+    .inc-grid, .proof, .close-grid { grid-template-columns: 1fr; gap: 40px; }
+    .inc-photo img { aspect-ratio: 16 / 10; }
+    .close-grid .btn-row { justify-content: flex-start; }
+    .lp-close { padding-bottom: 96px; }
+    .lp-bar {
+      display: grid; grid-template-columns: 1.6fr 1fr; gap: 10px;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(255,255,255,0.96); border-top: 1px solid var(--color-line);
+      transform: translateY(110%); transition: transform 0.2s ease;
+    }
+    .lp-bar.show { transform: none; }
+  }
+  @media (max-width: 600px) {
+    .inc-cols { grid-template-columns: 1fr; gap: 28px; }
+    .lp-call span { display: none; }
+    .lp-call { width: 42px; padding: 0; justify-content: center; }
+    .lp-brand-full { display: none; }
+  }
+</style>
