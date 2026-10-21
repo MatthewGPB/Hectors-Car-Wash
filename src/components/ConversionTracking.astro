@@ -18,12 +18,28 @@
   // new/September-added phone links are covered automatically, no per-link edits.
   // tel: does not unload the page, so no navigation-delay callback is needed.
   document.addEventListener('click', function (e) {
-    if (e.target.closest('a[href^="tel:"]')) {
+    var tel = e.target.closest('a[href^="tel:"]');
+    if (tel) {
+      gtag('event', 'phone_click', { cta: tel.getAttribute('data-cta') || '', page_path: location.pathname });
       gtag('event', 'conversion', {
         'send_to': 'AW-18242062636/CXNmCIKNucEcEKySv_pD',
         'value': 1.0,
         'currency': 'USD'
       });
+    }
+  });
+
+  // --- Text (SMS) clicks -------------------------------------------------
+  // Always sent to Analytics as 'sms_click'. To count texts as a Google Ads
+  // conversion too, create a "Text message click" conversion action in Ads and
+  // paste its label here, e.g. 'AW-18242062636/AbCdEf...'.
+  var SMS_CONVERSION_LABEL = '';
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="sms:"]');
+    if (!a) return;
+    gtag('event', 'sms_click', { cta: a.getAttribute('data-cta') || '', page_path: location.pathname });
+    if (SMS_CONVERSION_LABEL) {
+      gtag('event', 'conversion', { 'send_to': SMS_CONVERSION_LABEL, 'value': 1.0, 'currency': 'USD' });
     }
   });
 
